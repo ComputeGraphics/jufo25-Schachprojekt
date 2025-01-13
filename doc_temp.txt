@@ -14,7 +14,7 @@ database.physical -> Speichert alle vom Arduino empfangenen Daten und Kalibrieru
 database.display -> Speichert alle für die Darstellung vorbereiteten Werte 
 
 
-METHODEN:
+DEKLARATIONEN UND METHODEN:
 
 Init:
 Main(): Zeige das Hauptmenü
@@ -34,5 +34,27 @@ init(): Erstellt einen asynchronen Thread zum bidirektionalen Datentransfer zwis
 1. Sucht mithilfe der bereitgestellten WIN32_SERIAL Bibliothek nach einem 
 Arduino
 2. Mithilfe von Standardwerten oder Nutzerabfragen werden die Einstellungen festgelegt
-3. Der Port wird geöffnet und ein Listener mit Interrupt Handler platziert
+3. Der Port wird geöffnet und ein Interrupt Handler platziert, der alle einkommenden Daten an den Anfrageprozess weitergibt.
+UI(): Zeigt eine Oberfäche, die dem Nutzer ermöglicht eigene Befehle an den Microcontroller zu senden
+sendCommand(command): Sendet ein Kommando an der Microcontroller und gibt die Antwort zurück
+multiCommand(command,count): Sendet ein Kommando, bündelt eine in count angegebene Antwortanzahl in eine Liste und gibt die ganze Antwortliste zurück
+ReadEventHandler(object sender,SerialDataReceivedEventArgs): Handling von einkommenden Nachrichten
 
+Renderer:
+draw_demo(): Zeichnet ein Demonstrationsfeld um dem Nutzer die möglichkeit zu geben
+draw_number(): Zeichnet ein Feld und füllt dieses mit Intager Sensorwerten statt Figursymbolen zum Debugging
+draw(): Zeichnet ein Feld und füllt dieses mit den Übersetzungen der Symbole aus den Symboldatenbanken und aktualisiert diese ggf. kontinuierlich
+
+database.display:
+byte[] inverter: Invertiert Zahlen des Schachfelds auf die andere Seite, da das Schachbrett von unten nach oben beschrieben wird und somit index 0 Feld 8 entspricht
+Dictionary<> translator: Übersetzt Figurcodes in ein auf dem Feld darstellbares UTF-8 Symbol
+byte[,] field: 8x8 Feld zur Speicherung der Figurcodes
+writeSample(): Schreibt eine Beispiel Schachfeldaufstellung in das Figurcode Array
+Clear(): Leert das Figurcode Array
+
+database.physical:
+defaults (mehrere): Mehrere Variablen verschiedener Typen, die Standardeinstellungen zu den Magnetfeldsensoren enthalten
+int[,] min/int[,] max: 8x8 Feld, dass alle Minima/Maxima für die Feldkalibrierung enthält. Standardmäßig 0, um dem Programm die Möglichkeit zu geben ohne Kalibrierung zu arbeiten
+int[,] av: 8x8 Feld mit Druchschnitten, die bei der Kalibrierung erreichnet werden. Ohne Kalibrierung mit einem Standardwert gefüllt
+calibrate(resolution): Nimmt mit einer in resolution angegeben Auflösung Kalibrierungswerte und trägt diese in die Felder ein. Um Zeit zu sparen gibt es hier mehrere Auflösungen zur Auswahl, da der Vorgang sehr Zeitintensiv ist
+calib_pieces(): Fordert den Nutzer auf, Figuren auf das Feld zu stellen und nimmt die Sensorwerte. Danach werden diese in weitere Arrays eingetragen, damit aus diesen Werten die Figur errechnet werden kann
