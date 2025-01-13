@@ -39,8 +39,10 @@ namespace ChessCORE
             Console.WriteLine("[▰▰▰▰▰▰              ]");
 
             scom2.init();
-            scom2.sendCommand("test");
+            if(database.physical.repeat_selftest)scom2.sendCommand("test");
             if(database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
+
+            database.physical.calib_pieces(4);
 
             if (scom.advanced)
             {
@@ -93,8 +95,8 @@ namespace ChessCORE
             }
 
 
-            Renderer.draw_number(true,true,0);
-            //Renderer.draw(true,true,Renderer.standard_direction);
+            //Renderer.draw_number(true,true,0);
+            Renderer.draw(true,true,Renderer.standard_direction);
         }
 
         public static int[,] requestAll_rangeMode()
@@ -119,19 +121,19 @@ namespace ChessCORE
                     {
                         database.display.field[l,i] = 100;
                     }
-
                 }
                 else
                 {
                     System.Diagnostics.Debug.WriteLine("Requesting Data from Arduino");
-                    List<string> a = new(scom2.multiCommand($"QRANGE {i}0",8));
+                    List<string> a = new(scom2.multiCommand($"QRANGE {i}",8));
                     System.Diagnostics.Debug.WriteLine("Data Recieved");
                     for (byte k = 0; k < 8; k++)
                     {
                         int index;
-                        if ((index = database.physical.error_fields.IndexOf(k)) != -1)
+                        byte field_full = (byte)(i*10 + k);
+                        if ((index = database.physical.error_fields.IndexOf(field_full)) != -1)
                         {
-                            if (database.physical.error_fields[index] / 10 == i) database.display.field[k,i] = 100;
+                            if (database.physical.error_fields[index] / 10 == i) database.display.field[database.display.inverter[k],i] = 100;
                         }
                         else
                         {
@@ -149,12 +151,20 @@ namespace ChessCORE
                                     temp_field -= database.physical.av[k,i];
                                 }
 
-                                if (temp_field > 100)
+                                if(temp_field < 50) database.display.field[k,i] = 0;
+
+                                for(int l = 0; l < database.physical.piece_max.Count();  l++)
                                 {
-                                    database.display.field[0,0] = 0;
+                                    if (temp_field < database.physical.piece_max[l] + database.physical.tolerance && temp_field > database.physical.piece_min[l] - database.physical.tolerance)
+                                    {
+                                        database.display.field[k,i] = database.physical.piece_order[l];
+                                    }
                                 }
+
                                 System.Diagnostics.Debug.WriteLine("Writing to " + k + "," + i);
                                 disp_board[k,i] = temp_field;
+
+
                             }
                         }
                     }

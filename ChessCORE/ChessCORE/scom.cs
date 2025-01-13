@@ -64,9 +64,6 @@ namespace ChessCORE
 
                 Console.WriteLine("Press ESC to finish Connection");
 
-
-
-
                 do
                 {
                     message = Console.ReadLine() ?? "";

@@ -18,7 +18,6 @@ namespace ChessCORE
 
         public static int default_baud = scom.default_baud;
 
-
         public static bool await_read = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
@@ -88,9 +87,6 @@ namespace ChessCORE
                 else ActiveSerial.com?.WriteLine(String.Format(message));
             }
             while (ConsoleKey.Escape != Console.ReadKey().Key);
-
-
-
 
             ActiveSerial.readThread?.Join();
             ActiveSerial.com?.Close();

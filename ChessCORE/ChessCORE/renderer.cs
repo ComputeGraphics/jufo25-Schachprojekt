@@ -120,10 +120,9 @@ namespace ChessCORE
 
             int iterator = 0;
 
-            while (temp_refresh && ConsoleKey.Escape != Console.ReadKey().Key)
+            while (temp_refresh)
             {
                 iterator++;
-                Console.WriteLine("REDRAW COUNT " + iterator);
                 //////////////////// REQUEST DATA FROM BOARD ////////////////////
                 //Thread.Sleep(500);
                 board_visual.requestAll_rangeMode();
@@ -174,17 +173,17 @@ namespace ChessCORE
                 Console.WriteLine($"  {diry[7]} ┃ {disp_board[7,0]} │ {disp_board[7,1]} │ {disp_board[7,2]} │ {disp_board[7,3]} │ {disp_board[7,4]} │ {disp_board[7,5]} │ {disp_board[7,6]} │ {disp_board[7,7]} ┃");
                 Console.WriteLine("    ┗━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┛");
                 Console.WriteLine("\n");
-                Console.WriteLine("KONSOLE:");
+                Console.WriteLine("REDRAW COUNT " + iterator);
 
                 ////////////////////// REBOOT IF INTERRUPT //////////////////////
-                if (ConsoleKey.F5 != Console.ReadKey().Key)
+                /*if (ConsoleKey.F5 != Console.ReadKey().Key)
                 {
                     Console.WriteLine("REBOOTING...");
                     scom2.sendCommand("test");
                     break;
-                }
+                }*/
 
-                if (!loop_refresh) temp_refresh = false;
+                temp_refresh = loop_refresh;
             }
         }
 

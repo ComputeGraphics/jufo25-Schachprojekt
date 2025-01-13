@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.Metrics;
@@ -759,17 +760,57 @@ namespace ChessCORE
                 }
             }
 
-            public static void figures(byte res,byte data_count,bool avswitch)
+            public static byte[] detector_fields = [00,10,20,30,40,01,06,07,17,27,37,47];
+
+            public static void calib_pieces(byte data_count)
             {
-                //Bauer weiß Auf 
+                //Bauer weiß Auf 00
+                Console.WriteLine("Place all Pieces on the desired fields. Software will automatically identify after the default chess configuration.\nPress [ENTER] to start the identification");
+                while (ConsoleKey.Enter != Console.ReadKey().Key) { }
+                int i = 0;
+                foreach(byte a in detector_fields)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Checking {a} at {i}");
+                    List<string> temp = new(scom2.multiCommand($"QSTREAM {a}",data_count));
+                    List<int> toint = [];
+
+                    byte front = (byte)(a / 10);
+                    byte back = a;
+                    for (; back > 9; back -= 10) { }
+
+                    int avg = 0;
+                    foreach (string list in temp)
+                    {
+                        if (Int32.TryParse(list,out int itemint))
+                        {
+                            Console.WriteLine(back + " " + front + " " + database.physical.av[front,display.inverter[back]]);
+                            itemint -= database.physical.av[front,display.inverter[back]];
+                            toint.Add(itemint);
+                            avg += itemint;
+                        }
+                    }
+
+                    toint.Sort();
+                    avg /= toint.Count;
+                    piece_min[i] = toint.First();
+                    piece_max[i] = toint.Last();
+                    piece_av[i] = avg;
+                    i++;
+                }
+                
+
+                foreach(int element in piece_av)
+                {
+                    Console.WriteLine(element);
+                }
+                
             }
             //FIGUREN
-            public static int[,] normal =
-            {
+            public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];
+            public static int[] piece_min = [0,0,0,0,0,0,0,0,0,0,0,0];
+            public static int[] piece_max = [0,0,0,0,0,0,0,0,0,0,0,0];
+            public static byte[] piece_order = [111,115,113,109,110,101,11,15,13,09,10,01];
 
-                { 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0 },
-            };
         }
     }
 }
