@@ -1,0 +1,38 @@
+Programmstruktur:
+Das Computerprogramm ist im C# .NET Framework 8.0 von Microsoft als Konsolenanwendung umgesetzt, um plattformübergreifend und mit wenig Ressourcenaufwand zu arbeiten. 
+
+
+PROGRAMM-DATEIEN UND KLASSEN:
+
+Das Programm setzt sich aus 5 verschiedenen Programmdateien zusammen, die unterschiedliche Zwecke erfüllen. In ihnen befinden sich sogenannte Klassen, die den Zugriff von anderen Programmteilen erleichtern und verständlicher machen.
+Das Programm enthält folgende Klassen:
+Init -> Start Datei und Darstellung des Menüs
+board_visual -> Start des Renderers und Figurenverarbeitung
+scom2 -> Stellt Methoden zur einfachen Kommunikation mit dem Arduino und stellt die Verbindung her
+Renderer -> Interpretiert die Werte der database in ein grafisches Schachbrett und bietet grafisches Debugging an
+database.physical -> Speichert alle vom Arduino empfangenen Daten und Kalibrierungswerte
+database.display -> Speichert alle für die Darstellung vorbereiteten Werte 
+
+
+METHODEN:
+
+Init:
+Main(): Zeige das Hauptmenü
+SettingsMenu(): Menü zum Festlegen aller Einstellungen mithilfe von Tastatureingaben
+
+board_visual: 
+[Methoden der Klasse database.physical in späterem Abschnitt beschrieben]
+show(): Eine Aufgabenliste die vor der Darstellung des visuellen Schachbrettes abgearbeitet werden muss.
+1. Gibt dem scom2 Thread die Aufgabe den Serial Port zu öffnen und ggf. den Selbsttest erneut durchzuführen
+2. Die Klasse database.physical führt die Kalibrierung des Schachbrettes mithilfe der calibrate(resolution)  Methode durch.
+3. Dem Nutzer wird jetzt die Anweisung gegeben die Figuren auf das Feld zu stellen, damit mithilfe der database.physical.calib_pieces() Methode die Figurdaten abgenommen werden können
+4. Starte den Renderer
+requestAll_rangeMode(): Ruft alle Felder reihenweise auf, verarbeitet die Werte und schreibt die Figuren in das database.display.field Array
+
+scom2:
+init(): Erstellt einen asynchronen Thread zum bidirektionalen Datentransfer zwischen Computer und der Microcontroller Einheit, der Kommandos übermittelt und Antworten zurückgibt.
+1. Sucht mithilfe der bereitgestellten WIN32_SERIAL Bibliothek nach einem 
+Arduino
+2. Mithilfe von Standardwerten oder Nutzerabfragen werden die Einstellungen festgelegt
+3. Der Port wird geöffnet und ein Listener mit Interrupt Handler platziert
+
