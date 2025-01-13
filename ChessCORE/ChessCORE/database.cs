@@ -59,7 +59,7 @@ namespace ChessCORE
                 { 1,6 },
                 { 0,7 },
             };*/
-            public static byte[] = [ 7,6,5,4,3,2,1 ];
+            public static byte[] inverter = [ 7,6,5,4,3,2,1 ];
 
             public static Dictionary<byte,string> translator = new()
             {
