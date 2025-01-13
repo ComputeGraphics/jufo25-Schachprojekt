@@ -77,7 +77,7 @@ namespace ChessCORE
             ui_mode = true;
             init();
             Console.Clear();
-            Console.WriteLine("[ESC] - Finish / [RETURN]&[RIGHT] - Activate Write Mode");
+            Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
 
             do
             {
