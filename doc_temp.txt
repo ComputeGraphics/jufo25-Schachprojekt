@@ -58,3 +58,8 @@ int[,] min/int[,] max: 8x8 Feld, dass alle Minima/Maxima für die Feldkalibrieru
 int[,] av: 8x8 Feld mit Druchschnitten, die bei der Kalibrierung erreichnet werden. Ohne Kalibrierung mit einem Standardwert gefüllt
 calibrate(resolution): Nimmt mit einer in resolution angegeben Auflösung Kalibrierungswerte und trägt diese in die Felder ein. Um Zeit zu sparen gibt es hier mehrere Auflösungen zur Auswahl, da der Vorgang sehr Zeitintensiv ist
 calib_pieces(): Fordert den Nutzer auf, Figuren auf das Feld zu stellen und nimmt die Sensorwerte. Danach werden diese in weitere Arrays eingetragen, damit aus diesen Werten die Figur errechnet werden kann
+
+
+WIE LIEST DAS PROGRAMM DAS FELD EIN
+
+Das einlesen des Feldes erfolgt über den QRANGE Befehl des Arduinos und ließt das Feld Multiplexer für Multiplexer von 0-7 ein und die Felder von 7-0. Um bei der Beschriftung das Feld von unten nach oben zu beschreiben, ohne den Index zu invertieren. 
