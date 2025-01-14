@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a84e914e3de0256b3e8d62a479aeadc332779fef")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

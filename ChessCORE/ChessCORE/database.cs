@@ -48,17 +48,6 @@ namespace ChessCORE
     {
         public static class display
         {
-            /*public static Dictionary<byte,byte> inverter = new()
-            {
-                { 7,0 },
-                { 6,1 },
-                { 5,2 },
-                { 4,3 },
-                { 3,4 },
-                { 2,5 },
-                { 1,6 },
-                { 0,7 },
-            };*/
             public static byte[] inverter = [ 7,6,5,4,3,2,1 ];
 
             public static Dictionary<byte,string> translator = new()
