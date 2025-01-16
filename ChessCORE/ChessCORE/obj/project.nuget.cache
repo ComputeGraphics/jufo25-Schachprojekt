@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "3SuiVs0zIsdsf1B+QxM+vlzPUNnpdHVs6TsoOqBUVNH1HESgtAq5yTrkkgyqJke45MeG3/UaUjLuZgPEZcKpRA==",
+  "dgSpecHash": "41YGNoQCONMGkiAZq5zC3MibXdRIKYZURRK3HHmRHROyenmdQJEPB5VDQ4UpRLdSnl3At4+qQwHg+0MT8qyymw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
+  "projectFilePath": "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Arthur\\.nuget\\packages\\runtime.linux-arm.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm.runtime.native.system.io.ports.8.0.0.nupkg.sha512",
     "C:\\Users\\Arthur\\.nuget\\packages\\runtime.linux-arm64.runtime.native.system.io.ports\\8.0.0\\runtime.linux-arm64.runtime.native.system.io.ports.8.0.0.nupkg.sha512",

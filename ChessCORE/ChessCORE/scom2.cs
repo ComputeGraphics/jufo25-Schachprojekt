@@ -175,7 +175,7 @@ namespace ChessCORE
         {
             if (OperatingSystem.IsWindows())
             {
-                Console.WriteLine("(Only Windows) Retrieving Data...");
+                //Console.WriteLine("(Only Windows) Retrieving Data...");
                 using (var searcher = new ManagementObjectSearcher
                     ("SELECT * FROM WIN32_SerialPort"))
                 {
@@ -196,7 +196,7 @@ namespace ChessCORE
                             {
                                 string[] split = desc.Split('(');
                                 string com = split[1].Substring(0,split[1].IndexOf(')'));
-                                Console.WriteLine("Device Found on " + com);
+                                //Console.WriteLine("Device Found on " + com);
                                 return com;
                             }
                         }

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\ChessCORE.csproj": {}
+    "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\ChessCORE.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\ChessCORE.csproj": {
+    "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\ChessCORE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
+        "projectUniqueName": "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
         "projectName": "ChessCORE",
-        "projectPath": "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
+        "projectPath": "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\ChessCORE.csproj",
         "packagesPath": "C:\\Users\\Arthur\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Arthur\\Downloads\\jufo25-Schachprojekt-ChessCORE\\ChessCORE\\ChessCORE\\obj\\",
+        "outputPath": "C:\\Users\\Arthur\\Documents\\GitHub\\jufo25-Schachprojekt\\ChessCORE\\ChessCORE\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

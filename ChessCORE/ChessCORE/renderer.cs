@@ -70,8 +70,6 @@ namespace ChessCORE
 
         public static void draw(bool loop_refresh,bool empty,byte direction)
         {
-            Console.WriteLine("Terminate the stream by pressing [ESC]");
-            Console.WriteLine("Press any Key to continue");
             bool temp_refresh = true;
 
             string[,] disp_board =

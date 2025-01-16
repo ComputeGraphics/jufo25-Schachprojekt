@@ -15,34 +15,37 @@ namespace ChessCORE
     {
         //□■█▓▰
         public int loader_progress = 0;
-        public static void show()
+
+        public static void redraw_loader(string loader)
         {
             Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
             Console.BackgroundColor = ConsoleColor.DarkGreen;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("LOADING".PadLeft(Console.WindowWidth / 2 - 3) + "".PadRight(Console.WindowWidth / 2 + 3)+"\n");
+            Console.WriteLine("LOADING".PadLeft(Console.WindowWidth / 2 + 3) + "".PadRight(Console.WindowWidth / 2 - 3) + "\n\n");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("Please wait while the system is loading...");
-            Console.WriteLine("This may take a few minutes.");
-            Console.WriteLine("Please do not open other programs that use serial communication");
-            Console.WriteLine("Please do not turn off or disconnect the MCU.");
-            Console.WriteLine("Please do not press any keys.");
-            Console.WriteLine("Please do not close this window.");
-            Console.WriteLine("[                    ]");
-            Console.WriteLine("[▰                   ]");
-            Console.WriteLine("[▰▰                  ]");
-            Console.WriteLine("[▰▰▰                 ]");
-            Console.WriteLine("[▰▰▰▰                ]");
-            Console.WriteLine("[▰▰▰▰▰               ]");
-            Console.WriteLine("[▰▰▰▰▰▰              ]");
+            //Console.WriteLine("Please wait while the system is loading...");
+            Console.WriteLine("This may take a few minutes".PadLeft(Console.WindowWidth / 2 + 13) + "".PadRight(Console.WindowWidth / 2 + 14));
+            Console.WriteLine("Please do not open other programs using COM".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
+            Console.WriteLine("Please do not turn off or disconnect the MCU".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
+            Console.WriteLine("Please do not press any buttons".PadLeft(Console.WindowWidth / 2 + 15) + "".PadRight(Console.WindowWidth / 2 + 16));
+            Console.WriteLine(loader.PadLeft((Console.WindowWidth / 2) + (loader.Length/2)) + "".PadRight((Console.WindowWidth / 2) + (loader.Length / 2)));
 
+        }
+        public static void show()
+        {
+            redraw_loader("[                    ]");
             scom2.init();
-            if(database.physical.repeat_selftest)scom2.sendCommand("test");
-            if(database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
+            redraw_loader("[▰                   ]");
 
-            database.physical.calib_pieces(4);
+            if (database.physical.repeat_selftest)scom2.sendCommand("test");
+            redraw_loader("[▰▰                  ]");
+
+            if (database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
+            redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰  ]");
+
+            //database.physical.calib_pieces(4);
 
             if (scom.advanced)
             {
@@ -92,11 +95,14 @@ namespace ChessCORE
                     i++;
 
                 }
+
+                Console.WriteLine("Press [ENTER] to acknowledge");
+                while (ConsoleKey.Enter != Console.ReadKey().Key) { }
             }
 
-
-            //Renderer.draw_number(true,true,0);
-            Renderer.draw(true,true,Renderer.standard_direction);
+            redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰]");
+            Renderer.draw_number(true,true,0);
+            //Renderer.draw(true,true,Renderer.standard_direction);
         }
 
         public static int[,] requestAll_rangeMode()
@@ -158,15 +164,15 @@ namespace ChessCORE
                                         database.display.field[k,i] = database.physical.piece_order[l];
                                     }
                                 }
-                                if (temp_field < 30) database.display.field[k,i] = 0;
+                                if (temp_field < database.physical.tolerance && temp_field > -database.physical.tolerance) database.display.field[k,i] = 0;
 
                                 System.Diagnostics.Debug.WriteLine("Writing to " + k + "," + i);
                                 disp_board[k,i] = temp_field;
 
-
                             }
                         }
                     }
+                    Thread.Sleep(3000);
                 }
             }
 
