@@ -101,8 +101,8 @@ namespace ChessCORE
             }
 
             redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰]");
-            Renderer.draw_number(true,true,0);
-            //Renderer.draw(true,true,Renderer.standard_direction);
+            //Renderer.draw_number(true,true,0);
+            Renderer.draw(true,true,Renderer.standard_direction);
         }
 
         public static int[,] requestAll_rangeMode()
@@ -172,7 +172,7 @@ namespace ChessCORE
                             }
                         }
                     }
-                    Thread.Sleep(3000);
+                    //Thread.Sleep(3000);
                 }
             }
 

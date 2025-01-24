@@ -172,6 +172,7 @@ namespace ChessCORE
 
         public static class physical
         {
+            public static byte recalib_iterations = 2;
             public static byte default_calib = 7;
             public static int default_av = 460;
             public static byte tolerance = 4;
@@ -783,12 +784,43 @@ namespace ChessCORE
                     max = maxis;
 
                 }
+                
+                for(byte i = 0; i <= recalib_iterations; i++)
+                {
+                    DynRecalib(data_count);
+                }
+
+            }
+
+            public static void DynRecalib(byte data_count)
+            {
+                string newText = "[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ ]";
+                board_visual.redraw_loader(newText);
+                int[,] disp_board = board_visual.requestAll_rangeMode();
+                System.Diagnostics.Debug.WriteLine(disp_board.Length);
+                int j = 0;
+                for (int i = 0; i < 8; i++)
+                {
+                    System.Diagnostics.Debug.WriteLine(i.ToString() + j.ToString());
+                    if (disp_board[i,j] < -10 || disp_board[i,j] > 10)
+                    {
+                        min[i,j] += disp_board[i,j];
+                        max[i,j] += disp_board[i,j];
+                        av[i,j] += disp_board[i,j];
+                    }
+
+                    if(i > 6 && j != 7)
+                    {
+                        j++;
+                        i = -1;
+                    }
+                }
             }
 
             public static byte[] detector_fields = [00,10,20,30,40,01,06,07,17,27,37,47];
 
-            /*
- * 453-455
+/*
+453-455
 KALIB AV 454
 
 BAUER WEIß 741-746 - 287-292 -> 255-350
@@ -804,9 +836,6 @@ SPRINGER SCHWARZ 427-445 - -27--9 -> (-27)-(-10)
 KÖNIG SCHAWRZ 318-340 - -136--114 -> (-150)-(-105)
 LÄUFER SCHWARZ 405-427 - -49--27 -> (-55)-(-20)
 TURM SCHWARZ N/A
-
-
-
 */
             //FIGUREN
             //public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];

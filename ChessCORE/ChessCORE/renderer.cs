@@ -147,7 +147,7 @@ namespace ChessCORE
                 //Console.WriteLine("Black: ♔ ♕ ♖ ♗ ♘ ♙   White:♚ ♛ ♜ ♝ ♞ ♟");
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.White;
-                Console.WriteLine(DateTime.Now.ToString("HH:mm").PadLeft(Console.WindowWidth / 2 - 2) + "".PadRight(Console.WindowWidth / 2 + 2));
+                Console.WriteLine(DateTime.Now.ToString("HH:mm").PadLeft(Console.WindowWidth / 2) + "".PadRight(Console.WindowWidth / 2));
 
                 Console.BackgroundColor = ConsoleColor.Black;
                 Console.ForegroundColor = ConsoleColor.Blue;
@@ -255,7 +255,7 @@ namespace ChessCORE
                 //Console.WriteLine("Black: ♔ ♕ ♖ ♗ ♘ ♙   White:♚ ♛ ♜ ♝ ♞ ♟");
                 Console.ForegroundColor = ConsoleColor.Black;
                 Console.BackgroundColor = ConsoleColor.White;
-                Console.WriteLine(DateTime.Now.ToString("HH:mm").PadLeft(Console.WindowWidth / 2 - 2) + "".PadRight(Console.WindowWidth / 2 + 2));
+                Console.WriteLine(DateTime.Now.ToString("HH:mm").PadLeft(Console.WindowWidth / 2) + "".PadRight(Console.WindowWidth / 2));
 
 
                 Console.BackgroundColor = ConsoleColor.Black;
