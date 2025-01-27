@@ -30,7 +30,7 @@ namespace ChessCORE
             Console.WriteLine("Please do not open other programs using COM".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
             Console.WriteLine("Please do not turn off or disconnect the MCU".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
             Console.WriteLine("Please do not press any buttons".PadLeft(Console.WindowWidth / 2 + 15) + "".PadRight(Console.WindowWidth / 2 + 16));
-            Console.WriteLine(loader.PadLeft((Console.WindowWidth / 2) + (loader.Length/2)) + "".PadRight((Console.WindowWidth / 2) + (loader.Length / 2)));
+            Console.WriteLine(loader.PadLeft((Console.WindowWidth / 2) + (loader.Length / 2)) + "".PadRight((Console.WindowWidth / 2) + (loader.Length / 2)));
 
         }
         public static void show()
@@ -39,7 +39,7 @@ namespace ChessCORE
             scom2.init();
             redraw_loader("[▰                   ]");
 
-            if (database.physical.repeat_selftest)scom2.sendCommand("test");
+            if (database.physical.repeat_selftest) scom2.sendCommand("test");
             redraw_loader("[▰▰                  ]");
 
             if (database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
@@ -136,10 +136,12 @@ namespace ChessCORE
                     for (byte k = 0; k < 8; k++)
                     {
                         int index;
-                        byte field_full = (byte)(i*10 + k);
+                        byte field_full = (byte)(i * 10 + database.display.inverter[k]);
+
                         if ((index = database.physical.error_fields.IndexOf(field_full)) != -1)
                         {
-                            if (database.physical.error_fields[index] / 10 == i) database.display.field[database.display.inverter[k],i] = 100;
+                            if (database.physical.error_fields[index] / 10 == i) database.display.field[k,i] = 100;
+                            System.Diagnostics.Debug.WriteLine("Error Field Detected " + k + "," + i);
                         }
                         else
                         {
@@ -157,11 +159,16 @@ namespace ChessCORE
                                     temp_field -= database.physical.av[k,i];
                                 }
 
-                                for(int l = 0; l < database.physical.piece_max.Count();  l++)
+                                for (int l = 0; l < database.physical.piece_max.Count(); l++)
                                 {
                                     if (temp_field < database.physical.piece_max[l] + database.physical.tolerance && temp_field > database.physical.piece_min[l] - database.physical.tolerance)
                                     {
                                         database.display.field[k,i] = database.physical.piece_order[l];
+                                    }
+                                    else
+                                    {
+                                        if(database.display.field[k,i] == 0) {
+                                            database.display.field[k,i] = 255; }
                                     }
                                 }
                                 if (temp_field < database.physical.tolerance && temp_field > -database.physical.tolerance) database.display.field[k,i] = 0;
@@ -170,9 +177,10 @@ namespace ChessCORE
                                 disp_board[k,i] = temp_field;
 
                             }
+
                         }
                     }
-                    //Thread.Sleep(3000);
+                    //Thread.Sleep(1000);
                 }
             }
 

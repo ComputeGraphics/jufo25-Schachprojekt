@@ -102,10 +102,10 @@ namespace ChessCORE
                 ListResponse.Clear();
                 await_read = true;
                 ActiveSerial.com.WriteLine(command);
-                System.Diagnostics.Debug.WriteLine("Await Data...");
+                //System.Diagnostics.Debug.WriteLine("Await Data...");
                 while (await_read) { }
                 if (ListResponse.Count < count) return new List<string>();
-                System.Diagnostics.Debug.WriteLine("Data Recieved!");
+                //System.Diagnostics.Debug.WriteLine("Data Recieved!");
                 return ListResponse;
             }
             else return new List<string>();
