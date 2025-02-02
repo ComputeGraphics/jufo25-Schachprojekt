@@ -165,10 +165,13 @@ namespace ChessCORE
                                     {
                                         database.display.field[k,i] = database.physical.piece_order[l];
                                     }
+                                    else if(temp_field < database.physical.piece_min.Last() - database.physical.tolerance || temp_field > database.physical.piece_max[5] + database.physical.tolerance )
+                                    {
+                                        database.display.field[k,i] = 255;
+                                    }
                                     else
                                     {
-                                        if(database.display.field[k,i] == 0) {
-                                            database.display.field[k,i] = 255; }
+                                        if(database.display.field[k,i] == 0) { database.display.field[k,i] = 200; }
                                     }
                                 }
                                 if (temp_field < database.physical.tolerance && temp_field > -database.physical.tolerance) database.display.field[k,i] = 0;

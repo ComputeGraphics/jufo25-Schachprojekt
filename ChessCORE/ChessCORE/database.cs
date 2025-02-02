@@ -850,9 +850,9 @@ KALIB AV 454
 BAUER WEIß 741-746 - 287-292 -> 255-350
 SPRINGER WEIß 467-471 - 13-17 -> 10-20
 TURM WEIß 524-548 - 70-94 -> 61-105
-DAME WEIß 610-631 - 156-177 -> 141-190
+DAME WEIß 610-631 - 156-177 -> 138-190
 LÄUFER WEIß 479-490 - 25-36 -> 20-61
-KÖNIG WEIß 570-595 - 116-141 -> 105-141
+KÖNIG WEIß 570-595 - 116-141 -> 105-138
 
 BAUER SCHWARZ 180-198 - -274--256 -> (-350)-(-265)
 DAME SCHWARZ 260-300 - -194--154 -> (-265)-(-180) !
@@ -863,8 +863,8 @@ TURM SCHWARZ            -101--66 (-105)-(-52)
 */
             //FIGUREN
             //public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];
-            public static int[] piece_min =  [61,10,20,141,105,255,-105,-27,-52,-265,-180,-350];
-            public static int[] piece_max = [105,20,61,190,141,350, -52,-10,-27,-180,-105,-265];
+            public static int[] piece_min =  [61,10,20,138,105,255,-105,-27,-52,-265,-180,-350];
+            public static int[] piece_max = [105,20,61,190,138,350, -52,-10,-27,-180,-105,-265];
             public static byte[] piece_order = [111,115,113,109,110,101,11,15,13,09,10,01];
             //Turm,Springer,Läufer,Dame,König,Bauer
             public static void calib_pieces(byte data_count)
