@@ -87,14 +87,14 @@ namespace ChessCORE
                     { 215, "  " },
                     { 216, "  " },
                     //Weiß
-                    { 101, "♟" },
-                    { 102, "♟" },
-                    { 103, "♟" },
-                    { 104, "♟" },
-                    { 105, "♟" },
-                    { 106, "♟" },
-                    { 107, "♟" },
-                    { 108, "♟" },
+                    { 101, "♟ " },
+                    { 102, "♟ " },
+                    { 103, "♟ " },
+                    { 104, "♟ " },
+                    { 105, "♟ " },
+                    { 106, "♟ " },
+                    { 107, "♟ " },
+                    { 108, "♟ " },
                     { 109, "♛ " },
                     { 110, "♚ " },
                     { 111, "♜ " },
@@ -175,7 +175,7 @@ namespace ChessCORE
                 
                 for (byte i = 101; i < 9; i++)
                 {
-                    translator[i] = "♟ ";
+                    translator[i] = "♟";
                 }
                 storage.log("Applied Pawn Space Fix"); 
             }
@@ -826,7 +826,7 @@ namespace ChessCORE
                 for(byte i = 0; i <= recalib_iterations; i++)
                 {
                     storage.log("DynRecalib Iteration " + i); 
-                    DynRecalib();
+                    //DynRecalib();
                 }
                 board_visual.redraw_loader(90);
             }
