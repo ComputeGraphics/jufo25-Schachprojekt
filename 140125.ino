@@ -24,7 +24,7 @@ String errors = "";
 
 void setup() {
 
-  errors = "";
+  errors = "EP:16,";
   // Startup Config
   Serial.begin(baud);
   //Serial.println(port);
