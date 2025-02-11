@@ -79,7 +79,7 @@ namespace ChessCORE
                 readThread.Join();
                 com.Close();
                 Console.Clear();
-                Init.Main();
+                Init.MainMenu();
             }
             catch (Exception ex)
             {
@@ -87,7 +87,7 @@ namespace ChessCORE
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ein Fehler ist aufgetreten: " + ex.Message.ToString());
                 Console.ResetColor();
-                Init.Main();
+                Init.MainMenu();
                 return;
 
             }
@@ -154,8 +154,8 @@ namespace ChessCORE
             string portName;
             Console.Write("Enter COM port value (Default: {0}): ",defaultPortName);
             portName = Console.ReadLine() ?? "";
-
-            if (portName == "" || !(portName.ToLower()).StartsWith("com"))
+            //LAST UPDATE BEFORE FEATURE REMOVAL!!!
+            if (portName == "" || !(portName.ToLower()).StartsWith("com") || !portName.Contains("tty"))
             {
                 portName = defaultPortName;
             }

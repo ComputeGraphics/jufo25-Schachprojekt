@@ -138,7 +138,7 @@ namespace ChessCORE
 
             public static void writeSample()
             {
-
+                storage.log("Write Sample to Database"); 
                 byte[,] sample =
                 {
                 { 11, 15, 13, 9, 10, 14, 16, 12 },
@@ -155,6 +155,7 @@ namespace ChessCORE
             }
             public static void Clear()
             {
+                storage.log("Clear Database"); 
                 byte[,] cleared =
                 {
                     { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -171,10 +172,12 @@ namespace ChessCORE
 
             public static void ApplyPawnFix()
             {
+                
                 for (byte i = 101; i < 9; i++)
                 {
                     translator[i] = "♟ ";
                 }
+                storage.log("Applied Pawn Space Fix"); 
             }
         }
 
@@ -225,6 +228,7 @@ namespace ChessCORE
 
             public static void calibrate(byte res,byte data_count)
             {
+                storage.log("Requesting Error Logs..."); 
                 //Frage nach Selbstestergebnissen
                 if (repeat_selftest)
                 {
@@ -254,8 +258,8 @@ namespace ChessCORE
                 {
                     System.Diagnostics.Debug.WriteLine("Error in Field " + error);
                 }
-
-                board_visual.redraw_loader("[▰▰▰                 ]");
+                storage.log("Error Logs Recieved!"); 
+                board_visual.redraw_loader(8);
                 
                 //Res 0 -> nur A1
                 //Res 3 -> A1,A8 + H1,H8
@@ -272,9 +276,10 @@ namespace ChessCORE
 
                 if (res == 0)
                 {
+                    storage.log("Calibration in RES0 Mode..."); 
                     int average = 0;
                     List<string> list = scom2.multiCommand("QSTREAM 00",data_count);
-                    board_visual.redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰         ]");
+                    board_visual.redraw_loader(30);
                     
                     List<int> toint = [];
                     foreach (string content in list)
@@ -287,7 +292,7 @@ namespace ChessCORE
                     }
                     average /= toint.Count;
                     toint.Sort();
-                    board_visual.redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰       ]");
+                    board_visual.redraw_loader(40);
 
                     int[,] avg =
                     {
@@ -301,7 +306,7 @@ namespace ChessCORE
                         { average, average, average, average, average, average, average, average },
                     };
                     av = avg;
-                    board_visual.redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰      ]");
+                    board_visual.redraw_loader(50);
                     int minimum = toint.First();
                     int[,] minimums =
                     {
@@ -315,7 +320,7 @@ namespace ChessCORE
                         { minimum, minimum, minimum, minimum, minimum, minimum, minimum, minimum },
                     };
                     min = minimums;
-                    board_visual.redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰     ]");
+                    board_visual.redraw_loader(60);
                     int maximum = toint.Last();
                     int[,] maximums =
                     {
@@ -329,26 +334,24 @@ namespace ChessCORE
                         { maximum, maximum, maximum, maximum, maximum, maximum, maximum, maximum },
                     };
                     max = maximums;
-                    board_visual.redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰    ]");
+                    board_visual.redraw_loader(70);
 
                 }
                 else if (res == 3)
                 {
                     // 00 07 70 77
+                    storage.log("Calibration in RES3 Mode..."); 
                     int[] average = [0,0,0,0];
-                    string newText = "[▰▰▰                 ]";
-                    var regex = new Regex(Regex.Escape("    "));
                     ImmutableList<List<string>> list = [];
+                    int progressor = 10; //to 70 (55)
                     for (int i = 0; i < 78; i += 7)
                     {
                         if (i == 14) i += 56;
                         //Console.WriteLine("Mode3 Read " + i);ö
                         List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
                         list = list.Add(temp);
-
-                        regex = new Regex(Regex.Escape("    "));
-                        newText = regex.Replace(newText,"▰▰▰▰",1);
-                        board_visual.redraw_loader(newText);
+                        progressor += 11;
+                        board_visual.redraw_loader(progressor);
                     }
 
                     List<List<int>> toint = [];
@@ -369,7 +372,7 @@ namespace ChessCORE
                         toint.Add(temp_int);
                         j++;
                     }
-
+                    board_visual.redraw_loader(55);
                     //toint.Sort();
 
                     int[,] avg =
@@ -384,8 +387,7 @@ namespace ChessCORE
                         { average[0], average[0], average[0], average[0], average[1], average[1], average[1], average[1], },
                     };
                     av = avg;
-                    regex = new Regex(Regex.Escape(" "));
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(60);
                     List<int> minimums = [];
 
                     foreach (List<int> a in toint)
@@ -406,7 +408,7 @@ namespace ChessCORE
                     });
 
                     List<int> maximums = [];
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(65);
                     foreach (List<int> a in toint)
                     {
                         maximums.Add(a.Last());
@@ -424,25 +426,23 @@ namespace ChessCORE
                         { maximums[0], maximums[0], maximums[0], maximums[0], maximums[1], maximums[1], maximums[1], maximums[1] },
                     };
                     max = maxis;
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(70);
                 }
                 else if (res == 7)
                 {
                     // 00 07 70 77
+                    storage.log("Calibration in RES7 Mode..."); 
                     int[] average = [ 0,0,0,0,0,0,0,0 ];
                     ImmutableList<List<string>> list = [];
-                    string newText = "[▰▰▰                 ]";
-                    var regex = new Regex(Regex.Escape("  "));
+                    int progressor = 10; //70 (55)
                     for (byte i = 0; i < 8; i++)
                     {
                         //Console.WriteLine("Mode7 Read " + i);
                         List<string> temp = new(scom2.multiCommand($"QSTREAM {i}{i}",data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
-
-                        
-                        newText = regex.Replace(newText,"▰▰",1);
-                        board_visual.redraw_loader(newText);
+                        progressor += 6;
+                        board_visual.redraw_loader(progressor);
                     }
 
 
@@ -467,7 +467,7 @@ namespace ChessCORE
                         toint.Add(temp_int);
                         j++;
                     }
-
+                    board_visual.redraw_loader(55);
                     int[,] avg =
                     {
                         { average[7], average[7], average[7], average[7], average[7], average[7], average[7], average[7], },
@@ -480,8 +480,7 @@ namespace ChessCORE
                         { average[0], average[0], average[0], average[0], average[0], average[0], average[0], average[0], },
                     };
                     av = avg;
-                    regex = new Regex(Regex.Escape(" "));
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(60);
                     List<int> minimums = [];
 
                     foreach (List<int> a in toint)
@@ -503,7 +502,7 @@ namespace ChessCORE
                     min = minis;
 
                     List<int> maximums = [];
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(65);
 
                     foreach (List<int> a in toint)
                     {
@@ -522,15 +521,15 @@ namespace ChessCORE
                         { maximums[0], maximums[0], maximums[0], maximums[0], maximums[0], maximums[0], maximums[0], maximums[0], },
                     };
                     max = maxis;
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(70);
                 }
                 else if (res == 31)
                 {
                     // 00 07 70 77
+                    storage.log("Calibration in RES31 Mode..."); 
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-                    string newText = "[▰▰▰                 ]";
-                    var regex = new Regex(Regex.Escape(" "));
                     ImmutableList<List<string>> list = [];
+                    int progressor = 10; //55
                     for (int i = 0; i < 78; i += 2)
                     {
                         int testfor = i;
@@ -541,8 +540,8 @@ namespace ChessCORE
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
 
-                        newText = regex.Replace(newText,"▰",1);
-                        board_visual.redraw_loader(newText);
+                        progressor += 2;
+                        board_visual.redraw_loader(progressor);
                     }
 
                     List<List<int>> toint = [];
@@ -563,7 +562,7 @@ namespace ChessCORE
                         toint.Add(temp_int);
                         j++;
                     }
-
+                    board_visual.redraw_loader(75);
                     //toint.Sort();
 
                     int[,] avg =
@@ -578,7 +577,7 @@ namespace ChessCORE
                         { average[0], average[4],  average[8], average[12], average[16], average[20], average[24], average[28], },
                     };
                     av = avg;
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(77);
                     List<int> minimums = [];
 
                     foreach (List<int> a in toint)
@@ -598,7 +597,7 @@ namespace ChessCORE
                         { minimums[0], minimums[4],  minimums[8], minimums[12], minimums[16], minimums[20], minimums[24], minimums[28], },
                     };
                     min = minis;
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(79);
                     List<int> maximums = [];
 
                     foreach (List<int> a in toint)
@@ -618,14 +617,16 @@ namespace ChessCORE
                         { maximums[0], maximums[4],  maximums[8], maximums[12], maximums[16], maximums[20], maximums[24], maximums[28], },
                     };
                     max = maxis;
-                    board_visual.redraw_loader((newText = regex.Replace(newText,"▰",1)));
+                    board_visual.redraw_loader(80);
                 }
                 else if (res == 63)
                 {
                     // 00 07 70 77
+                    storage.log("Calibration in RES63 Mode..."); 
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
                     ImmutableList<List<string>> list = [];
+                    int progressor = 10;
                     for (int i = 0; i < 78; i++)
                     {
                         int testfor = i;
@@ -636,6 +637,8 @@ namespace ChessCORE
                         List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
+                        progressor++;
+                        board_visual.redraw_loader(progressor);
                     }
 
                     List<List<int>> toint = [];
@@ -661,7 +664,7 @@ namespace ChessCORE
                         toint.Add(temp_int);
                         j++;
                     }
-
+                    board_visual.redraw_loader(75);
                     //toint.Sort();
 
                     int[,] avg =
@@ -676,6 +679,7 @@ namespace ChessCORE
                         { average[0], average[8], average[16], average[24], average[32], average[40], average[48], average[56], },
                     };
                     av = avg;
+                    board_visual.redraw_loader(76);
 
                     List<int> minimums = [];
 
@@ -696,6 +700,7 @@ namespace ChessCORE
                         { minimums[0], minimums[8], minimums[16], minimums[24], minimums[32], minimums[40], minimums[48], minimums[56], },
                     };
                     min = minis;
+                    board_visual.redraw_loader(78);
 
                     List<int> maximums = [];
 
@@ -716,23 +721,27 @@ namespace ChessCORE
                         { maximums[0], maximums[8],  maximums[16], maximums[24], maximums[32], maximums[40], maximums[48], maximums[56], },
                     };
                     max = maxis;
-
+                    board_visual.redraw_loader(80);
                 }
                 else if (res == 131)
                 {
                     // 00 07 70 77
+                    storage.log("Calibration in RES131 Mode..."); 
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
-
                     ImmutableList<List<string>> list = [];
-                    for (int i = 1; i < 77; i += 2)
+                    int progressor = 10; //55
+                    for (int i = 1; i < 79; i += 2)
                     {
                         int testfor = i;
                         for (; testfor > 9; testfor -= 10) ;
                         if (testfor == 9) i += 2;
                         //Console.WriteLine("Mode31 Read " + i);
-                        List<string> temp = [];
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
+
+                        progressor += 2;
+                        board_visual.redraw_loader(progressor);
                     }
 
                     List<List<int>> toint = [];
@@ -742,31 +751,33 @@ namespace ChessCORE
                         List<int> temp_int = [];
                         foreach (string member in content)
                         {
-                            Int32.TryParse(member,out int itemint);
-                            temp_int.Add(itemint);
-                            average[j] += itemint;
+                            if (Int32.TryParse(member,out int itemint))
+                            {
+                                temp_int.Add(itemint);
+                                average[j] += itemint;
+                            }
                         }
                         average[j] /= temp_int.Count;
                         temp_int.Sort();
                         toint.Add(temp_int);
                         j++;
                     }
-
+                    board_visual.redraw_loader(75);
                     //toint.Sort();
 
                     int[,] avg =
                     {
-                        { average[28], average[28], average[29], average[29], average[30], average[30], average[31], average[31], },
-                        { average[24], average[24], average[25], average[25], average[26], average[26], average[27], average[27], },
-                        { average[20], average[20], average[21], average[21], average[22], average[22], average[23], average[23], },
-                        { average[16], average[16], average[17], average[17], average[18], average[18], average[19], average[19], },
-                        { average[12], average[12], average[13], average[13], average[14], average[14], average[15], average[15], },
-                        { average[8], average[8], average[9], average[9], average[10], average[10], average[11], average[11], },
-                        { average[4], average[4], average[5], average[5], average[6], average[6], average[7], average[7], },
-                        { average[0], average[0], average[1], average[1], average[2], average[2], average[3], average[3], },
+                        { average[3], average[7], average[11], average[15], average[19], average[23], average[27], average[31], },
+                        { average[3], average[7], average[11], average[15], average[19], average[23], average[27], average[31], },
+                        { average[2], average[6], average[10], average[14], average[18], average[22], average[26], average[30], },
+                        { average[2], average[6], average[10], average[14], average[18], average[22], average[26], average[30], },
+                        { average[1], average[5],  average[9], average[13], average[17], average[21], average[25], average[29], },
+                        { average[1], average[5],  average[9], average[13], average[17], average[21], average[25], average[29], },
+                        { average[0], average[4],  average[8], average[12], average[16], average[20], average[24], average[28], },
+                        { average[0], average[4],  average[8], average[12], average[16], average[20], average[24], average[28], },
                     };
                     av = avg;
-
+                    board_visual.redraw_loader(77);
                     List<int> minimums = [];
 
                     foreach (List<int> a in toint)
@@ -776,17 +787,17 @@ namespace ChessCORE
 
                     int[,] minis =
                     {
-                        { minimums[28], minimums[28], minimums[29], minimums[29], minimums[30], minimums[30], minimums[31], minimums[31], },
-                        { minimums[24], minimums[24], minimums[25], minimums[25], minimums[26], minimums[26], minimums[27], minimums[27], },
-                        { minimums[20], minimums[20], minimums[21], minimums[21], minimums[22], minimums[22], minimums[23], minimums[23], },
-                        { minimums[16], minimums[16], minimums[17], minimums[17], minimums[18], minimums[18], minimums[19], minimums[19], },
-                        { minimums[12], minimums[12], minimums[13], minimums[13], minimums[14], minimums[14], minimums[15], minimums[15], },
-                        { minimums[8], minimums[8], minimums[9], minimums[9], minimums[10], minimums[10], minimums[11], minimums[11], },
-                        { minimums[4], minimums[4], minimums[5], minimums[5], minimums[6], minimums[6], minimums[7], minimums[7], },
-                        { minimums[0], minimums[0], minimums[1], minimums[1], minimums[2], minimums[2], minimums[3], minimums[3], },
+                        { minimums[3], minimums[7], minimums[11], minimums[15], minimums[19], minimums[23], minimums[27], minimums[31], },
+                        { minimums[3], minimums[7], minimums[11], minimums[15], minimums[19], minimums[23], minimums[27], minimums[31], },
+                        { minimums[2], minimums[6], minimums[10], minimums[14], minimums[18], minimums[22], minimums[26], minimums[30], },
+                        { minimums[2], minimums[6], minimums[10], minimums[14], minimums[18], minimums[22], minimums[26], minimums[30], },
+                        { minimums[1], minimums[5],  minimums[9], minimums[13], minimums[17], minimums[21], minimums[25], minimums[29], },
+                        { minimums[1], minimums[5],  minimums[9], minimums[13], minimums[17], minimums[21], minimums[25], minimums[29], },
+                        { minimums[0], minimums[4],  minimums[8], minimums[12], minimums[16], minimums[20], minimums[24], minimums[28], },
+                        { minimums[0], minimums[4],  minimums[8], minimums[12], minimums[16], minimums[20], minimums[24], minimums[28], },
                     };
                     min = minis;
-
+                    board_visual.redraw_loader(79);
                     List<int> maximums = [];
 
                     foreach (List<int> a in toint)
@@ -796,42 +807,42 @@ namespace ChessCORE
 
                     int[,] maxis =
                     {
-                        { maximums[28], maximums[28], maximums[29], maximums[29], maximums[30], maximums[30], maximums[31], maximums[31], },
-                        { maximums[24], maximums[24], maximums[25], maximums[25], maximums[26], maximums[26], maximums[27], maximums[27], },
-                        { maximums[20], maximums[20], maximums[21], maximums[21], maximums[22], maximums[22], maximums[23], maximums[23], },
-                        { maximums[16], maximums[16], maximums[17], maximums[17], maximums[18], maximums[18], maximums[19], maximums[19], },
-                        { maximums[12], maximums[12], maximums[13], maximums[13], maximums[14], maximums[14], maximums[15], maximums[15], },
-                        { maximums[8], maximums[8], maximums[9], maximums[9], maximums[10], maximums[10], maximums[11], maximums[11], },
-                        { maximums[4], maximums[4], maximums[5], maximums[5], maximums[6], maximums[6], maximums[7], maximums[7], },
-                        { maximums[0], maximums[0], maximums[1], maximums[1], maximums[2], maximums[2], maximums[3], maximums[3], },
+                        { maximums[3], maximums[7], maximums[11], maximums[15], maximums[19], maximums[23], maximums[27], maximums[31], },
+                        { maximums[3], maximums[7], maximums[11], maximums[15], maximums[19], maximums[23], maximums[27], maximums[31], },
+                        { maximums[2], maximums[6], maximums[10], maximums[14], maximums[18], maximums[22], maximums[26], maximums[30], },
+                        { maximums[2], maximums[6], maximums[10], maximums[14], maximums[18], maximums[22], maximums[26], maximums[30], },
+                        { maximums[1], maximums[5],  maximums[9], maximums[13], maximums[17], maximums[21], maximums[25], maximums[29], },
+                        { maximums[1], maximums[5],  maximums[9], maximums[13], maximums[17], maximums[21], maximums[25], maximums[29], },
+                        { maximums[0], maximums[4],  maximums[8], maximums[12], maximums[16], maximums[20], maximums[24], maximums[28], },
+                        { maximums[0], maximums[4],  maximums[8], maximums[12], maximums[16], maximums[20], maximums[24], maximums[28], },
                     };
                     max = maxis;
+                    board_visual.redraw_loader(80);
 
                 }
+                storage.log("Calibration finished"); 
+
                 
                 for(byte i = 0; i <= recalib_iterations; i++)
                 {
-                    DynRecalib(data_count);
+                    storage.log("DynRecalib Iteration " + i); 
+                    DynRecalib();
                 }
-
+                board_visual.redraw_loader(90);
             }
 
-            public static void DynRecalib(byte data_count)
+            public static void DynRecalib()
             {
-                string newText = "[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰ ]";
-                board_visual.redraw_loader(newText);
                 int[,] disp_board = board_visual.requestAll_rangeMode();
                 System.Diagnostics.Debug.WriteLine(disp_board.Length);
                 int j = 0;
                 for (int i = 0; i < 8; i++)
                 {
                     System.Diagnostics.Debug.WriteLine(i.ToString() + j.ToString());
-                    if (disp_board[i,j] < -tolerance || disp_board[i,j] > tolerance)
-                    {
-                        min[i,j] += disp_board[i,j];
-                        max[i,j] += disp_board[i,j];
+                    //if (disp_board[i,j] < -tolerance || disp_board[i,j] > tolerance)
+                        min[i,j] += disp_board[i,j] -tolerance;
+                        max[i,j] += disp_board[i,j] +tolerance;
                         av[i,j] += disp_board[i,j];
-                    }
 
                     if(i > 6 && j != 7)
                     {
@@ -870,6 +881,7 @@ TURM SCHWARZ            -101--66 (-105)-(-52)
             public static void calib_pieces(byte data_count)
             {
                 //Bauer weiß Auf 00
+                storage.log("Auto Figure Calibration started... (EXPERIMENTAL)"); 
                 Console.WriteLine("Place all Pieces on the desired fields. Software will automatically identify after the default chess configuration.\nPress [ENTER] to start the identification");
                 while (ConsoleKey.Enter != Console.ReadKey().Key) { }
                 int i = 0;
@@ -903,7 +915,7 @@ TURM SCHWARZ            -101--66 (-105)-(-52)
                     i++;
                 }
                 
-
+                storage.log("Auto Figure Calibration finished (EXPERIMENTAL)"); 
                 /*foreach(int element in piece_av)
                 {
                     System.Diagnostics.Debug.WriteLine(element);

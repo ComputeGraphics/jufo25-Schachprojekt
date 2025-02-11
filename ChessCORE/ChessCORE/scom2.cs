@@ -33,10 +33,12 @@ namespace ChessCORE
 
         public static void init()
         {
+            storage.log("Creating Thread"); 
             Thread readThread = new Thread(Read);
 
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
-
+            //ActiveSerial.com.PortName = "/dev/ttyACM0";
+            
             if (default_baud != 0)
             {
                 ActiveSerial.com.BaudRate = default_baud;
@@ -53,15 +55,20 @@ namespace ChessCORE
 
             try
             {
+                storage.log("Attempting Serial Startup on " + ActiveSerial.com.PortName); 
+                Console.WriteLine("Serial Opened");
                 ActiveSerial.com.Open();
                 readThread.Start();
+                storage.log("Serial Communication Established"); 
                 ActiveSerial.com.WriteLine("X");
+                
                 //readThread.Join();
                 //com.Close();
                 ActiveSerial.readThread = readThread;
             }
             catch (Exception ex)
             {
+                storage.log("Error Establishing Serial Connection: " + ex.Message.ToString()); 
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ein Fehler ist aufgetreten: " + ex.Message.ToString());
@@ -73,25 +80,29 @@ namespace ChessCORE
 
         public static void UI()
         {
+            storage.log("Starting UI Mode on Serial"); 
             string message = "";
             ui_mode = true;
             init();
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
 
-            do
-            {
+            while (ConsoleKey.Escape != Console.ReadKey().Key) {
                 message = Console.ReadLine() ?? "";
 
                 if (message == "CLS") Console.Clear();
                 else ActiveSerial.com?.WriteLine(String.Format(message));
             }
-            while (ConsoleKey.Escape != Console.ReadKey().Key);
 
+            Dispose();
+            Console.Clear();
+            Init.MainMenu();
+        }
+
+        public static void Dispose() {
+            storage.log("Dispose of the Serial Interface"); 
             ActiveSerial.readThread?.Join();
             ActiveSerial.com?.Close();
-            Console.Clear();
-            Init.Main();
         }
         public static List<string> multiCommand(string command,byte count)
         {
@@ -112,7 +123,7 @@ namespace ChessCORE
         }
 
         public static string sendCommand(string command)
-        {
+        { 
             if (ActiveSerial.com != null)
             {
                 format = false;
@@ -197,6 +208,7 @@ namespace ChessCORE
                                 string[] split = desc.Split('(');
                                 string com = split[1].Substring(0,split[1].IndexOf(')'));
                                 //Console.WriteLine("Device Found on " + com);
+                                storage.log("Device Found on " + com); 
                                 return com;
                             }
                         }
@@ -204,22 +216,38 @@ namespace ChessCORE
                     tList.ForEach(Console.WriteLine);
                 }
             }
-            else
+            else if(OperatingSystem.IsLinux())
             {
                 Console.WriteLine("Available Ports:");
-                foreach (string s in SerialPort.GetPortNames())
+                string[] ports = SerialPort.GetPortNames();
+                if(ports.Length > 1) {
+                foreach (string s in ports)
                 {
                     Console.WriteLine("   {0}",s);
                 }
+                }
+                else {
+                    storage.log("Device Found on " + ports[0]); 
+                    Console.WriteLine($"    {ports[0]}");
+
+                    //bash.sendCommand("sudo chmod a+rw "+ports[0]);
+                    return ports[0];
+                }
+                //sudo chmod a+rw /dev/ttyACM0
+                
             }
 
             string portName;
             Console.Write("Enter COM port value (Default: {0}): ",defaultPortName);
             portName = Console.ReadLine() ?? "";
-
-            if (portName == "" || !(portName.ToLower()).StartsWith("com"))
+            bool container = portName.Contains("tty");
+            if (portName == "" || !portName.ToLower().StartsWith("com") || !container)
             {
                 portName = defaultPortName;
+            }
+            if(container && !portName.StartsWith("/dev/"))
+            {
+                portName = "/dev/" + portName;
             }
             return portName;
         }

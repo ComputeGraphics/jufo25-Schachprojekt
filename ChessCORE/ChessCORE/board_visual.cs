@@ -13,10 +13,11 @@ namespace ChessCORE
 {
     internal class board_visual
     {
+        public static bool show_icons = true;
         //□■█▓▰
         public int loader_progress = 0;
 
-        public static void redraw_loader(string loader)
+        public static void redraw_loader(int percentage)
         {
             Console.Clear();
             Console.OutputEncoding = Encoding.UTF8;
@@ -30,20 +31,38 @@ namespace ChessCORE
             Console.WriteLine("Please do not open other programs using COM".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
             Console.WriteLine("Please do not turn off or disconnect the MCU".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
             Console.WriteLine("Please do not press any buttons".PadLeft(Console.WindowWidth / 2 + 15) + "".PadRight(Console.WindowWidth / 2 + 16));
-            Console.WriteLine(loader.PadLeft((Console.WindowWidth / 2) + (loader.Length / 2)) + "".PadRight((Console.WindowWidth / 2) + (loader.Length / 2)));
+            for(int i = 0; i < Console.WindowHeight-13; i++){
+                Console.WriteLine();
+            }
+            
+            string loaders = "";
+            double small = (double)(percentage/100.0);
+            double char_count = Math.Floor(small * Console.WindowWidth-6);
+            if(percentage == 99) Console.WriteLine("Press any key to continue");
+            else Console.WriteLine("LOADING");
+            for(int i = 0; i < char_count;i++ ) {
+                loaders += '▰';
+            }
+            for(int i = 0; i < Math.Floor(Console.WindowWidth-6-char_count); i++) {
+                loaders += ' ';
+            }
+            Console.Write((percentage > 9? percentage.ToString():"0" + percentage.ToString()) + "% [" + loaders + ']');
 
+            //Console.Write(loader.PadLeft((Console.WindowWidth / 2) + (loader.Length / 2)) + "".PadRight((Console.WindowWidth / 2) + (loader.Length / 2)));
         }
         public static void show()
         {
-            redraw_loader("[                    ]");
+            redraw_loader(0);
+            storage.log("Initializing scom2");        
             scom2.init();
-            redraw_loader("[▰                   ]");
+            redraw_loader(2);
 
             if (database.physical.repeat_selftest) scom2.sendCommand("test");
-            redraw_loader("[▰▰                  ]");
-
+            redraw_loader(5);
+            //redraw_loader("[▰▰                  ]");
+            
             if (database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
-            redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰  ]");
+            redraw_loader(91);
 
             //database.physical.calib_pieces(4);
 
@@ -100,9 +119,17 @@ namespace ChessCORE
                 while (ConsoleKey.Enter != Console.ReadKey().Key) { }
             }
 
-            redraw_loader("[▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰▰]");
+            redraw_loader(99);
             //Renderer.draw_number(true,true,0);
             Renderer.draw(true,true,Renderer.standard_direction);
+        }
+
+        public static void showSnap(string name)
+        {
+            redraw_loader(0);
+            database.display.field = storage.GetCachedBoard(name);
+            redraw_loader(99);
+            Renderer.draw(false, true, Renderer.standard_direction, true);
         }
 
         public static int[,] requestAll_rangeMode()
