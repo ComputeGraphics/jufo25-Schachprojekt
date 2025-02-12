@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
 
 
@@ -186,22 +188,8 @@ namespace ChessCORE
                                     temp_field -= database.physical.av[k,i];
                                 }
 
-                                for (int l = 0; l < database.physical.piece_max.Count(); l++)
-                                {
-                                    if (temp_field < database.physical.piece_max[l] + database.physical.tolerance && temp_field > database.physical.piece_min[l] - database.physical.tolerance)
-                                    {
-                                        database.display.field[k,i] = database.physical.piece_order[l];
-                                    }
-                                    else if(temp_field < database.physical.piece_min.Last() - database.physical.tolerance || temp_field > database.physical.piece_max[5] + database.physical.tolerance )
-                                    {
-                                        database.display.field[k,i] = 255;
-                                    }
-                                    else
-                                    {
-                                        if(database.display.field[k,i] == 0) { database.display.field[k,i] = 200; }
-                                    }
-                                }
-                                if (temp_field < database.physical.tolerance && temp_field > -database.physical.tolerance) database.display.field[k,i] = 0;
+                                autoEnumerator(database.display.field,temp_field);
+                                //Place Call here
 
                                 System.Diagnostics.Debug.WriteLine("Writing to " + k + "," + i);
                                 disp_board[k,i] = temp_field;
@@ -217,6 +205,54 @@ namespace ChessCORE
             return disp_board;
         }
 
+        public static byte autoEnumerator(byte[,] board, int magnetic)
+        {
+            var container = new ArrayTools();
+            byte output = 0;
+            byte tolerance = database.physical.tolerance;
+            for (int l = 0; l < database.physical.piece_max.Count(); l++)
+            {
+                if (magnetic < database.physical.piece_max[l] + tolerance && magnetic > database.physical.piece_min[l] - tolerance)
+                {
+                    output = database.physical.piece_order[l];
+                    if(container.Contains(board, output))
+                    {
+                        if ((output > 100 && output < 108) || (output > 0 && output < 8) || output == 11 || output == 13 || output == 15 || output == 111 || output == 113 || output == 115) output++;
+                    }
+                       
+                }
+                else if (magnetic < database.physical.piece_min.Last() - tolerance || magnetic > database.physical.piece_max[5] + tolerance)
+                {
+                    output = 255;
+                }
+                else
+                {
+                    if (output == 0) { output = 200; }
+                }
+            }
+            if (magnetic < tolerance && magnetic > -tolerance) output = 0;
+
+            if (container.Contains(board,output)) output = 254;
+
+            return output;
+        }
+
+        class ArrayTools
+        {
+            public bool Contains(byte[,] board,byte item)
+            {
+                int rows = board.GetLength(0);
+                int cols = board.GetLength(1);
+                for (int i = 0; i < rows * cols; i++)
+                {
+                    int row = i / cols;
+                    int col = i % cols;
+                    if (board[row,col] == item)
+                        return false;
+                }
+                return true;
+            }
+        }
 
 
     }
