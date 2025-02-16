@@ -235,8 +235,13 @@ namespace ChessCORE
                 {
                     scom2.sendCommand("test");
                 }
+                //Console.WriteLine("Send Test Request");
                 string[] error_list = scom2.sendCommand("result").Split(',');
-
+                /*string errors = scom2.sendCommand("result");
+                storage.log(errors);
+                string[] error_list = errors.Split(',');*/
+                
+                Console.WriteLine("Result Command Returned");
                 foreach (string error in error_list)
                 {
                     
@@ -248,8 +253,6 @@ namespace ChessCORE
                     {
                         error_fields.Add(Byte.Parse(error[3..].Trim()));
                     }
-
-                    
                 }
                 foreach(byte error in error_rows)
                 {

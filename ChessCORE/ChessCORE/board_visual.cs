@@ -28,6 +28,7 @@ namespace ChessCORE
             Console.WriteLine("LOADING".PadLeft(Console.WindowWidth / 2 + 3) + "".PadRight(Console.WindowWidth / 2 - 3) + "\n\n");
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
+            Console.ResetColor();
             //Console.WriteLine("Please wait while the system is loading...");
             Console.WriteLine("This may take a few minutes".PadLeft(Console.WindowWidth / 2 + 13) + "".PadRight(Console.WindowWidth / 2 + 14));
             Console.WriteLine("Please do not open other programs using COM".PadLeft(Console.WindowWidth / 2 + 21) + "".PadRight(Console.WindowWidth / 2 + 22));
@@ -61,7 +62,6 @@ namespace ChessCORE
 
             if (database.physical.repeat_selftest) scom2.sendCommand("test");
             redraw_loader(5);
-            //redraw_loader("[▰▰                  ]");
             
             if (database.physical.calib) database.physical.calibrate(database.physical.default_calib,scom2.default_count);
             redraw_loader(91);
@@ -117,6 +117,11 @@ namespace ChessCORE
 
                 }
 
+                Console.WriteLine("\nNon-Funtional Fields:");
+                foreach (int error in database.physical.error_fields) Console.Write(error + ",");
+                Console.WriteLine(Environment.NewLine+"\nNon-Functional Multiplexers:");
+                foreach (int error in database.physical.error_rows) Console.Write(error + ",");
+                Console.WriteLine();
                 Console.WriteLine("Press [ENTER] to acknowledge");
                 while (ConsoleKey.Enter != Console.ReadKey().Key) { }
             }
@@ -124,7 +129,7 @@ namespace ChessCORE
             redraw_loader(99);
             //Renderer.draw_number(true,true,0);
             Renderer.draw(true,true,Renderer.standard_direction);
-        }
+        }   
 
         public static void showSnap(string name)
         {
@@ -132,6 +137,15 @@ namespace ChessCORE
             database.display.field = storage.GetCachedBoard(name);
             redraw_loader(99);
             Renderer.draw(false, true, Renderer.standard_direction, true);
+        }
+
+        public static void showGame(string name, int number)
+        {
+            redraw_loader(0);
+            Console.Clear();
+            database.display.field = storage.getGameSnap(name, number);
+            //redraw_loader(99);
+            //Renderer.draw(false, true, Renderer.standard_direction, true);
         }
 
         public static int[,] requestAll_rangeMode()
@@ -170,7 +184,7 @@ namespace ChessCORE
                         if ((index = database.physical.error_fields.IndexOf(field_full)) != -1)
                         {
                             if (database.physical.error_fields[index] / 10 == i) database.display.field[k,i] = 100;
-                            System.Diagnostics.Debug.WriteLine("Error Field Detected " + k + "," + i);
+                            //Console.WriteLine("Error Field Detected " + k + "," + i);
                         }
                         else
                         {
@@ -188,7 +202,7 @@ namespace ChessCORE
                                     temp_field -= database.physical.av[k,i];
                                 }
 
-                                autoEnumerator(database.display.field,temp_field);
+                                database.display.field[k,i] = autoEnumerator(database.display.field,temp_field);
                                 //Place Call here
 
                                 System.Diagnostics.Debug.WriteLine("Writing to " + k + "," + i);
@@ -232,7 +246,7 @@ namespace ChessCORE
             }
             if (magnetic < tolerance && magnetic > -tolerance) output = 0;
 
-            if (container.Contains(board,output)) output = 254;
+            //if (container.Contains(board,output)) output = 254;
 
             return output;
         }

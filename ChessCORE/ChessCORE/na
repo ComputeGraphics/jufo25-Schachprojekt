@@ -1,0 +1,222 @@
+[19-44-00] Initializing scom2
+[19-44-00] Creating Thread
+[19-44-00] Device Found on /dev/ttyACM0
+[19-44-00] Attempting Serial Startup on /dev/ttyACM0
+[19-44-00] Serial Communication Established
+[19-48-56] Initializing scom2
+[19-48-56] Creating Thread
+[19-48-56] Device Found on /dev/ttyACM0
+[19-48-56] Attempting Serial Startup on /dev/ttyACM0
+[19-48-56] Serial Communication Established
+[19-48-56] Requesting Error Logs...
+[19-51-27] Initializing scom2
+[19-51-27] Creating Thread
+[19-51-27] Device Found on /dev/ttyACM0
+[19-51-27] Attempting Serial Startup on /dev/ttyACM0
+[19-51-27] Serial Communication Established
+[19-51-27] Requesting Error Logs...
+[19-52-43] Initializing scom2
+[19-52-43] Creating Thread
+[19-52-43] Device Found on /dev/ttyACM0
+[19-52-43] Attempting Serial Startup on /dev/ttyACM0
+[19-52-43] Serial Communication Established
+[19-52-43] Requesting Error Logs...
+[19-53-26] Initializing scom2
+[19-53-26] Creating Thread
+[19-53-26] Device Found on /dev/ttyACM0
+[19-53-26] Attempting Serial Startup on /dev/ttyACM0
+[19-53-26] Serial Communication Established
+[19-53-26] Requesting Error Logs...
+[19-53-56] Initializing scom2
+[19-53-56] Creating Thread
+[19-53-56] Device Found on /dev/ttyACM0
+[19-53-56] Attempting Serial Startup on /dev/ttyACM0
+[19-53-56] Serial Communication Established
+[19-53-56] Requesting Error Logs...
+[19-55-48] Starting UI Mode on Serial
+[19-55-48] Creating Thread
+[19-55-48] Device Found on /dev/ttyACM0
+[19-55-48] Attempting Serial Startup on /dev/ttyACM0
+[19-55-48] Serial Communication Established
+[19-58-51] Initializing scom2
+[19-58-51] Creating Thread
+[19-58-51] Device Found on /dev/ttyACM0
+[19-58-51] Attempting Serial Startup on /dev/ttyACM0
+[19-58-51] Serial Communication Established
+[19-58-51] Requesting Error Logs...
+[20-16-01] Initializing scom2
+[20-16-01] Creating Thread
+[20-16-01] Device Found on /dev/ttyACM0
+[20-16-01] Attempting Serial Startup on /dev/ttyACM0
+[20-16-01] Serial Communication Established
+[20-16-01] Requesting Error Logs...
+[20-17-01] Initializing scom2
+[20-17-01] Creating Thread
+[20-17-01] Device Found on /dev/ttyACM0
+[20-17-01] Attempting Serial Startup on /dev/ttyACM0
+[20-17-01] Serial Communication Established
+[20-17-01] Requesting Error Logs...
+[13-08-55] Starting UI Mode on Serial
+[13-08-55] Creating Thread
+[13-08-55] Device Found on /dev/ttyACM0
+[13-08-55] Attempting Serial Startup on /dev/ttyACM0
+[13-08-55] Serial Communication Established
+[13-09-06] Dispose of the Serial Interface
+[13-09-09] Initializing scom2
+[13-09-09] Creating Thread
+[13-09-09] Device Found on /dev/ttyACM0
+[13-09-09] Attempting Serial Startup on /dev/ttyACM0
+[13-09-09] Serial Communication Established
+[13-09-09] Requesting Error Logs...
+[13-51-18] Creating Thread
+[13-51-18] Device Found on /dev/ttyACM0
+[13-51-18] Attempting Serial Startup on /dev/ttyACM0
+[13-51-18] Serial Communication Established
+[13-51-21] Initializing scom2
+[13-51-21] Requesting Error Logs...
+[13-51-46] Initializing scom2
+[13-51-46] Creating Thread
+[13-51-46] Device Found on /dev/ttyACM0
+[13-51-46] Attempting Serial Startup on /dev/ttyACM0
+[13-51-46] Serial Communication Established
+[13-51-46] Requesting Error Logs...
+[13-55-16] Initializing scom2
+[13-55-16] Creating Thread
+[13-55-16] Device Found on /dev/ttyACM0
+[13-55-16] Attempting Serial Startup on /dev/ttyACM0
+[13-55-16] Serial Communication Established
+[13-55-16] Requesting Error Logs...
+[13-56-01] Starting UI Mode on Serial
+[13-56-01] Creating Thread
+[13-56-01] Device Found on /dev/ttyACM0
+[13-56-01] Attempting Serial Startup on /dev/ttyACM0
+[13-56-01] Serial Communication Established
+[13-56-18] Dispose of the Serial Interface
+[13-57-57] Initializing scom2
+[13-57-57] Creating Thread
+[13-57-57] Device Found on /dev/ttyACM0
+[13-57-57] Attempting Serial Startup on /dev/ttyACM0
+[13-57-57] Serial Communication Established
+[13-57-57] Requesting Error Logs...
+[13-58-48] Initializing scom2
+[13-58-48] Creating Thread
+[13-58-48] Device Found on /dev/ttyACM0
+[13-58-48] Attempting Serial Startup on /dev/ttyACM0
+[13-58-48] Serial Communication Established
+[13-58-48] Requesting Error Logs...
+[14-00-05] Starting UI Mode on Serial
+[14-00-05] Creating Thread
+[14-00-05] Device Found on /dev/ttyACM0
+[14-00-05] Attempting Serial Startup on /dev/ttyACM0
+[14-00-05] Serial Communication Established
+[14-06-04] Initializing scom2
+[14-06-04] Creating Thread
+[14-06-04] Device Found on /dev/ttyACM0
+[14-06-04] Attempting Serial Startup on /dev/ttyACM0
+[14-06-04] Serial Communication Established
+[14-06-04] Requesting Error Logs...
+[14-07-59] Initializing scom2
+[14-07-59] Creating Thread
+[14-07-59] Device Found on /dev/ttyACM0
+[14-07-59] Attempting Serial Startup on /dev/ttyACM0
+[14-07-59] Serial Communication Established
+[14-07-59] Requesting Error Logs...
+[14-08-21] Starting UI Mode on Serial
+[14-08-21] Creating Thread
+[14-08-21] Device Found on /dev/ttyACM0
+[14-08-21] Attempting Serial Startup on /dev/ttyACM0
+[14-08-21] Serial Communication Established
+[14-08-23] Dispose of the Serial Interface
+[14-08-24] Initializing scom2
+[14-08-24] Creating Thread
+[14-08-24] Device Found on /dev/ttyACM0
+[14-08-24] Attempting Serial Startup on /dev/ttyACM0
+[14-08-24] Serial Communication Established
+[14-08-24] Requesting Error Logs...
+[14-09-40] Initializing scom2
+[14-09-40] Creating Thread
+[14-09-40] Device Found on /dev/ttyACM0
+[14-09-40] Attempting Serial Startup on /dev/ttyACM0
+[14-09-40] Serial Communication Established
+[14-09-40] Requesting Error Logs...
+[14-13-02] Creating Thread
+[14-13-02] Device Found on /dev/ttyACM0
+[14-13-02] Attempting Serial Startup on /dev/ttyACM0
+[14-13-02] Serial Communication Established
+[14-13-05] Initializing scom2
+[14-13-05] Requesting Error Logs...
+[14-14-13] Creating Thread
+[14-14-13] Device Found on /dev/ttyACM0
+[14-14-13] Attempting Serial Startup on /dev/ttyACM0
+[14-14-13] Serial Communication Established
+[14-14-19] Initializing scom2
+[14-14-19] Requesting Error Logs...
+[14-16-35] Creating Thread
+[14-16-35] Device Found on /dev/ttyACM0
+[14-16-35] Attempting Serial Startup on /dev/ttyACM0
+[14-16-35] Serial Communication Established
+[14-16-38] Initializing scom2
+[14-16-38] Requesting Error Logs...
+[14-22-35] Creating Thread
+[14-22-35] Device Found on /dev/ttyACM0
+[14-22-35] Attempting Serial Startup on /dev/ttyACM0
+[14-22-35] Serial Communication Established
+[14-26-26] Initializing scom2
+[14-26-26] Creating Thread
+[14-26-26] Device Found on /dev/ttyACM0
+[14-26-26] Attempting Serial Startup on /dev/ttyACM0
+[14-26-26] Serial Communication Established
+[14-26-26] Requesting Error Logs...
+[14-27-00] Initializing scom2
+[14-27-00] Creating Thread
+[14-27-00] Device Found on /dev/ttyACM0
+[14-27-00] Attempting Serial Startup on /dev/ttyACM0
+[14-27-00] Serial Communication Established
+[14-27-00] Requesting Error Logs...
+[14-32-31] Initializing scom2
+[14-32-31] Creating Thread
+[14-32-31] Device Found on /dev/ttyACM0
+[14-32-31] Attempting Serial Startup on /dev/ttyACM0
+[14-32-31] Serial Communication Established
+[14-32-31] Requesting Error Logs...
+[14-35-46] Initializing scom2
+[14-35-46] Creating Thread
+[14-35-46] Device Found on /dev/ttyACM0
+[14-35-46] Attempting Serial Startup on /dev/ttyACM0
+[14-35-46] Serial Communication Established
+[14-35-46] Requesting Error Logs...
+[14-39-17] Initializing scom2
+[14-39-17] Creating Thread
+[14-39-17] Device Found on /dev/ttyACM0
+[14-39-17] Attempting Serial Startup on /dev/ttyACM0
+[14-39-17] Serial Communication Established
+[14-39-17] Requesting Error Logs...
+[14-39-46] Initializing scom2
+[14-39-46] Creating Thread
+[14-39-46] Device Found on /dev/ttyACM0
+[14-39-46] Attempting Serial Startup on /dev/ttyACM0
+[14-39-46] Serial Communication Established
+[14-39-46] Requesting Error Logs...
+[14-43-14] Initializing scom2
+[14-43-14] Creating Thread
+[14-43-14] Device Found on /dev/ttyACM0
+[14-43-14] Attempting Serial Startup on /dev/ttyACM0
+[14-43-14] Serial Communication Established
+[14-43-14] Requesting Error Logs...
+[18-08-35] Initializing scom2
+[18-08-35] Creating Thread
+[18-08-35] Device Found on /dev/ttyACM0
+[18-08-35] Attempting Serial Startup on /dev/ttyACM0
+[18-08-35] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[18-08-35] Requesting Error Logs...
+[18-13-53] Starting UI Mode on Serial
+[18-13-53] Creating Thread
+[18-13-53] Device Found on /dev/ttyACM0
+[18-13-53] Attempting Serial Startup on /dev/ttyACM0
+[18-13-53] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[18-15-20] Initializing scom2
+[18-15-20] Creating Thread
+[18-15-20] Device Found on /dev/ttyACM0
+[18-15-20] Attempting Serial Startup on /dev/ttyACM0
+[18-15-20] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[18-15-20] Requesting Error Logs...

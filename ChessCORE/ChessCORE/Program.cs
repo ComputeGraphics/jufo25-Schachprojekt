@@ -1,5 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
-
+//cd /mnt/Windows/Users/Arthur/Documents/GitHub/jufo25-Schachprojekt/ChessCORE/ChessCORE/bin/Debug/net8.0/
 
 using System.Dynamic;
 
@@ -25,13 +25,14 @@ namespace ChessCORE
 
             options = new List<Option>
             {
-                new("Start Strap", board_visual.show),
+                new("Start Strap", () => board_visual.show()),
                 new("Serial Writer", scom2.UI),
                 new("Settings Menu", () => SettingsMenu(0)),
                 new("Storage Manager", Storages),
                 new("Leave", () => Environment.Exit(0)),
             };
             WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+
 
             ConsoleKeyInfo keyinfo;
             do
@@ -94,7 +95,7 @@ namespace ChessCORE
             {
                 new("Cached Games", () => WriteTemporaryMessage("Not Implemented")),
                 new("Cached Snaps", StoragesCachedSnaps),
-                new("Saved Games", () => WriteTemporaryMessage("Not Implemented")),
+                new("Saved Games", StorageSavedGames),
                 new("Last Game", () => WriteTemporaryMessage("Not Implemented")),
                 new("Back", MainMenu),
             };
@@ -212,6 +213,72 @@ namespace ChessCORE
             Console.ReadKey();
 
         }
+        
+        public static void StorageSavedGames()
+        {
+            transferindex = 0;
+            Console.ResetColor();
+            Console.Clear();
+            Active.title = "Storage Manager - Saved Games";
+            Active.background = ConsoleColor.Yellow;
+            Active.foreground = ConsoleColor.White;
+
+            options.Clear();
+            string[] files = storage.GetFiles("saves/games");
+            foreach(string file in files) {
+                options.Add(new(file, () => board_visual.showGame(file, 0)));
+            }
+            options.Add(new("Back", Storages));
+            WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+
+            ConsoleKeyInfo keyinfo;
+            do
+            {
+                keyinfo = Console.ReadKey();
+
+                // Handle each key input (down arrow will write the menu again with a different selected item)
+                if (keyinfo.Key == ConsoleKey.DownArrow)
+                {
+                    if (transferindex + 1 < options.Count)
+                    {
+                        transferindex++;
+                        WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.UpArrow)
+                {
+                    if (transferindex - 1 >= 0)
+                    {
+                        transferindex--;
+                        Console.ResetColor();
+                        WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+                    }
+                }
+                // Handle different action for the option
+                if (keyinfo.Key == ConsoleKey.Enter)
+                {
+                    options[transferindex].Selected.Invoke();
+                    transferindex = 0;
+                }
+
+                if (keyinfo.Key == ConsoleKey.LeftArrow)
+                {
+                    options[transferindex].Decrease.Invoke();
+                    transferindex = 0;
+                }
+
+                if (keyinfo.Key == ConsoleKey.RightArrow)
+                {
+                    options[transferindex].Increase.Invoke();
+                    transferindex = 0;
+                 }
+            }
+            while (keyinfo.Key != ConsoleKey.X);
+
+            Console.ReadKey();
+
+        }
+
         static void WriteTemporaryMessage(string message)
         {
             Console.ResetColor();
@@ -265,15 +332,16 @@ namespace ChessCORE
                 new($"(SERIAL)   ALLOW WIN32_SERIAL                    {GetState(scom.allow_win32)}", () => updateVar(2, scom.allow_win32, out scom.allow_win32),() => updateVar(2, scom.allow_win32, out scom.allow_win32),() => updateVar(2, scom.allow_win32, out scom.allow_win32)),
                 new($"(SERIAL)   ADVANCED SERIAL                       {GetState(scom.advanced)}", () => updateVar(3, scom.advanced, out scom.advanced),() => updateVar(3, scom.advanced, out scom.advanced),() => updateVar(3, scom.advanced, out scom.advanced)),
                 new($"(SERIAL)   DEFAULT PACKAGE LENGTH                {scom2.default_count}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(4, true, standard_counts.IndexOf(scom2.default_count), standard_counts, out scom2.default_count),() => changer(4,false, standard_counts.IndexOf(scom2.default_count), standard_counts, out scom2.default_count)),
-                new($"(RENDERER) STANDARD EMPTY                        {GetState(Renderer.standard_empty)}", () => updateVar(5, Renderer.standard_empty, out Renderer.standard_empty),() => updateVar(5, Renderer.standard_empty, out Renderer.standard_empty),() => updateVar(5, Renderer.standard_empty, out Renderer.standard_empty)),
-                new($"(RENDERER) DEFAULT DIRECTION                     {Renderer.standard_direction}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(6, true, standard_directions.IndexOf(Renderer.standard_direction), standard_directions, out Renderer.standard_direction),() => changer(6,false, standard_directions.IndexOf(Renderer.standard_direction), standard_directions, out Renderer.standard_direction)),
+                new($"(SERIAL)   AWAIT READY-SIGNAL                    {GetState(scom2.wait_ready)}", () => updateVar(5, scom2.wait_ready, out scom2.wait_ready),() => updateVar(5, scom2.wait_ready, out scom2.wait_ready),() => updateVar(5, scom2.wait_ready, out scom2.wait_ready)),
+                new($"(RENDERER) STANDARD EMPTY                        {GetState(Renderer.standard_empty)}", () => updateVar(6, Renderer.standard_empty, out Renderer.standard_empty),() => updateVar(6, Renderer.standard_empty, out Renderer.standard_empty),() => updateVar(6, Renderer.standard_empty, out Renderer.standard_empty)),    
+                new($"(RENDERER) DEFAULT DIRECTION                     {Renderer.standard_direction}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(7, true, standard_directions.IndexOf(Renderer.standard_direction), standard_directions, out Renderer.standard_direction),() => changer(7,false, standard_directions.IndexOf(Renderer.standard_direction), standard_directions, out Renderer.standard_direction)),
                 new($"(RENDERER) APPLY PAWN FIX                        {GetState(database.display.translator[1] == "♙ ")}", database.display.ApplyPawnFix, database.display.ApplyPawnFix, database.display.ApplyPawnFix),
-                new($"(RENDERER) SHOW ICONS                            {GetState(board_visual.show_icons)}", () => updateVar(8, board_visual.show_icons, out board_visual.show_icons), () => updateVar(8, board_visual.show_icons, out board_visual.show_icons), () => updateVar(8, board_visual.show_icons, out board_visual.show_icons)),
-                new($"(PHYSICAL) TOLERANCE                             {database.physical.tolerance}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(9, true, standard_tolerance.IndexOf(database.physical.tolerance), standard_tolerance, out database.physical.tolerance),() => changer(9,false, standard_tolerance.IndexOf(database.physical.tolerance), standard_tolerance, out database.physical.tolerance)),
-                new($"(PHYSICAL) DO CALIBRATION                        {GetState(database.physical.calib)}", () => updateVar(10, database.physical.calib, out database.physical.calib),() => updateVar(10, database.physical.calib, out database.physical.calib),() => updateVar(10, database.physical.calib, out database.physical.calib)),
-                new($"(PHYSICAL) CALIBRATION RESOLUTION                {database.physical.default_calib}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(11, true, standard_resolutions.IndexOf(database.physical.default_calib), standard_resolutions, out database.physical.default_calib),() => changer(11,false, standard_resolutions.IndexOf(database.physical.default_calib), standard_resolutions, out database.physical.default_calib)),
-                new($"(PHYSICAL) DEFAULT CALIB AV                      {database.physical.default_av}", () =>  enterVar(12, out database.physical.default_av), () => changer(12, true, caav.IndexOf(av), caav, out database.physical.default_av),() => changer(12,false, caav.IndexOf(av), caav, out database.physical.default_av)),
-                new($"(MCU)      LAUNCH RE-SELFTEST                    {GetState(database.physical.repeat_selftest)}", () => updateVar(13, database.physical.repeat_selftest, out database.physical.repeat_selftest),() => updateVar(13, database.physical.repeat_selftest, out database.physical.repeat_selftest),() => updateVar(13, database.physical.repeat_selftest, out database.physical.repeat_selftest)),
+                new($"(RENDERER) SHOW ICONS                            {GetState(board_visual.show_icons)}", () => updateVar(9, board_visual.show_icons, out board_visual.show_icons), () => updateVar(9, board_visual.show_icons, out board_visual.show_icons), () => updateVar(9, board_visual.show_icons, out board_visual.show_icons)),
+                new($"(PHYSICAL) TOLERANCE                             {database.physical.tolerance}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(10, true, standard_tolerance.IndexOf(database.physical.tolerance), standard_tolerance, out database.physical.tolerance),() => changer(10,false, standard_tolerance.IndexOf(database.physical.tolerance), standard_tolerance, out database.physical.tolerance)),
+                new($"(PHYSICAL) DO CALIBRATION                        {GetState(database.physical.calib)}", () => updateVar(10, database.physical.calib, out database.physical.calib),() => updateVar(11, database.physical.calib, out database.physical.calib),() => updateVar(11, database.physical.calib, out database.physical.calib)),
+                new($"(PHYSICAL) CALIBRATION RESOLUTION                {database.physical.default_calib}", () =>  WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"), () => changer(12, true, standard_resolutions.IndexOf(database.physical.default_calib), standard_resolutions, out database.physical.default_calib),() => changer(12,false, standard_resolutions.IndexOf(database.physical.default_calib), standard_resolutions, out database.physical.default_calib)),
+                new($"(PHYSICAL) DEFAULT CALIB AV                      {database.physical.default_av}", () =>  enterVar(13, out database.physical.default_av), () => changer(13, true, caav.IndexOf(av), caav, out database.physical.default_av),() => changer(13,false, caav.IndexOf(av), caav, out database.physical.default_av)),
+                new($"(MCU)      LAUNCH RE-SELFTEST                    {GetState(database.physical.repeat_selftest)}", () => updateVar(14, database.physical.repeat_selftest, out database.physical.repeat_selftest),() => updateVar(14, database.physical.repeat_selftest, out database.physical.repeat_selftest),() => updateVar(14, database.physical.repeat_selftest, out database.physical.repeat_selftest)),
 
                 new("Back to Main Menu", MainMenu),
             };

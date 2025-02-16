@@ -89,3 +89,379 @@
 [20-01-30] DynRecalib Iteration 1
 [20-01-30] Starting Renderer...
 [20-01-30] Renderer Initalized. Starting Rendering...
+[14-22-20] Creating Thread
+[14-22-20] Device Found on /dev/ttyACM0
+[14-22-20] Attempting Serial Startup on /dev/ttyACM0
+[14-22-20] Serial Communication Established
+[14-22-21] Initializing scom2
+[14-22-21] Requesting Error Logs...
+[14-22-21] Error Logs Recieved!
+[14-22-21] Calibration in RES7 Mode...
+[14-24-10] Initializing scom2
+[14-24-10] Creating Thread
+[14-24-10] Device Found on /dev/ttyACM0
+[14-24-10] Attempting Serial Startup on /dev/ttyACM0
+[14-24-10] Serial Communication Established
+[14-24-10] Requesting Error Logs...
+[14-24-20] Error Logs Recieved!
+[14-24-20] Calibration in RES7 Mode...
+[14-24-24] Calibration finished
+[14-24-24] DynRecalib Iteration 0
+[14-24-24] DynRecalib Iteration 1
+[14-24-24] Starting Renderer...
+[14-24-24] Renderer Initalized. Starting Rendering...
+[14-24-24] Dispose Environment and Quit to Main Menu
+[14-24-24] Dispose of the Serial Interface
+[14-24-55] Initializing scom2
+[14-24-55] Creating Thread
+[14-24-55] Device Found on /dev/ttyACM0
+[14-24-55] Attempting Serial Startup on /dev/ttyACM0
+[14-24-55] Serial Communication Established
+[14-24-55] Requesting Error Logs...
+[14-25-05] Error Logs Recieved!
+[14-25-05] Calibration in RES7 Mode...
+[14-25-09] Calibration finished
+[14-25-09] DynRecalib Iteration 0
+[14-25-09] DynRecalib Iteration 1
+[14-25-09] Starting Renderer...
+[14-25-09] Renderer Initalized. Starting Rendering...
+[14-25-42] Dispose Environment and Quit to Main Menu
+[14-25-42] Dispose of the Serial Interface
+[14-27-47] Initializing scom2
+[14-27-47] Creating Thread
+[14-27-47] Device Found on /dev/ttyACM0
+[14-27-47] Attempting Serial Startup on /dev/ttyACM0
+[14-27-47] Serial Communication Established
+[14-27-47] Requesting Error Logs...
+[14-27-56] Error Logs Recieved!
+[14-27-56] Calibration in RES7 Mode...
+[14-28-00] Calibration finished
+[14-28-00] DynRecalib Iteration 0
+[14-28-00] DynRecalib Iteration 1
+[14-28-00] Starting Renderer...
+[14-28-00] Renderer Initalized. Starting Rendering...
+[14-29-05] Dispose Environment and Quit to Main Menu
+[14-29-05] Dispose of the Serial Interface
+[14-29-07] Starting UI Mode on Serial
+[14-29-07] Creating Thread
+[14-29-07] Device Found on /dev/ttyACM0
+[14-29-07] Attempting Serial Startup on /dev/ttyACM0
+[14-29-07] Serial Communication Established
+[14-29-31] Dispose of the Serial Interface
+[14-30-44] Initializing scom2
+[14-30-44] Creating Thread
+[14-30-44] Device Found on /dev/ttyACM0
+[14-30-44] Attempting Serial Startup on /dev/ttyACM0
+[14-30-44] Serial Communication Established
+[14-30-44] Requesting Error Logs...
+[14-30-54] Error Logs Recieved!
+[14-30-54] Calibration in RES7 Mode...
+[14-30-58] Calibration finished
+[14-30-58] DynRecalib Iteration 0
+[14-30-58] DynRecalib Iteration 1
+[14-30-58] Starting Renderer...
+[14-30-58] Renderer Initalized. Starting Rendering...
+[14-46-32] Initializing scom2
+[14-46-32] Creating Thread
+[14-46-32] Device Found on /dev/ttyACM0
+[14-46-32] Attempting Serial Startup on /dev/ttyACM0
+[14-46-32] Serial Communication Established
+[14-46-32] Requesting Error Logs...
+[14-46-42] Error Logs Recieved!
+[14-46-42] Calibration in RES7 Mode...
+[14-46-46] Calibration finished
+[14-46-46] DynRecalib Iteration 0
+[14-46-46] DynRecalib Iteration 1
+[14-46-46] Starting Renderer...
+[14-46-46] Renderer Initalized. Starting Rendering...
+[14-51-13] Initializing scom2
+[14-51-13] Creating Thread
+[14-51-13] Device Found on /dev/ttyACM0
+[14-51-13] Attempting Serial Startup on /dev/ttyACM0
+[14-51-13] Serial Communication Established
+[14-51-13] Requesting Error Logs...
+[14-51-23] Error Logs Recieved!
+[14-51-23] Calibration in RES7 Mode...
+[14-51-27] Calibration finished
+[14-51-27] DynRecalib Iteration 0
+[14-51-27] DynRecalib Iteration 1
+[14-51-27] Starting Renderer...
+[14-51-27] Renderer Initalized. Starting Rendering...
+[14-52-54] Dispose Environment and Quit to Main Menu
+[14-52-54] Dispose of the Serial Interface
+[14-53-10] Initializing scom2
+[14-53-10] Creating Thread
+[14-53-10] Device Found on /dev/ttyACM0
+[14-53-10] Attempting Serial Startup on /dev/ttyACM0
+[14-53-10] Serial Communication Established
+[14-53-10] Requesting Error Logs...
+[14-53-20] Error Logs Recieved!
+[14-53-20] Calibration in RES7 Mode...
+[14-53-24] Calibration finished
+[14-53-24] DynRecalib Iteration 0
+[14-53-24] DynRecalib Iteration 1
+[14-53-24] Debug Number Mode
+[14-53-37] Dispose of the Serial Interface
+[14-53-42] Initializing scom2
+[14-53-42] Creating Thread
+[14-53-42] Device Found on /dev/ttyACM0
+[14-53-42] Attempting Serial Startup on /dev/ttyACM0
+[14-53-42] Serial Communication Established
+[14-53-42] Requesting Error Logs...
+[14-53-52] Error Logs Recieved!
+[14-53-52] Calibration in RES63 Mode...
+[14-54-26] Calibration finished
+[14-54-26] DynRecalib Iteration 0
+[14-54-26] DynRecalib Iteration 1
+[14-54-26] Debug Number Mode
+[14-55-30] Dispose of the Serial Interface
+[14-56-29] Initializing scom2
+[14-56-29] Creating Thread
+[14-56-29] Device Found on /dev/ttyACM0
+[14-56-29] Attempting Serial Startup on /dev/ttyACM0
+[14-56-29] Serial Communication Established
+[14-56-29] Requesting Error Logs...
+[14-56-38] Error Logs Recieved!
+[14-56-38] Calibration in RES7 Mode...
+[14-56-43] Calibration finished
+[14-56-43] DynRecalib Iteration 0
+[14-56-43] DynRecalib Iteration 1
+[14-56-43] Starting Renderer...
+[14-56-43] Renderer Initalized. Starting Rendering...
+[14-57-07] Dispose Environment and Quit to Main Menu
+[14-57-07] Dispose of the Serial Interface
+[14-57-12] Initializing scom2
+[14-57-12] Creating Thread
+[14-57-12] Device Found on /dev/ttyACM0
+[14-57-12] Attempting Serial Startup on /dev/ttyACM0
+[14-57-12] Serial Communication Established
+[14-57-12] Requesting Error Logs...
+[14-57-22] Error Logs Recieved!
+[14-57-22] Calibration in RES63 Mode...
+[14-57-56] Calibration finished
+[14-57-56] DynRecalib Iteration 0
+[14-57-56] DynRecalib Iteration 1
+[14-57-56] Starting Renderer...
+[14-57-56] Renderer Initalized. Starting Rendering...
+[15-00-26] Dispose Environment and Quit to Main Menu
+[15-00-26] Dispose of the Serial Interface
+[15-02-29] Initializing scom2
+[15-02-29] Creating Thread
+[15-02-29] Device Found on /dev/ttyACM0
+[15-02-29] Attempting Serial Startup on /dev/ttyACM0
+[15-02-29] Serial Communication Established
+[15-02-29] Requesting Error Logs...
+[15-02-39] Error Logs Recieved!
+[15-02-39] Calibration in RES7 Mode...
+[15-02-43] Calibration finished
+[15-02-43] DynRecalib Iteration 0
+[15-02-43] DynRecalib Iteration 1
+[15-02-43] Starting Renderer...
+[15-02-43] Renderer Initalized. Starting Rendering...
+[15-06-27] Dispose Environment and Quit to Main Menu
+[15-06-27] Dispose of the Serial Interface
+[15-06-32] Initializing scom2
+[15-06-32] Creating Thread
+[15-06-32] Device Found on /dev/ttyACM0
+[15-06-32] Attempting Serial Startup on /dev/ttyACM0
+[15-06-32] Serial Communication Established
+[15-06-32] Requesting Error Logs...
+[15-06-41] Error Logs Recieved!
+[15-06-41] Calibration in RES7 Mode...
+[15-06-46] Calibration finished
+[15-06-46] DynRecalib Iteration 0
+[15-06-46] DynRecalib Iteration 1
+[15-06-46] Starting Renderer...
+[15-06-46] Renderer Initalized. Starting Rendering...
+[15-07-04] Dispose Environment and Quit to Main Menu
+[15-07-04] Dispose of the Serial Interface
+[15-07-16] Initializing scom2
+[15-07-16] Creating Thread
+[15-07-16] Device Found on /dev/ttyACM0
+[15-07-16] Attempting Serial Startup on /dev/ttyACM0
+[15-07-16] Serial Communication Established
+[15-07-16] Requesting Error Logs...
+[15-07-26] Error Logs Recieved!
+[15-07-26] Calibration in RES63 Mode...
+[15-08-00] Calibration finished
+[15-08-00] DynRecalib Iteration 0
+[15-08-00] DynRecalib Iteration 1
+[15-08-00] Starting Renderer...
+[15-08-00] Renderer Initalized. Starting Rendering...
+[15-50-11] Initializing scom2
+[15-50-11] Creating Thread
+[15-50-11] Device Found on /dev/ttyACM0
+[15-50-11] Attempting Serial Startup on /dev/ttyACM0
+[15-50-11] Serial Communication Established
+[15-50-11] Requesting Error Logs...
+[15-50-21] Error Logs Recieved!
+[15-50-21] Calibration in RES7 Mode...
+[15-50-25] Calibration finished
+[15-50-25] DynRecalib Iteration 0
+[15-50-25] DynRecalib Iteration 1
+[15-50-25] Debug Number Mode
+[15-50-32] Dispose of the Serial Interface
+[15-50-36] Initializing scom2
+[15-50-36] Creating Thread
+[15-50-36] Device Found on /dev/ttyACM0
+[15-50-36] Attempting Serial Startup on /dev/ttyACM0
+[15-50-36] Serial Communication Established
+[15-50-36] Requesting Error Logs...
+[15-50-46] Error Logs Recieved!
+[15-50-46] Calibration in RES63 Mode...
+[15-51-20] Calibration finished
+[15-51-20] DynRecalib Iteration 0
+[15-51-20] DynRecalib Iteration 1
+[15-51-20] Debug Number Mode
+[15-53-58] Dispose of the Serial Interface
+[18-25-50] Initializing scom2
+[18-25-50] Creating Thread
+[18-25-50] Device Found on /dev/ttyACM0
+[18-25-50] Attempting Serial Startup on /dev/ttyACM0
+[18-25-50] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[18-25-50] Requesting Error Logs...
+[18-26-13] Initializing scom2
+[18-26-13] Creating Thread
+[18-26-13] Device Found on /dev/ttyACM0
+[18-26-13] Attempting Serial Startup on /dev/ttyACM0
+[18-26-13] Serial Communication Established
+[18-26-13] Requesting Error Logs...
+[18-26-23] Error Logs Recieved!
+[18-26-23] Calibration in RES7 Mode...
+[18-26-27] Calibration finished
+[18-26-27] DynRecalib Iteration 0
+[18-26-27] DynRecalib Iteration 1
+[18-26-27] Debug Number Mode
+[18-27-12] Dispose of the Serial Interface
+[18-27-24] Initializing scom2
+[18-27-24] Creating Thread
+[18-27-24] Device Found on /dev/ttyACM0
+[18-27-24] Attempting Serial Startup on /dev/ttyACM0
+[18-27-24] Serial Communication Established
+[18-27-24] Requesting Error Logs...
+[18-27-34] Error Logs Recieved!
+[18-27-34] Calibration in RES63 Mode...
+[18-28-08] Calibration finished
+[18-28-08] DynRecalib Iteration 0
+[18-28-08] DynRecalib Iteration 1
+[18-28-08] Debug Number Mode
+[11-30-31] Initializing scom2
+[11-30-31] Creating Thread
+[11-30-31] Device Found on /dev/ttyACM0
+[11-30-31] Attempting Serial Startup on /dev/ttyACM0
+[11-30-31] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[11-30-31] Requesting Error Logs...
+[11-30-54] Initializing scom2
+[11-30-54] Creating Thread
+[11-30-54] Device Found on /dev/ttyACM0
+[11-30-54] Attempting Serial Startup on /dev/ttyACM0
+[11-30-54] Serial Communication Established
+[11-30-54] Requesting Error Logs...
+[11-31-04] Error Logs Recieved!
+[11-31-04] Calibration in RES7 Mode...
+[11-31-08] Calibration finished
+[11-31-08] DynRecalib Iteration 0
+[11-31-08] DynRecalib Iteration 1
+[11-31-08] Starting Renderer...
+[11-31-08] Renderer Initalized. Starting Rendering...
+[11-32-07] Initializing scom2
+[11-32-07] Creating Thread
+[11-32-07] Device Found on /dev/ttyACM0
+[11-32-07] Attempting Serial Startup on /dev/ttyACM0
+[11-32-07] Error Establishing Serial Connection: Access to the port '/dev/ttyACM0' is denied.
+[11-32-07] Requesting Error Logs...
+[11-32-16] Initializing scom2
+[11-32-16] Creating Thread
+[11-32-16] Device Found on /dev/ttyACM0
+[11-32-16] Attempting Serial Startup on /dev/ttyACM0
+[11-32-16] Serial Communication Established
+[11-32-16] Requesting Error Logs...
+[11-32-26] Error Logs Recieved!
+[11-32-26] Calibration in RES7 Mode...
+[11-32-30] Calibration finished
+[11-32-30] DynRecalib Iteration 0
+[11-32-30] DynRecalib Iteration 1
+[11-32-30] Starting Renderer...
+[11-32-30] Renderer Initalized. Starting Rendering...
+[11-34-50] Initializing scom2
+[11-34-50] Creating Thread
+[11-34-50] Device Found on /dev/ttyACM0
+[11-34-50] Attempting Serial Startup on /dev/ttyACM0
+[11-34-50] Serial Communication Established
+[11-34-50] Requesting Error Logs...
+[11-35-00] Error Logs Recieved!
+[11-35-00] Calibration in RES7 Mode...
+[11-35-04] Calibration finished
+[11-35-04] DynRecalib Iteration 0
+[11-35-04] DynRecalib Iteration 1
+[11-35-04] Starting Renderer...
+[11-35-04] Renderer Initalized. Starting Rendering...
+[11-48-23] Initializing scom2
+[11-48-23] Creating Thread
+[11-48-23] Device Found on /dev/ttyACM0
+[11-48-23] Attempting Serial Startup on /dev/ttyACM0
+[11-48-23] Serial Communication Established
+[11-48-23] Requesting Error Logs...
+[11-48-33] Error Logs Recieved!
+[11-48-33] Calibration in RES7 Mode...
+[11-48-37] Calibration finished
+[11-48-37] DynRecalib Iteration 0
+[11-48-37] DynRecalib Iteration 1
+[11-48-37] Starting Renderer...
+[11-48-37] Renderer Initalized. Starting Rendering...
+[11-49-09] Initializing scom2
+[11-49-09] Creating Thread
+[11-49-09] Device Found on /dev/ttyACM0
+[11-49-09] Attempting Serial Startup on /dev/ttyACM0
+[11-49-09] Serial Communication Established
+[11-49-09] Requesting Error Logs...
+[11-49-18] Error Logs Recieved!
+[11-49-18] Calibration in RES7 Mode...
+[11-49-23] Calibration finished
+[11-49-23] DynRecalib Iteration 0
+[11-49-23] DynRecalib Iteration 1
+[11-49-23] Starting Renderer...
+[11-49-23] Renderer Initalized. Starting Rendering...
+[11-50-35] Initializing scom2
+[11-50-35] Creating Thread
+[11-50-35] Device Found on /dev/ttyACM0
+[11-50-35] Attempting Serial Startup on /dev/ttyACM0
+[11-50-35] Serial Communication Established
+[11-50-35] Requesting Error Logs...
+[11-50-45] Error Logs Recieved!
+[11-50-45] Calibration in RES7 Mode...
+[11-50-49] Calibration finished
+[11-50-49] DynRecalib Iteration 0
+[11-50-49] DynRecalib Iteration 1
+[11-50-49] Starting Renderer...
+[11-50-49] Renderer Initalized. Starting Rendering...
+[11-52-45] Starting UI Mode on Serial
+[11-52-45] Creating Thread
+[11-52-45] Device Found on /dev/ttyACM0
+[11-52-45] Attempting Serial Startup on /dev/ttyACM0
+[11-52-45] Serial Communication Established
+[11-53-20] Dispose of the Serial Interface
+[11-53-28] Initializing scom2
+[11-53-28] Creating Thread
+[11-53-28] Device Found on /dev/ttyACM0
+[11-53-28] Attempting Serial Startup on /dev/ttyACM0
+[11-53-28] Serial Communication Established
+[11-53-28] Requesting Error Logs...
+[11-53-37] Error Logs Recieved!
+[11-53-37] Calibration in RES0 Mode...
+[11-53-38] Calibration finished
+[11-53-38] DynRecalib Iteration 0
+[11-53-38] DynRecalib Iteration 1
+[11-53-38] Starting Renderer...
+[11-53-38] Renderer Initalized. Starting Rendering...
+[11-56-20] Initializing scom2
+[11-56-20] Creating Thread
+[11-56-20] Device Found on /dev/ttyACM0
+[11-56-20] Attempting Serial Startup on /dev/ttyACM0
+[11-56-20] Serial Communication Established
+[11-56-20] Requesting Error Logs...
+[11-56-30] Error Logs Recieved!
+[11-56-30] Calibration in RES0 Mode...
+[11-56-30] Calibration finished
+[11-56-30] DynRecalib Iteration 0
+[11-56-30] DynRecalib Iteration 1

@@ -16,6 +16,7 @@ namespace ChessCORE
         public static bool advanced = scom.advanced;
         public static bool ui_mode = false;
 
+        public static bool wait_ready = true;
         public static int default_baud = scom.default_baud;
 
         public static bool await_read = false;
@@ -35,7 +36,7 @@ namespace ChessCORE
         {
             storage.log("Creating Thread"); 
             Thread readThread = new Thread(Read);
-
+            readThread.IsBackground = true;
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
             
@@ -56,12 +57,12 @@ namespace ChessCORE
             try
             {
                 storage.log("Attempting Serial Startup on " + ActiveSerial.com.PortName); 
-                Console.WriteLine("Serial Opened");
+                //Console.WriteLine("Serial Opened");
                 ActiveSerial.com.Open();
                 readThread.Start();
                 storage.log("Serial Communication Established"); 
-                ActiveSerial.com.WriteLine("X");
-                
+                sendCommand("X");
+
                 //readThread.Join();
                 //com.Close();
                 ActiveSerial.readThread = readThread;
@@ -84,14 +85,14 @@ namespace ChessCORE
             string message = "";
             ui_mode = true;
             init();
-            //Console.Clear();
+            Console.Clear();
             Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
 
             while (ConsoleKey.Escape != Console.ReadKey().Key) {
                 message = Console.ReadLine() ?? "";
 
                 if (message == "CLS") Console.Clear();
-                else ActiveSerial.com?.WriteLine(String.Format(message));
+                else ActiveSerial.com?.WriteLine(String.Format(message)+"\r\n");
             }
 
             Dispose();
@@ -104,6 +105,7 @@ namespace ChessCORE
             ActiveSerial.readThread?.Join();
             ActiveSerial.com?.Close();
         }
+
         public static List<string> multiCommand(string command,byte count)
         {
             if (ActiveSerial.com != null)
@@ -129,9 +131,10 @@ namespace ChessCORE
                 format = false;
                 StringResponse = "";
                 await_read = true;
+                
                 ActiveSerial.com.WriteLine(command);
-
-                while (await_read) { }
+                //Console.WriteLine("AWAITING READ " + await_read.ToString());
+                while (await_read) {  }
                 return StringResponse;
             }
             else return "";
@@ -140,12 +143,10 @@ namespace ChessCORE
 
         public static void ReadEventHandler(object sender,SerialDataReceivedEventArgs e)
         {
-            try
-            {
+            try {
+                //Console.WriteLine("Read Line");
                 string message = ActiveSerial.com.ReadLine();
-
-                if (!message.StartsWith("RB:"))
-                {
+                if (!message.StartsWith("RB:")) {
                     if (await_read)
                     {
                         if (format)
@@ -159,7 +160,10 @@ namespace ChessCORE
                         }
                         else
                         {
+                            //Console.WriteLine("RESPONSE NO FORMAT");
+                            Console.WriteLine(message);
                             ActiveSerial.com.WriteLine("X");
+                            
                             StringResponse = message;
                             await_read = false;
                         }
@@ -171,8 +175,8 @@ namespace ChessCORE
                     if (!advanced) return;
                 }
                 if (ui_mode) Console.WriteLine(message);
-            }
-            catch (TimeoutException) { Console.WriteLine("Timeout"); }
+
+            } catch (TimeoutException) { Console.WriteLine("Timeout"); }
         }
 
         public static void Read()
