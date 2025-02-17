@@ -23,6 +23,7 @@ namespace ChessCORE
      * X Nicht Betriebsfähig: 100  
      * * Laden: 200
      * ? Nicht in Datenbank: 255
+     * # Unzulässige Figurenanzahl: 254
      * # Platz zur Definition weiterer Figuren: 201-216
      * 
      * 
@@ -45,9 +46,9 @@ namespace ChessCORE
      * ♟
      */
 
-    internal class database
+    internal class Database
     {
-        public static class display
+        public static class Display
         {
             /*public static Dictionary<byte,byte> inverter = new()
             {
@@ -60,7 +61,7 @@ namespace ChessCORE
                 { 1,6 },
                 { 0,7 },
             };*/
-            public static byte[] inverter = [ 7,6,5,4,3,2,1,0 ];
+            public static byte[] inverter = [7,6,5,4,3,2,1,0];
 
             public static Dictionary<byte,string> translator = new()
             {
@@ -124,8 +125,19 @@ namespace ChessCORE
 
                 };
 
-
             public static byte[,] field =
+            {
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+            };
+
+            public static byte[,] buffer =
             {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -139,7 +151,7 @@ namespace ChessCORE
 
             public static void writeSample()
             {
-                storage.log("Write Sample to Database"); 
+                Storage.log("Write Sample to Database");
                 byte[,] sample =
                 {
                 { 11, 15, 13, 9, 10, 14, 16, 12 },
@@ -156,7 +168,7 @@ namespace ChessCORE
             }
             public static void Clear()
             {
-                storage.log("Clear Database"); 
+                Storage.log("Clear Database");
                 byte[,] cleared =
                 {
                     { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -173,20 +185,20 @@ namespace ChessCORE
 
             public static void ApplyPawnFix()
             {
-                
+
                 for (byte i = 101; i < 9; i++)
                 {
                     translator[i] = "♟";
                 }
-                storage.log("Applied Pawn Space Fix"); 
+                Storage.log("Applied Pawn Space Fix");
             }
         }
 
-        public static class physical
+        public static class Physical
         {
             public static byte recalib_iterations = 1;
-            public static byte default_calib = 7;
-            public static int default_av = 460;
+            public static byte default_calib = 63;
+            public static int default_av = 0;
             public static byte tolerance = 4;
             public static bool calib = true;
             public static bool repeat_selftest = false;
@@ -227,9 +239,21 @@ namespace ChessCORE
                 { default_av, default_av, default_av, default_av, default_av, default_av, default_av, default_av },
             };
 
+            public static double[,] factors =
+            {
+                { 1,    1.04, 1.07, 1,    0.78, 0.71, 1.12, 1.04 },
+                { 1,    1,    1,    1.05, 0.72, 0.71, 1,    1    },
+                { 1,    1.06, 1,    1.06, 0.72, 0.71, 1.05, 1.06 },
+                { 1,    1.04, 1.04, 1.05, 0.75, 0.72, 0.74, 1    },
+                { 1,    1,    1,    1,    0.74, 0.71, 0.75, 1    },
+                { 1,    1,    1.06, 1,    0.77, 0.72, 0.75, 1    },
+                { 1,    1,    1,    1.06, 0.77, 0.72, 0.73, 1    },
+                { 1.06, 1,    1.09, 1.06, 0.75, 0.74, 1,    1    },
+            };
+
             public static void calibrate(byte res,byte data_count)
             {
-                storage.log("Requesting Error Logs..."); 
+                Storage.log("Requesting Error Logs...");
                 //Frage nach Selbstestergebnissen
                 if (repeat_selftest)
                 {
@@ -238,13 +262,13 @@ namespace ChessCORE
                 //Console.WriteLine("Send Test Request");
                 string[] error_list = scom2.sendCommand("result").Split(',');
                 /*string errors = scom2.sendCommand("result");
-                storage.log(errors);
+                Storage.log(errors);
                 string[] error_list = errors.Split(',');*/
-                
+
                 Console.WriteLine("Result Command Returned");
                 foreach (string error in error_list)
                 {
-                    
+
                     if (error.StartsWith("EM:"))
                     {
                         error_rows.Add(Byte.Parse(error[3..].Trim()));
@@ -254,17 +278,17 @@ namespace ChessCORE
                         error_fields.Add(Byte.Parse(error[3..].Trim()));
                     }
                 }
-                foreach(byte error in error_rows)
+                foreach (byte error in error_rows)
                 {
                     Console.WriteLine("Error in Row " + error);
                 }
-                foreach(byte error in error_fields)
+                foreach (byte error in error_fields)
                 {
                     System.Diagnostics.Debug.WriteLine("Error in Field " + error);
                 }
-                storage.log("Error Logs Recieved!"); 
+                Storage.log("Error Logs Recieved!");
                 board_visual.redraw_loader(8);
-                
+
                 //Res 0 -> nur A1
                 //Res 3 -> A1,A8 + H1,H8
                 //Res 7 -> A1,B2,C3,D4,E5,F6,G7,H8 (Schwarze Diagonale)
@@ -280,11 +304,11 @@ namespace ChessCORE
 
                 if (res == 0)
                 {
-                    storage.log("Calibration in RES0 Mode..."); 
+                    Storage.log("Calibration in RES0 Mode...");
                     int average = 0;
                     List<string> list = scom2.multiCommand("QSTREAM 00",data_count);
                     board_visual.redraw_loader(30);
-                    
+
                     List<int> toint = [];
                     foreach (string content in list)
                     {
@@ -344,7 +368,7 @@ namespace ChessCORE
                 else if (res == 3)
                 {
                     // 00 07 70 77
-                    storage.log("Calibration in RES3 Mode..."); 
+                    Storage.log("Calibration in RES3 Mode...");
                     int[] average = [0,0,0,0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //to 70 (55)
@@ -435,8 +459,8 @@ namespace ChessCORE
                 else if (res == 7)
                 {
                     // 00 07 70 77
-                    storage.log("Calibration in RES7 Mode..."); 
-                    int[] average = [ 0,0,0,0,0,0,0,0 ];
+                    Storage.log("Calibration in RES7 Mode...");
+                    int[] average = [0,0,0,0,0,0,0,0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //70 (55)
                     for (byte i = 0; i < 8; i++)
@@ -461,7 +485,7 @@ namespace ChessCORE
                         for (int i = 0; i < content.Count; i++)
                         {
                             //Console.WriteLine("Inner Iteration " + i+"\nContaining: " + content[i]);
-                            Int32.TryParse(content[i],out int itemint);
+                            int itemint = Int32.Parse(content[i]);
                             temp_int.Add(itemint);
                             average[j] += itemint;
                         }
@@ -530,7 +554,7 @@ namespace ChessCORE
                 else if (res == 31)
                 {
                     // 00 07 70 77
-                    storage.log("Calibration in RES31 Mode..."); 
+                    Storage.log("Calibration in RES31 Mode...");
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //55
@@ -626,7 +650,7 @@ namespace ChessCORE
                 else if (res == 63)
                 {
                     // 00 07 70 77
-                    storage.log("Calibration in RES63 Mode..."); 
+                    Storage.log("Calibration in RES63 Mode...");
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
 
                     ImmutableList<List<string>> list = [];
@@ -637,7 +661,7 @@ namespace ChessCORE
                         for (; testfor > 9; testfor -= 10) ;
                         if (testfor == 8) i++;
                         if (testfor == 8) i++;
-                        Console.WriteLine("Mode63 Read " + i);
+                        //Console.WriteLine("Mode63 Read " + i);
                         List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
@@ -647,7 +671,7 @@ namespace ChessCORE
 
                     List<List<int>> toint = [];
                     int j = 0;
-                    
+
                     foreach (List<string> content in list)
                     {
                         System.Diagnostics.Debug.Write("Working List: " + j);
@@ -661,9 +685,9 @@ namespace ChessCORE
                                 average[j] += itemint;
                             }
                         }
-                        
+
                         average[j] /= temp_int.Count;
-                        System.Diagnostics.Debug.Write(" AV:" +average[j]);
+                        System.Diagnostics.Debug.Write(" AV:" + average[j]);
                         temp_int.Sort();
                         toint.Add(temp_int);
                         j++;
@@ -730,7 +754,7 @@ namespace ChessCORE
                 else if (res == 131)
                 {
                     // 00 07 70 77
-                    storage.log("Calibration in RES131 Mode..."); 
+                    Storage.log("Calibration in RES131 Mode...");
                     int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //55
@@ -824,12 +848,12 @@ namespace ChessCORE
                     board_visual.redraw_loader(80);
 
                 }
-                storage.log("Calibration finished"); 
+                Storage.log("Calibration finished");
 
-                
-                for(byte i = 0; i <= recalib_iterations; i++)
+
+                for (byte i = 0; i <= recalib_iterations; i++)
                 {
-                    storage.log("DynRecalib Iteration " + i); 
+                    Storage.log("DynRecalib Iteration " + i);
                     //DynRecalib();
                 }
                 board_visual.redraw_loader(90);
@@ -844,11 +868,11 @@ namespace ChessCORE
                 {
                     System.Diagnostics.Debug.WriteLine(i.ToString() + j.ToString());
                     //if (disp_board[i,j] < -tolerance || disp_board[i,j] > tolerance)
-                        min[i,j] += disp_board[i,j] -tolerance;
-                        max[i,j] += disp_board[i,j] +tolerance;
-                        av[i,j] += disp_board[i,j];
+                    min[i,j] += disp_board[i,j] - tolerance;
+                    max[i,j] += disp_board[i,j] + tolerance;
+                    av[i,j] += disp_board[i,j];
 
-                    if(i > 6 && j != 7)
+                    if (i > 6 && j != 7)
                     {
                         j++;
                         i = -1;
@@ -858,38 +882,38 @@ namespace ChessCORE
 
             public static byte[] detector_fields = [00,10,20,30,40,01,06,07,17,27,37,47];
 
-/*
-453-455
-KALIB AV 454
+            /*
+            453-455
+            KALIB AV 454
 
-BAUER WEIß 741-746 - 287-292 -> 255-350
-SPRINGER WEIß 467-471 - 13-17 -> 10-20
-TURM WEIß 524-548 - 70-94 -> 61-105
-DAME WEIß 610-631 - 156-177 -> 138-190
-LÄUFER WEIß 479-490 - 25-36 -> 20-61
-KÖNIG WEIß 570-595 - 116-141 -> 105-138
+            BAUER WEIß 741-746 - 287-292 -> 216-350
+            SPRINGER WEIß 467-471 - 13-17 -> tolerance-27
+            TURM WEIß 524-548 - 70-94 -> 61-110
+            DAME WEIß 610-631 - 156-177 -> 142-216
+            LÄUFER WEIß 479-490 - 25-36 -> 27-61
+            KÖNIG WEIß 570-595 - 116-141 -> 105-142
 
-BAUER SCHWARZ 180-198 - -274--256 -> (-350)-(-265)
-DAME SCHWARZ 260-300 - -194--154 -> (-265)-(-180) !
-SPRINGER SCHWARZ 427-445 - -27--9 -> (-27)-(-10)
-KÖNIG SCHAWRZ 318-340 - -136--114 -> (-180)-(-105) !
-LÄUFER SCHWARZ 405-427 - -49--27 -> (-52)-(-27)
-TURM SCHWARZ            -101--66 (-105)-(-52)
-*/
+            BAUER SCHWARZ 180-198 - -274--256 -> (-350)-(-265)
+            DAME SCHWARZ 260-300 - -194--154 -> (-265)-(-180) !
+            SPRINGER SCHWARZ 427-445 - -27--9 -> (-27)-(-tolerance)
+            KÖNIG SCHAWRZ 318-340 - -136--114 -> (-180)-(-102) !
+            LÄUFER SCHWARZ 405-427 - -49--27 -> (-52)-(-27)
+            TURM SCHWARZ            -101--66 (-102)-(-52)
+            */
             //FIGUREN
             //public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];
-            public static int[] piece_min =  [61,10,20,138,105,255,-105,-27,-52,-265,-180,-350];
-            public static int[] piece_max = [105,20,61,190,138,350, -52,-10,-27,-180,-105,-265];
+            public static int[] piece_min = [61,tolerance,27,142,110,216,-102,-27,-52,-265,-180,-350];
+            public static int[] piece_max = [110,27,61,216,142,350,-52,-tolerance,-27,-180,-102,-265];
             public static byte[] piece_order = [111,115,113,109,110,101,11,15,13,09,10,01];
             //Turm,Springer,Läufer,Dame,König,Bauer
             public static void calib_pieces(byte data_count)
             {
                 //Bauer weiß Auf 00
-                storage.log("Auto Figure Calibration started... (EXPERIMENTAL)"); 
+                Storage.log("Auto Figure Calibration started... (EXPERIMENTAL)");
                 Console.WriteLine("Place all Pieces on the desired fields. Software will automatically identify after the default chess configuration.\nPress [ENTER] to start the identification");
                 while (ConsoleKey.Enter != Console.ReadKey().Key) { }
                 int i = 0;
-                foreach(byte a in detector_fields)
+                foreach (byte a in detector_fields)
                 {
                     System.Diagnostics.Debug.WriteLine($"Checking {a} at {i}");
                     List<string> temp = new(scom2.multiCommand($"QSTREAM {a}",data_count));
@@ -904,8 +928,8 @@ TURM SCHWARZ            -101--66 (-105)-(-52)
                     {
                         if (Int32.TryParse(list,out int itemint))
                         {
-                            Console.WriteLine(front + " " + back + " " + database.physical.av[display.inverter[front],back]);
-                            itemint -= database.physical.av[display.inverter[front],back];
+                            Console.WriteLine(front + " " + back + " " + Database.Physical.av[Display.inverter[front],back]);
+                            itemint -= Database.Physical.av[Display.inverter[front],back];
                             toint.Add(itemint);
                             avg += itemint;
                         }
@@ -918,16 +942,17 @@ TURM SCHWARZ            -101--66 (-105)-(-52)
                     //piece_av[i] = avg;
                     i++;
                 }
-                
-                storage.log("Auto Figure Calibration finished (EXPERIMENTAL)"); 
+
+                Storage.log("Auto Figure Calibration finished (EXPERIMENTAL)");
                 /*foreach(int element in piece_av)
                 {
                     System.Diagnostics.Debug.WriteLine(element);
                 }*/
-                
+
             }
 
 
         }
+
     }
 }

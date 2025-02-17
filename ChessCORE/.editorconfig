@@ -1,0 +1,10 @@
+﻿[*.cs]
+
+# IDE1006: Benennungsstile
+dotnet_diagnostic.IDE1006.severity = none
+
+# CA2211: Nicht konstante Felder dürfen nicht sichtbar sein
+dotnet_diagnostic.CA2211.severity = none
+
+# CA1862: "StringComparison"-Methodenüberladungen verwenden, um Zeichenfolgenvergleiche ohne Beachtung der Groß-/Kleinschreibung durchzuführen
+dotnet_diagnostic.CA1862.severity = none

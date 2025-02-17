@@ -28,7 +28,7 @@ namespace ChessCORE
             Console.Clear();
             string message;
             StringComparer stringComparer = StringComparer.OrdinalIgnoreCase;
-            Thread readThread = new Thread(Read);
+            Thread readThread = new(Read);
 
             com = new SerialPort();
             // Allow the user to set the appropriate properties.
@@ -105,7 +105,7 @@ namespace ChessCORE
 
         public static void Read()
         {
-            com.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(ReadEventHandler);
+            com.DataReceived += new SerialDataReceivedEventHandler(ReadEventHandler);
         }
 
         // Display Port values and prompt user to enter a port.
@@ -114,33 +114,31 @@ namespace ChessCORE
             if (OperatingSystem.IsWindows() && allow_win32)
             {
                 Console.WriteLine("Retrieving Data...");
-                using (var searcher = new ManagementObjectSearcher
-                    ("SELECT * FROM WIN32_SerialPort"))
-                {
-                    string[] portnames = SerialPort.GetPortNames();
-                    var ports = searcher.Get().Cast<ManagementBaseObject>().ToList();
+                using var searcher = new ManagementObjectSearcher
+                    ("SELECT * FROM WIN32_SerialPort");
+                string[] portnames = SerialPort.GetPortNames();
+                var ports = searcher.Get().Cast<ManagementBaseObject>().ToList();
 #pragma warning disable CA1416 // Plattformkompatibilität überprüfen
-                    var tList = (from n in portnames
-                                 join p in ports on n equals p["DeviceID"].ToString()
-                                 select n + " - " + p["Caption"]).ToList();
+                var tList = (from n in portnames
+                             join p in ports on n equals p["DeviceID"].ToString()
+                             select n + " - " + p["Caption"]).ToList();
 #pragma warning restore CA1416 // Plattformkompatibilität überprüfen
 
-                    if (auto_ident)
+                if (auto_ident)
+                {
+                    foreach (ManagementBaseObject p in ports)
                     {
-                        foreach (ManagementBaseObject p in ports)
+                        string desc = p["Name"].ToString() ?? "";
+                        if (desc.Contains("Arduino"))
                         {
-                            string desc = p["Name"].ToString() ?? "";
-                            if (desc.Contains("Arduino"))
-                            {
-                                string[] split = desc.Split('(');
-                                string com = split[1].Substring(0,split[1].IndexOf(')'));
-                                Console.WriteLine("Device Found on " + com);
-                                return com;
-                            }
+                            string[] split = desc.Split('(');
+                            string com = split[1][..split[1].IndexOf(')')];
+                            Console.WriteLine("Device Found on " + com);
+                            return com;
                         }
                     }
-                    tList.ForEach(Console.WriteLine);
                 }
+                tList.ForEach(Console.WriteLine);
             }
             else
             {

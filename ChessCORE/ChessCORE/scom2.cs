@@ -22,24 +22,26 @@ namespace ChessCORE
         public static bool await_read = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
-        public static List<string> ListResponse = new List<string>();
+        public static List<string> ListResponse = [];
         public static byte ListCount = 0;
 
         public static class ActiveSerial
         {
-            public static Thread? readThread;
-            public static SerialPort com = new SerialPort();
+            public static Thread readThread;
+            public static SerialPort com = new();
         }
 
 
         public static void init()
         {
-            storage.log("Creating Thread"); 
-            Thread readThread = new Thread(Read);
-            readThread.IsBackground = true;
+            Storage.log("Creating Thread");
+            Thread readThread = new(Read)
+            {
+                IsBackground = true
+            };
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
-            
+
             if (default_baud != 0)
             {
                 ActiveSerial.com.BaudRate = default_baud;
@@ -56,12 +58,12 @@ namespace ChessCORE
 
             try
             {
-                storage.log("Attempting Serial Startup on " + ActiveSerial.com.PortName); 
+                Storage.log("Attempting Serial Startup on " + ActiveSerial.com.PortName);
                 //Console.WriteLine("Serial Opened");
                 ActiveSerial.com.Open();
                 readThread.Start();
-                storage.log("Serial Communication Established"); 
-                sendCommand("X");
+                Storage.log("Serial Communication Established");
+                if (OperatingSystem.IsLinux()) sendCommand("X");
 
                 //readThread.Join();
                 //com.Close();
@@ -69,7 +71,7 @@ namespace ChessCORE
             }
             catch (Exception ex)
             {
-                storage.log("Error Establishing Serial Connection: " + ex.Message.ToString()); 
+                Storage.log("Error Establishing Serial Connection: " + ex.Message.ToString());
                 Console.BackgroundColor = ConsoleColor.DarkRed;
                 Console.ForegroundColor = ConsoleColor.White;
                 Console.WriteLine("Ein Fehler ist aufgetreten: " + ex.Message.ToString());
@@ -81,18 +83,19 @@ namespace ChessCORE
 
         public static void UI()
         {
-            storage.log("Starting UI Mode on Serial"); 
-            string message = "";
+            Storage.log("Starting UI Mode on Serial");
+            string message;
             ui_mode = true;
             init();
             Console.Clear();
             Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
 
-            while (ConsoleKey.Escape != Console.ReadKey().Key) {
+            while (ConsoleKey.Escape != Console.ReadKey().Key)
+            {
                 message = Console.ReadLine() ?? "";
 
                 if (message == "CLS") Console.Clear();
-                else ActiveSerial.com?.WriteLine(String.Format(message)+"\r\n");
+                else ActiveSerial.com?.WriteLine(String.Format(message) + "\r\n");
             }
 
             Dispose();
@@ -100,8 +103,9 @@ namespace ChessCORE
             Init.MainMenu();
         }
 
-        public static void Dispose() {
-            storage.log("Dispose of the Serial Interface"); 
+        public static void Dispose()
+        {
+            Storage.log("Dispose of the Serial Interface");
             ActiveSerial.readThread?.Join();
             ActiveSerial.com?.Close();
         }
@@ -117,24 +121,24 @@ namespace ChessCORE
                 ActiveSerial.com.WriteLine(command);
                 //System.Diagnostics.Debug.WriteLine("Await Data...");
                 while (await_read) { }
-                if (ListResponse.Count < count) return new List<string>();
+                if (ListResponse.Count < count) return [];
                 //System.Diagnostics.Debug.WriteLine("Data Recieved!");
                 return ListResponse;
             }
-            else return new List<string>();
+            else return [];
         }
 
         public static string sendCommand(string command)
-        { 
+        {
             if (ActiveSerial.com != null)
             {
                 format = false;
                 StringResponse = "";
                 await_read = true;
-                
+
                 ActiveSerial.com.WriteLine(command);
                 //Console.WriteLine("AWAITING READ " + await_read.ToString());
-                while (await_read) {  }
+                while (await_read) { }
                 return StringResponse;
             }
             else return "";
@@ -143,10 +147,12 @@ namespace ChessCORE
 
         public static void ReadEventHandler(object sender,SerialDataReceivedEventArgs e)
         {
-            try {
+            try
+            {
                 //Console.WriteLine("Read Line");
                 string message = ActiveSerial.com.ReadLine();
-                if (!message.StartsWith("RB:")) {
+                if (!message.StartsWith("RB:"))
+                {
                     if (await_read)
                     {
                         if (format)
@@ -163,7 +169,7 @@ namespace ChessCORE
                             //Console.WriteLine("RESPONSE NO FORMAT");
                             Console.WriteLine(message);
                             ActiveSerial.com.WriteLine("X");
-                            
+
                             StringResponse = message;
                             await_read = false;
                         }
@@ -176,7 +182,8 @@ namespace ChessCORE
                 }
                 if (ui_mode) Console.WriteLine(message);
 
-            } catch (TimeoutException) { Console.WriteLine("Timeout"); }
+            }
+            catch (TimeoutException) { Console.WriteLine("Timeout"); }
         }
 
         public static void Read()
@@ -191,54 +198,54 @@ namespace ChessCORE
             if (OperatingSystem.IsWindows())
             {
                 //Console.WriteLine("(Only Windows) Retrieving Data...");
-                using (var searcher = new ManagementObjectSearcher
-                    ("SELECT * FROM WIN32_SerialPort"))
-                {
-                    string[] portnames = SerialPort.GetPortNames();
-                    var ports = searcher.Get().Cast<ManagementBaseObject>().ToList();
+                using var searcher = new ManagementObjectSearcher
+                    ("SELECT * FROM WIN32_SerialPort");
+                string[] portnames = SerialPort.GetPortNames();
+                var ports = searcher.Get().Cast<ManagementBaseObject>().ToList();
 #pragma warning disable CA1416 // Plattformkompatibilität überprüfen
-                    var tList = (from n in portnames
-                                 join p in ports on n equals p["DeviceID"].ToString()
-                                 select n + " - " + p["Caption"]).ToList();
+                var tList = (from n in portnames
+                             join p in ports on n equals p["DeviceID"].ToString()
+                             select n + " - " + p["Caption"]).ToList();
 #pragma warning restore CA1416 // Plattformkompatibilität überprüfen
 
-                    if (auto_ident)
+                if (auto_ident)
+                {
+                    foreach (ManagementBaseObject p in ports)
                     {
-                        foreach (ManagementBaseObject p in ports)
+                        string desc = p["Name"].ToString() ?? "";
+                        if (desc.Contains("Arduino"))
                         {
-                            string desc = p["Name"].ToString() ?? "";
-                            if (desc.Contains("Arduino"))
-                            {
-                                string[] split = desc.Split('(');
-                                string com = split[1].Substring(0,split[1].IndexOf(')'));
-                                //Console.WriteLine("Device Found on " + com);
-                                storage.log("Device Found on " + com); 
-                                return com;
-                            }
+                            string[] split = desc.Split('(');
+                            string com = split[1][..split[1].IndexOf(')')];
+                            //Console.WriteLine("Device Found on " + com);
+                            Storage.log("Device Found on " + com);
+                            return com;
                         }
                     }
-                    tList.ForEach(Console.WriteLine);
                 }
+                tList.ForEach(Console.WriteLine);
             }
-            else if(OperatingSystem.IsLinux())
+            else if (OperatingSystem.IsLinux())
             {
                 Console.WriteLine("Available Ports:");
                 string[] ports = SerialPort.GetPortNames();
-                if(ports.Length > 1) {
-                foreach (string s in ports)
+                if (ports.Length > 1)
                 {
-                    Console.WriteLine("   {0}",s);
+                    foreach (string s in ports)
+                    {
+                        Console.WriteLine("   {0}",s);
+                    }
                 }
-                }
-                else {
-                    storage.log("Device Found on " + ports[0]); 
+                else
+                {
+                    Storage.log("Device Found on " + ports[0]);
                     Console.WriteLine($"    {ports[0]}");
 
                     //bash.sendCommand("sudo chmod a+rw "+ports[0]);
                     return ports[0];
                 }
                 //sudo chmod a+rw /dev/ttyACM0
-                
+
             }
 
             string portName;
@@ -249,7 +256,7 @@ namespace ChessCORE
             {
                 portName = defaultPortName;
             }
-            if(container && !portName.StartsWith("/dev/"))
+            if (container && !portName.StartsWith("/dev/"))
             {
                 portName = "/dev/" + portName;
             }

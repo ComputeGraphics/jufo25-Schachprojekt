@@ -1,11 +1,13 @@
 using System.Diagnostics;
-namespace ChessCORE {
+namespace ChessCORE
+{
 
-    internal class bash 
+    internal class Bash
     {
-        public static void sendCommand(string command) {
-            ProcessStartInfo startInfo = new ProcessStartInfo() { FileName = "/bin/bash", Arguments = command, }; 
-            Process proc = new Process() { StartInfo = startInfo, };
+        public static void sendCommand(string command)
+        {
+            ProcessStartInfo startInfo = new() { FileName = "/bin/bash",Arguments = command,};
+            Process proc = new() { StartInfo = startInfo,};
             proc.Start();
         }
     }
