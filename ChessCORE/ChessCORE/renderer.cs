@@ -202,13 +202,13 @@ namespace ChessCORE
                 {
                     if (data_mode)
                     {
-                        Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12) ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
+                        Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12)  ");
+                        Console.Write("   ⇱      💾       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
                     }
                     else
                     {
-                        Console.WriteLine(" (ESC)   (F10)   (F5)".PadRight(Console.WindowWidth - 35) + "(XX)   (F2)   (XX)   (F4)   (F12) ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
+                        Console.WriteLine(" (ESC)   (F10)   (F5)".PadRight(Console.WindowWidth - 35) + "(XX)   (F2)   (XX)   (F4)   (F12)  ");
+                        Console.Write("   ⇱      💾       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
                     }
                 }
                 else
@@ -216,12 +216,12 @@ namespace ChessCORE
                     if (data_mode)
                     {
                         Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12)  ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
+                        Console.Write("   ⇱      💾       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
                     }
                     else
                     {
                         Console.WriteLine(" (ESC)   (F10)   (F5)".PadRight(Console.WindowWidth - 35) + "(XX)   (F2)   (XX)   (F4)   (F12)  ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
+                        Console.Write("   ⇱      💾       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
                     }
                 }
 
@@ -314,7 +314,7 @@ namespace ChessCORE
 
             }
 
-
+            OpenGame.current_snap = 0;
             Storage.log("Dispose Environment and Quit to Main Menu");
             scom2.Dispose();
             Init.MainMenu();

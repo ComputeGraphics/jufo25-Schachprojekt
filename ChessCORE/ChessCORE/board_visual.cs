@@ -18,6 +18,7 @@ namespace ChessCORE
     internal class board_visual
     {
         public static bool show_icons = true;
+        public static bool show_magnetic = false;
         //□■█▓▰
         public int loader_progress = 0;
 
@@ -131,9 +132,10 @@ namespace ChessCORE
             }
 
             redraw_loader(99);
-            //Renderer.draw_number(true,true,0);
+            //
             //Renderer.draw(true,true,Renderer.standard_direction, false, true);
-            Renderer.draw(true,true,Renderer.standard_direction);
+            if(show_magnetic) Renderer.draw_number(true,true,0);
+            else Renderer.draw(true,true,Renderer.standard_direction, false,!show_icons);
         }
 
         public static void showSnap(string name)

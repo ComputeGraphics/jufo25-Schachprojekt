@@ -196,6 +196,7 @@ namespace ChessCORE
 
         public static class Physical
         {
+            public static bool recalib = false;
             public static byte recalib_iterations = 1;
             public static byte default_calib = 63;
             public static int default_av = 0;
