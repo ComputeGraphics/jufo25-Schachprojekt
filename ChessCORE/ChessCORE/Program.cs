@@ -94,9 +94,10 @@ namespace ChessCORE
 
             options =
             [
+                new("Saved Games",StorageSavedGames),
+                new("Saved Snaps",StoragesSavedSnaps),
                 new("Cached Games",() => WriteTemporaryMessage("Not Implemented")),
                 new("Cached Snaps",StoragesCachedSnaps),
-                new("Saved Games",StorageSavedGames),
                 new("Last Game",() => WriteTemporaryMessage("Not Implemented")),
                 new("Back",MainMenu),
             ];
@@ -281,6 +282,74 @@ namespace ChessCORE
             Console.ReadKey();
 
         }
+
+        public static void StoragesSavedSnaps()
+        {
+            transferindex = 0;
+            Console.ResetColor();
+            Console.Clear();
+            Active.title = "Storage Manager - Saved Snaps";
+            Active.background = ConsoleColor.Yellow;
+            Active.foreground = ConsoleColor.White;
+
+            options.Clear();
+            string[] files = Storage.GetFiles("saves/snaps");
+            foreach (string file in files)
+            {
+                options.Add(new(file,() => board_visual.showSnap(file)));
+            }
+            options.Add(new("Back",Storages));
+            WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+
+            ConsoleKeyInfo keyinfo;
+            do
+            {
+                keyinfo = Console.ReadKey();
+
+                // Handle each key input (down arrow will write the menu again with a different selected item)
+                if (keyinfo.Key == ConsoleKey.DownArrow)
+                {
+                    if (transferindex + 1 < options.Count)
+                    {
+                        transferindex++;
+                        WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+                    }
+                }
+                if (keyinfo.Key == ConsoleKey.UpArrow)
+                {
+                    if (transferindex - 1 >= 0)
+                    {
+                        transferindex--;
+                        Console.ResetColor();
+                        WriteMenu(Active.title,Active.background,Active.foreground,options,options[transferindex]);
+                    }
+                }
+                // Handle different action for the option
+                if (keyinfo.Key == ConsoleKey.Enter)
+                {
+                    options[transferindex].Selected.Invoke();
+                    transferindex = 0;
+                }
+
+                if (keyinfo.Key == ConsoleKey.LeftArrow)
+                {
+                    options[transferindex].Decrease.Invoke();
+                    transferindex = 0;
+                }
+
+                if (keyinfo.Key == ConsoleKey.RightArrow)
+                {
+                    options[transferindex].Increase.Invoke();
+                    transferindex = 0;
+                }
+            }
+            while (keyinfo.Key != ConsoleKey.X);
+
+            Console.ReadKey();
+
+        }
+
+
 
         static void WriteTemporaryMessage(string message)
         {

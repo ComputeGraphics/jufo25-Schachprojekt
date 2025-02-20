@@ -893,17 +893,18 @@ namespace ChessCORE
             LÄUFER WEIß 479-490 - 25-36 -> 27-61
             KÖNIG WEIß 570-595 - 116-141 -> 105-142
 
-            BAUER SCHWARZ 180-198 - -274--256 -> (-350)-(-265)
-            DAME SCHWARZ 260-300 - -194--154 -> (-265)-(-180) !
+            BAUER SCHWARZ 180-198 - -274--256 -> (-350)-(-265) -> to 216 on Test!
+            DAME SCHWARZ 260-300 - -194--154 -> (-265)-(-180) -> to 216 on Test!
             SPRINGER SCHWARZ 427-445 - -27--9 -> (-27)-(-tolerance)
-            KÖNIG SCHAWRZ 318-340 - -136--114 -> (-180)-(-102) !
+            KÖNIG SCHAWRZ 318-340 - -136--114 -> (-180)-(-110) 
             LÄUFER SCHWARZ 405-427 - -49--27 -> (-52)-(-27)
-            TURM SCHWARZ            -101--66 (-102)-(-52)
+            TURM SCHWARZ            -101--66 (-110)-(-52)
             */
+            
             //FIGUREN
             //public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];
-            public static int[] piece_min = [61,tolerance,27,142,110,216,-102,-27,-52,-265,-180,-350];
-            public static int[] piece_max = [110,27,61,216,142,350,-52,-tolerance,-27,-180,-102,-265];
+            public static int[] piece_min = [61,tolerance,27,142,110,216,-110,-27,-52,-216,-180,-350];
+            public static int[] piece_max = [110,27,61,216,142,350,-52,-tolerance,-27,-180,-110,-216];
             public static byte[] piece_order = [111,115,113,109,110,101,11,15,13,09,10,01];
             //Turm,Springer,Läufer,Dame,König,Bauer
             public static void calib_pieces(byte data_count)

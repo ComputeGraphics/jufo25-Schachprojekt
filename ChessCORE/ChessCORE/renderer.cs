@@ -128,7 +128,6 @@ namespace ChessCORE
             {
                 iterator++;
                 //////////////////// REQUEST DATA FROM BOARD ////////////////////
-                if (data_mode) Thread.Sleep(500);
                 if (!data_mode) board_visual.requestAll_rangeMode();
                 Console.WriteLine("PROCESSING FINISHED " + iterator);
 
@@ -204,12 +203,12 @@ namespace ChessCORE
                     if (data_mode)
                     {
                         Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12) ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     ⏯️      ⏩     ⏹️      ⏺️   ");
+                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
                     }
                     else
                     {
                         Console.WriteLine(" (ESC)   (F10)   (F5)".PadRight(Console.WindowWidth - 35) + "(XX)   (F2)   (XX)   (F4)   (F12) ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     ⏯️      ⏩     ⏹️      ⏺️   ");
+                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
                     }
                 }
                 else
@@ -217,12 +216,12 @@ namespace ChessCORE
                     if (data_mode)
                     {
                         Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12)  ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     ⏯️     ⏩     ⏹️     ⏺️    ");
+                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
                     }
                     else
                     {
                         Console.WriteLine(" (ESC)   (F10)   (F5)".PadRight(Console.WindowWidth - 35) + "(XX)   (F2)   (XX)   (F4)   (F12)  ");
-                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     ⏯️     ⏩     ⏹️     ⏺️    ");
+                        Console.Write("   ⇱      🖴       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽     ⏩     ⏹️     ⏺️    ");
                     }
                 }
 
@@ -244,12 +243,14 @@ namespace ChessCORE
                         Console.WriteLine("CACHING FIELD");
                         Storage.cacheVisualBoard(Database.Display.field,DateTime.Now.ToString("dd-MM-yy HH-mm") + " Cache");
                     }
-                    else if (key == ConsoleKey.F1 && data_mode)
+                    else if ((key == ConsoleKey.F1 || key == ConsoleKey.LeftArrow) && data_mode)
                     {
+                        int[] all_snaps = [];
+                        if (OpenGame.filename != "") all_snaps = Storage.snapCount(OpenGame.filename);
                         if (OpenGame.current_snap > 0) OpenGame.current_snap--;
-                        board_visual.showGame(OpenGame.filename,OpenGame.current_snap);
+                        board_visual.showGame(OpenGame.filename,all_snaps[OpenGame.current_snap]);
                     }
-                    else if (key == ConsoleKey.F3 && data_mode)
+                    else if ((key == ConsoleKey.F3 || key == ConsoleKey.RightArrow) && data_mode)
                     {
                         int[] all_snaps = [];
                         if (OpenGame.filename != "") all_snaps = Storage.snapCount(OpenGame.filename);
@@ -300,6 +301,16 @@ namespace ChessCORE
                 }
                 temp_refresh = loop_refresh;
                 if (!loop_refresh) while (Console.ReadKey().Key != ConsoleKey.Escape) { }
+
+                if(OperatingSystem.IsWindows())
+                {
+                    if (Environment.OSVersion.Version.Build < 22000)
+                    {
+                        if (data_mode) Thread.Sleep(412);
+                        else Thread.Sleep(256);
+                    }
+                }
+                if (data_mode) Thread.Sleep(100);
 
             }
 

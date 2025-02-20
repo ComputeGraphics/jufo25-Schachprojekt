@@ -210,7 +210,7 @@ C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\De
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.AssemblyInfo.cs
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.csproj.CoreCompileInputs.cache
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.sourcelink.json
-C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.csproj.CopyComplete
+C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.csproj.Up2Date
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.dll
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\refint\ChessCORE.dll
 C:\Users\Arthur\Documents\GitHub\jufo25-Schachprojekt\ChessCORE\ChessCORE\obj\Debug\net8.0\ChessCORE.pdb

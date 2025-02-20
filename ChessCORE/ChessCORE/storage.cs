@@ -46,8 +46,8 @@ namespace ChessCORE
 
         public static void cacheVisualBoard(byte[,] board,string name)
         {
-            if (File.Exists("cache/" + name + ".core")) File.Delete("cache/" + name + ".core");
-            StreamWriter cache_file = new("cache/" + name + ".core",true);
+            if (File.Exists("cache/S" + name + ".core")) File.Delete("cache/S" + name + ".core");
+            StreamWriter cache_file = new("cache/S" + name + ".core",true);
             int i = 1;
             foreach (byte element in board)
             {
@@ -107,7 +107,7 @@ namespace ChessCORE
         public static string createGame()
         {
             string time = DateTime.Now.ToString("HHmm-ddMMyy");
-            string filename = "cache/temp.core";
+            string filename = "cache/Gtemp.core";
             if (File.Exists(filename)) File.Delete(filename);
             StreamWriter cache = new(filename,true);
             OpenGame.filename = filename;
