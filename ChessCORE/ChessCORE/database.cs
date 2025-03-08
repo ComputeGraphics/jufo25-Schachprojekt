@@ -61,9 +61,9 @@ namespace ChessCORE
                 { 1,6 },
                 { 0,7 },
             };*/
-            public static byte[] inverter = [7,6,5,4,3,2,1,0];
+            public static byte[] inverter = [7, 6, 5, 4, 3, 2, 1, 0];
 
-            public static Dictionary<byte,string> translator = new()
+            public static Dictionary<byte, string> translator = new()
             {
                     //General
                     { 0, "  " },
@@ -122,8 +122,66 @@ namespace ChessCORE
                     { 14, "♗ " },
                     { 15, "♘ " },
                     { 16, "♘ " },
+            };
 
-                };
+            public static Dictionary<byte, byte[]> patterns = new()
+            {
+                // Bei Coords steht 255 für n. Bei Countern für alles
+                // Counter 254 -> nur bei Schlag
+                // Counter 253 -> nur bei Eröffnung der Figur
+                // Delta X, Delta Y, Spezialzug 1 Delta X, Spezialzug 1 Delta Y, Spezialzug 1 Verbleibend, ...
+                //Placeholders
+                { 201, [] },
+                { 202, [] },
+                { 203, [] },
+                { 204, [] },
+                { 205, [] },
+                { 206, [] },
+                { 207, [] },
+                { 208, [] },
+                { 209, [] },
+                { 210, [] },
+                { 211, [] },
+                { 212, [] },
+                { 213, [] },
+                { 214, [] },
+                { 215, [] },
+                { 216, [] },
+                //Weiß
+                { 101, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 102, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 103, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 104, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 105, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 106, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 107, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 108, [  0,  1,    1,  1,254,      0,  2,253] },
+                { 109, [255,  0,    0,255,255,    255,255,255] },//Rochade
+                { 110, [  1,  0,    0,  1,255,      1,  1,255,   255,0,253] },
+                { 111, [255,  0,    0,255,255] },
+                { 112, [255,  0,    0,255,255] },
+                { 113, [255,255] },
+                { 114, [255,255] },
+                { 115, [  2,  1,    1,  2,255] },
+                { 116, [  2,  1,    1,  2,255] },
+                //Schwarz
+                {  1, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  2, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  3, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  4, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  5, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  6, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  7, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  8, [  0,  1,    1,  1,254,      0,  2,253] },
+                {  9, [255,  0,    0,255,255,    255,255,255] },//Rochade
+                { 10, [  1,  0,    0,  1,255,      1,  1,255,   255,0,253] },
+                { 11, [255,  0,    0,255,255] },
+                { 12, [255,  0,    0,255,255] },
+                { 13, [255,255] },
+                { 14, [255,255] },
+                { 15, [  2,  1,    1,  2,255] },
+                { 16, [  2,  1,    1,  2,255] },
+               };
 
             public static byte[,] field =
             {
@@ -148,6 +206,8 @@ namespace ChessCORE
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
             };
+
+            
 
             public static void writeSample()
             {
@@ -240,7 +300,7 @@ namespace ChessCORE
                 { default_av, default_av, default_av, default_av, default_av, default_av, default_av, default_av },
             };
 
-            public static double[,] factors =
+            /*public static double[,] factors =
             {
                 { 1,    1.04, 1.07, 1,    0.78, 0.71, 1.12, 1.04 },
                 { 1,    1,    1,    1.05, 0.72, 0.71, 1,    1    },
@@ -250,9 +310,22 @@ namespace ChessCORE
                 { 1,    1,    1.06, 1,    0.77, 0.72, 0.75, 1    },
                 { 1,    1,    1,    1.06, 0.77, 0.72, 0.73, 1    },
                 { 1.06, 1,    1.09, 1.06, 0.75, 0.74, 1,    1    },
+            };*/
+
+
+            public static double[,] factors =
+            {
+                { 1,    1.04, 1.07, 1,    0.83, 0.79, 1.12, 1.04 },
+                { 1,    1,    1,    1.05, 0.8,  0.8,  1,    1    },
+                { 1,    1.06, 1,    1.06, 0.8,  0.8,  1.05, 1.06 },
+                { 1,    1.04, 1.04, 1.05, 0.81, 0.77, 0.79, 1    },
+                { 1,    1,    1,    1,    0.79, 0.79, 0.8,  1    },
+                { 1,    1,    1.06, 1,    0.82, 0.77, 0.8,  1    },
+                { 1,    1,    1,    1.06, 0.82, 0.77, 0.8,  1    },
+                { 1.06, 1.04, 1.09, 1.06, 0.8,  0.79, 1,    1    },
             };
 
-            public static void calibrate(byte res,byte data_count)
+            public static void calibrate(byte res, byte data_count)
             {
                 Storage.log("Requesting Error Logs...");
                 //Frage nach Selbstestergebnissen
@@ -307,13 +380,13 @@ namespace ChessCORE
                 {
                     Storage.log("Calibration in RES0 Mode...");
                     int average = 0;
-                    List<string> list = scom2.multiCommand("QSTREAM 00",data_count);
+                    List<string> list = scom2.multiCommand("QSTREAM 00", data_count);
                     board_visual.redraw_loader(30);
 
                     List<int> toint = [];
                     foreach (string content in list)
                     {
-                        if (Int32.TryParse(content,out int itemint))
+                        if (Int32.TryParse(content, out int itemint))
                         {
                             toint.Add(Int32.Parse(content));
                             average += itemint;
@@ -370,14 +443,14 @@ namespace ChessCORE
                 {
                     // 00 07 70 77
                     Storage.log("Calibration in RES3 Mode...");
-                    int[] average = [0,0,0,0];
+                    int[] average = [0, 0, 0, 0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //to 70 (55)
                     for (int i = 0; i < 78; i += 7)
                     {
                         if (i == 14) i += 56;
                         //Console.WriteLine("Mode3 Read " + i);ö
-                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}", data_count));
                         list = list.Add(temp);
                         progressor += 11;
                         board_visual.redraw_loader(progressor);
@@ -390,7 +463,7 @@ namespace ChessCORE
                         List<int> temp_int = [];
                         foreach (string member in content)
                         {
-                            if (Int32.TryParse(member,out int itemint))
+                            if (Int32.TryParse(member, out int itemint))
                             {
                                 temp_int.Add(itemint);
                                 average[j] += itemint;
@@ -461,13 +534,13 @@ namespace ChessCORE
                 {
                     // 00 07 70 77
                     Storage.log("Calibration in RES7 Mode...");
-                    int[] average = [0,0,0,0,0,0,0,0];
+                    int[] average = [0, 0, 0, 0, 0, 0, 0, 0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //70 (55)
                     for (byte i = 0; i < 8; i++)
                     {
                         //Console.WriteLine("Mode7 Read " + i);
-                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}{i}",data_count));
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}{i}", data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
                         progressor += 6;
@@ -556,7 +629,7 @@ namespace ChessCORE
                 {
                     // 00 07 70 77
                     Storage.log("Calibration in RES31 Mode...");
-                    int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    int[] average = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //55
                     for (int i = 0; i < 78; i += 2)
@@ -565,7 +638,7 @@ namespace ChessCORE
                         for (; testfor > 9; testfor -= 10) ;
                         if (testfor == 8) i += 2;
                         //Console.WriteLine("Mode31 Read " + i);
-                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}", data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
 
@@ -580,7 +653,7 @@ namespace ChessCORE
                         List<int> temp_int = [];
                         foreach (string member in content)
                         {
-                            if (Int32.TryParse(member,out int itemint))
+                            if (Int32.TryParse(member, out int itemint))
                             {
                                 temp_int.Add(itemint);
                                 average[j] += itemint;
@@ -652,7 +725,7 @@ namespace ChessCORE
                 {
                     // 00 07 70 77
                     Storage.log("Calibration in RES63 Mode...");
-                    int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    int[] average = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
                     ImmutableList<List<string>> list = [];
                     int progressor = 10;
@@ -663,7 +736,7 @@ namespace ChessCORE
                         if (testfor == 8) i++;
                         if (testfor == 8) i++;
                         //Console.WriteLine("Mode63 Read " + i);
-                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}", data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
                         progressor++;
@@ -680,7 +753,7 @@ namespace ChessCORE
                         foreach (string member in content)
                         {
                             System.Diagnostics.Debug.Write(" " + member);
-                            if (Int32.TryParse(member,out int itemint))
+                            if (Int32.TryParse(member, out int itemint))
                             {
                                 temp_int.Add(itemint);
                                 average[j] += itemint;
@@ -756,7 +829,7 @@ namespace ChessCORE
                 {
                     // 00 07 70 77
                     Storage.log("Calibration in RES131 Mode...");
-                    int[] average = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0];
+                    int[] average = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                     ImmutableList<List<string>> list = [];
                     int progressor = 10; //55
                     for (int i = 1; i < 79; i += 2)
@@ -765,7 +838,7 @@ namespace ChessCORE
                         for (; testfor > 9; testfor -= 10) ;
                         if (testfor == 9) i += 2;
                         //Console.WriteLine("Mode31 Read " + i);
-                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}",data_count));
+                        List<string> temp = new(scom2.multiCommand($"QSTREAM {i}", data_count));
                         //foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
 
@@ -780,7 +853,7 @@ namespace ChessCORE
                         List<int> temp_int = [];
                         foreach (string member in content)
                         {
-                            if (Int32.TryParse(member,out int itemint))
+                            if (Int32.TryParse(member, out int itemint))
                             {
                                 temp_int.Add(itemint);
                                 average[j] += itemint;
@@ -869,9 +942,9 @@ namespace ChessCORE
                 {
                     System.Diagnostics.Debug.WriteLine(i.ToString() + j.ToString());
                     //if (disp_board[i,j] < -tolerance || disp_board[i,j] > tolerance)
-                    min[i,j] += disp_board[i,j] - tolerance;
-                    max[i,j] += disp_board[i,j] + tolerance;
-                    av[i,j] += disp_board[i,j];
+                    min[i, j] += disp_board[i, j] - tolerance;
+                    max[i, j] += disp_board[i, j] + tolerance;
+                    av[i, j] += disp_board[i, j];
 
                     if (i > 6 && j != 7)
                     {
@@ -881,7 +954,7 @@ namespace ChessCORE
                 }
             }
 
-            public static byte[] detector_fields = [00,10,20,30,40,01,06,07,17,27,37,47];
+            public static byte[] detector_fields = [00, 10, 20, 30, 40, 01, 06, 07, 17, 27, 37, 47];
 
             /*
             453-455
@@ -901,12 +974,12 @@ namespace ChessCORE
             LÄUFER SCHWARZ 405-427 - -49--27 -> (-52)-(-27)
             TURM SCHWARZ            -101--66 (-110)-(-52)
             */
-            
+
             //FIGUREN
             //public static int[] piece_av = [0,0,0,0,0,0,0,0,0,0,0,0];
-            public static int[] piece_min = [61,tolerance,27,142,110,216,-110,-27,-52,-216,-180,-350];
-            public static int[] piece_max = [110,27,61,216,142,350,-52,-tolerance,-27,-180,-110,-216];
-            public static byte[] piece_order = [111,115,113,109,110,101,11,15,13,09,10,01];
+            public static int[] piece_min = [61, tolerance, 27, 142, 110, 216, -110, -27, -52, -216, -180, -350];
+            public static int[] piece_max = [110, 27, 61, 216, 142, 350, -52, -tolerance, -27, -180, -110, -216];
+            public static byte[] piece_order = [111, 115, 113, 109, 110, 101, 11, 15, 13, 09, 10, 01];
             //Turm,Springer,Läufer,Dame,König,Bauer
             public static void calib_pieces(byte data_count)
             {
@@ -918,7 +991,7 @@ namespace ChessCORE
                 foreach (byte a in detector_fields)
                 {
                     System.Diagnostics.Debug.WriteLine($"Checking {a} at {i}");
-                    List<string> temp = new(scom2.multiCommand($"QSTREAM {a}",data_count));
+                    List<string> temp = new(scom2.multiCommand($"QSTREAM {a}", data_count));
                     List<int> toint = [];
 
                     byte front = (byte)(a / 10);
@@ -928,10 +1001,10 @@ namespace ChessCORE
                     int avg = 0;
                     foreach (string list in temp)
                     {
-                        if (Int32.TryParse(list,out int itemint))
+                        if (Int32.TryParse(list, out int itemint))
                         {
-                            Console.WriteLine(front + " " + back + " " + Database.Physical.av[Display.inverter[front],back]);
-                            itemint -= Database.Physical.av[Display.inverter[front],back];
+                            Console.WriteLine(front + " " + back + " " + Database.Physical.av[Display.inverter[front], back]);
+                            itemint -= Database.Physical.av[Display.inverter[front], back];
                             toint.Add(itemint);
                             avg += itemint;
                         }

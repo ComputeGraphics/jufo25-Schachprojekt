@@ -202,7 +202,7 @@ namespace ChessCORE
                 {
                     if (data_mode)
                     {
-                        Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 35) + "(F1)   (F2)   (F3)   (F4)   (F12)  ");
+                        Console.WriteLine(" (ESC)   (F10)   (XX)".PadRight(Console.WindowWidth - 34) + "(F1)   (F2)   (F3)   (F4)   (F12) ");
                         Console.Write("   ⇱      💾       ↻".PadRight(Console.WindowWidth - 33) + "⏪     🔽      ⏩     ⏹️      ⏺️   ");
                     }
                     else

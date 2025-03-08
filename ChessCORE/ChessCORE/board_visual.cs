@@ -237,7 +237,7 @@ namespace ChessCORE
                 if (magnetic < Database.Physical.piece_max[l] + tolerance && magnetic > Database.Physical.piece_min[l] - tolerance)
                 {
                     output = Database.Physical.piece_order[l];
-                    if (container.ContainsTwice(board,output,1))
+                    if (container.ContainsCount(board,output,1))
                     {
                         if ((output > 100 && output < 108) || (output > 0 && output < 8) || output == 11 || output == 13 || output == 15 || output == 111 || output == 113 || output == 115) output++;
                     }
@@ -253,14 +253,14 @@ namespace ChessCORE
                 }
             }
             if (magnetic < tolerance && magnetic > -tolerance) output = 0;
-            if (container.ContainsTwice(board,output,7)) output = 254;
+            if (container.ContainsCount(board,output,1)) output = 254;
 
             return output;
         }
 
         class ArrayTools
         {
-            public bool ContainsTwice(byte[,] board,byte item,int count)
+            public bool ContainsCount(byte[,] board,byte item,int count)
             {
 
                 if (item == 0 || item == 100 || item == 200 || item == 255) return false;
