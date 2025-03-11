@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
 using static System.Net.Mime.MediaTypeNames;
+using ToolsCORE;
 
 
 namespace ChessCORE
@@ -69,7 +70,7 @@ namespace ChessCORE
             if (Database.Physical.repeat_selftest) scom2.sendCommand("test");
             redraw_loader(5);
 
-            if (Database.Physical.calib) Database.Physical.calibrate(Database.Physical.default_calib,scom2.default_count);
+            if (Database.Physical.calib) Database.Physical.calibrate(Database.Physical.default_calib, scom2.default_count);
             redraw_loader(91);
 
             //Database.Physical.calib_pieces(4);
@@ -134,8 +135,8 @@ namespace ChessCORE
             redraw_loader(99);
             //
             //Renderer.draw(true,true,Renderer.standard_direction, false, true);
-            if(show_magnetic) Renderer.draw_number(true,true,0);
-            else Renderer.draw(true,true,Renderer.standard_direction, false,!show_icons);
+            if (show_magnetic) Renderer.draw_number(true, true, 0);
+            else Renderer.draw(true, true, Renderer.standard_direction, false, !show_icons);
         }
 
         public static void showSnap(string name)
@@ -143,16 +144,16 @@ namespace ChessCORE
             redraw_loader(0);
             Database.Display.field = Storage.GetCachedBoard(name);
             redraw_loader(99);
-            Renderer.draw(true,true,Renderer.standard_direction,true);
+            Renderer.draw(true, true, Renderer.standard_direction, true);
         }
 
-        public static void showGame(string name,int number)
+        public static void showGame(string name, int number)
         {
             redraw_loader(0);
             Console.Clear();
-            Database.Display.field = Storage.getGameSnap(name,number);
+            Database.Display.field = Storage.getGameSnap(name, number);
             redraw_loader(99);
-            Renderer.draw(true,true,Renderer.standard_direction,true);
+            Renderer.draw(true, true, Renderer.standard_direction, true);
         }
 
         public static int[,] requestAll_rangeMode()
@@ -175,13 +176,13 @@ namespace ChessCORE
                 {
                     for (byte l = 0; l < 8; l++)
                     {
-                        Database.Display.field[l,i] = 100;
+                        Database.Display.field[l, i] = 100;
                     }
                 }
                 else
                 {
                     //System.Diagnostics.Debug.WriteLine("Requesting Data from Arduino");
-                    List<string> a = new(scom2.multiCommand($"QRANGE {i}",8));
+                    List<string> a = new(scom2.multiCommand($"QRANGE {i}", 8));
                     System.Diagnostics.Debug.WriteLine("Data Recieved");
                     for (byte k = 0; k < 8; k++)
                     {
@@ -190,31 +191,31 @@ namespace ChessCORE
 
                         if ((index = Database.Physical.error_fields.IndexOf(field_full)) != -1)
                         {
-                            if (Database.Physical.error_fields[index] / 10 == i) Database.Display.field[k,i] = 100;
+                            if (Database.Physical.error_fields[index] / 10 == i) Database.Display.field[k, i] = 100;
                             //Console.WriteLine("Error Field Detected " + k + "," + i);
                         }
                         else
                         {
-                            if (Int32.TryParse(a[k],out int temp_field))
+                            if (Int32.TryParse(a[k], out int temp_field))
                             {
                                 //System.Diagnostics.Debug.WriteLine($"Coordinates {k}:{i}");
-                                if (temp_field < (Database.Physical.max[k,i] + Database.Physical.tolerance) && temp_field > (Database.Physical.min[k,i] - Database.Physical.tolerance))
+                                if (temp_field < (Database.Physical.max[k, i] + Database.Physical.tolerance) && temp_field > (Database.Physical.min[k, i] - Database.Physical.tolerance))
                                 {
                                     //System.Diagnostics.Debug.WriteLine(temp_field + " within Bounds");
-                                    Database.Physical.av[k,i] = temp_field;
+                                    Database.Physical.av[k, i] = temp_field;
                                     temp_field = 0;
                                 }
                                 else
                                 {
-                                    temp_field -= Database.Physical.av[k,i];
+                                    temp_field -= Database.Physical.av[k, i];
                                 }
-                                temp_field = Convert.ToInt32(Math.Ceiling(temp_field * Database.Physical.factors[k,i]));
+                                temp_field = Convert.ToInt32(Math.Ceiling(temp_field * Database.Physical.factors[k, i]));
 
-                                Database.Display.field[k,i] = autoEnumerator(Database.Display.field,temp_field);
+                                Database.Display.field[k, i] = autoEnumerator(Database.Display.field, temp_field);
                                 //Place Call here
 
                                 //System.Diagnostics.Debug.WriteLine("Writing to " + k + "," + i);
-                                disp_board[k,i] = temp_field;
+                                disp_board[k, i] = temp_field;
 
                             }
 
@@ -227,9 +228,8 @@ namespace ChessCORE
             return disp_board;
         }
 
-        public static byte autoEnumerator(byte[,] board,int magnetic)
+        public static byte autoEnumerator(byte[,] board, int magnetic)
         {
-            var container = new ArrayTools();
             Byte output = 0;
             Byte tolerance = Database.Physical.tolerance;
             for (int l = 0; l < Database.Physical.piece_max.Count(); l++)
@@ -237,10 +237,10 @@ namespace ChessCORE
                 if (magnetic < Database.Physical.piece_max[l] + tolerance && magnetic > Database.Physical.piece_min[l] - tolerance)
                 {
                     output = Database.Physical.piece_order[l];
-                    if (container.ContainsCount(board,output,1))
+                    /*if (container.ContainsCount(board,output,1))
                     {
                         if ((output > 100 && output < 108) || (output > 0 && output < 8) || output == 11 || output == 13 || output == 15 || output == 111 || output == 113 || output == 115) output++;
-                    }
+                    }*/
 
                 }
                 else if (magnetic < Database.Physical.piece_min.Last() - tolerance || magnetic > Database.Physical.piece_max[5] + tolerance)
@@ -253,26 +253,138 @@ namespace ChessCORE
                 }
             }
             if (magnetic < tolerance && magnetic > -tolerance) output = 0;
-            if (container.ContainsCount(board,output,1)) output = 254;
+            if((output > 100 && output < 108) || (output > 0 && output < 8)){
+                if (board.BoardContainsCount(output, 7)) output = 254;
+            }
+            else if(output == 110 || output == 10 ) {
+                if(board.Contains(output)) output = 254;
+            }
+            else {
+                if (board.BoardContainsCount(output, 1)) output = 254;
+            }
 
             return output;
         }
 
-        class ArrayTools
+        public static void postProcessor()
         {
-            public bool ContainsCount(byte[,] board,byte item,int count)
+            HashSet<int> specials = [0, 100, 200, 255, 254];
+            HashSet<int> hash = [ 11, 13, 15, 111, 113, 115 ];
+            byte[,] local = Database.Display.recent;
+            byte[,] simplified = local;
+            for (int k = 0; k < 8; k++)
             {
-
-                if (item == 0 || item == 100 || item == 200 || item == 255) return false;
-                byte contains = 0;
-                foreach (byte element in board)
+                for (int i = 0; i < 8; i++)
                 {
-                    if (element == item) contains++;
+                    byte output = local[k, i];
+                    byte tmp = --output;
+                    if (specials.Contains(output)) continue;
+                    if (output > 101 && output < 109) output = 101;
+                    else if (output > 1 && output < 9) output = 1;
+                    else if (hash.Contains(tmp)) output--;
+                    simplified[k, i] = output;
+
+                    if (output == Database.Display.field[k, i]) Database.Display.field[k, i] = local[k, i];
+
                 }
-                return contains > count;
+            }
+
+            List<int[]> diffs = Database.Display.field.CompareDiff(simplified);
+
+
+            byte[,] buff = Database.Display.field;
+            //Code vorher - Code nachher
+            List<byte> scode_from = [];
+            List<byte> scode_to = [];
+
+            foreach (int[] diff in diffs)
+            {
+                scode_from.Add(simplified[diff[0], diff[1]]);
+                scode_to.Add(buff[diff[0], diff[1]]);
+            }
+
+
+            List<int> index_from = [];
+            List<int> index_to = [];
+            for (int i = 0; i < diffs.Count; ++i)
+            {
+                index_from.Add(scode_from.IndexOf(scode_to[i]));
+                index_to.Add(i);
+            }
+
+            for (int i = 0; i < index_to.Count; ++i)
+            {
+                int[] diff_from = diffs[index_from[i]];
+                int[] diff_to = diffs[index_to[i]];
+                Database.Display.field[diff_to[0], diff_to[1]] = local[diff_from[0], diff_from[0]];
+            }
+
+            //Wenn hier nicht 0 rauskommt ist die Zahl der Veränderungen ungerade => Figur muss rausgeflogen sein
+            if (diffs.Count % 2 != 0)
+            {
+                List<int[]> endedZero = diffs.FindAll(x => x[1] == 0);
+                List<int[]> startedZero = diffs.FindAll(x => x[0] == 0);
+
+                foreach(int[] item in endedZero)
+                {
+                    Database.Display.queued.Add(Database.Display.recent[item[0],item[1]]);
+                }
+
+                foreach (int[] item in startedZero)
+                {
+
+                    byte output = Database.Display.field[item[0], item[1]];
+                    int i = Database.Display.queued.IndexOf(output);
+                    if(i != -1)
+                    {
+                        Database.Display.field[item[0], item[1]] = Database.Display.queued[i];
+                        Database.Display.queued.RemoveAt(i);
+                    }
+                    else {
+                        //FIGUR ERSCHIENEN?!
+                        //Neue Nummer, denn vielleicht wird das Brett noch aufgebaut
+
+                        if (specials.Contains(output)) {
+
+                        }
+                        else {
+                        //Weißen Bauern neuen Code zuweisen
+                        while((output > 100 && output < 108) && Database.Display.field.Contains<byte>(output))
+                        {
+                            if(++output == 108) output = 254; 
+                        }
+                        
+                        //Schwarzen Bauern neuen Code zuweisen
+                        while((output > 0 && output < 8) && Database.Display.field.Contains<byte>(output))
+                        {
+                            if(++output == 8) output = 254; 
+                        }
+
+                        //Anderen Figuren neue Nummer zuweisen
+                        while (hash.Contains(output) && Database.Display.field.Contains<byte>(output))
+                        {
+                            byte mod = (byte) (output % 2);
+                            output += mod;
+                            if(mod == 0) output = 254;
+                        }
+
+                        }
+                        
+                    }
+
+                    Database.Display.queued.Add(Database.Display.recent[item[0], item[1]]);
+                }
+
+                foreach (byte code in scode_from)
+                {
+                    if (scode_to.IndexOf(code) == -1)
+                    {
+
+                        //Figur gespeichert in "code" ist raus oder angehoben
+                    }
+                }
             }
 
         }
     }
-
 }

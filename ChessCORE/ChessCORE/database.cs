@@ -207,7 +207,19 @@ namespace ChessCORE
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
             };
 
-            
+            public static byte[,] recent =
+            {
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+            };
+
+            public static List<byte> queued = []; 
 
             public static void writeSample()
             {
