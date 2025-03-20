@@ -19,7 +19,12 @@ namespace ChessCORE
     internal class board_visual
     {
         public static bool show_icons = true;
+
+        public static int timeout = 8;
+        public static int timeout_remain = 0;
         public static bool show_magnetic = false;
+
+        public static bool low_render = false;
         //□■█▓▰
         public int loader_progress = 0;
 
@@ -135,8 +140,12 @@ namespace ChessCORE
             redraw_loader(99);
             //
             //Renderer.draw(true,true,Renderer.standard_direction, false, true);
-            if (show_magnetic) Renderer.draw_number(true, true, 0);
-            else Renderer.draw(true, true, Renderer.standard_direction, false, !show_icons);
+            if (low_render) Renderer.low_draw(true, !show_icons);
+            else
+            {
+                if (show_magnetic) Renderer.draw_number(true, true, 0);
+                else Renderer.draw(true, true, Renderer.standard_direction, false, !show_icons);
+            }
         }
 
         public static void showSnap(string name)
@@ -158,6 +167,18 @@ namespace ChessCORE
 
         public static int[,] requestAll_rangeMode()
         {
+            int y = 0;
+            for (int x = 0; x < 8; x++)
+            {
+                Database.Display.recent[x, y] = Database.Display.field[x, y];
+                if (x == 7)
+                {
+                    x = 0;
+                    y++;
+                }
+                if (y == 7) x = ++y;
+            }
+            //Database.Display.field.CopyTo(Database.Display.recent, 0);
             int[,] disp_board =
             {
                 { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -225,6 +246,8 @@ namespace ChessCORE
                     System.Diagnostics.Debug.WriteLine($"Coordinates {i}");
                 }
             }
+
+            postProcessor();
             return disp_board;
         }
 
@@ -253,14 +276,17 @@ namespace ChessCORE
                 }
             }
             if (magnetic < tolerance && magnetic > -tolerance) output = 0;
-            if((output > 100 && output < 108) || (output > 0 && output < 8)){
-                if (board.BoardContainsCount(output, 7)) output = 254;
+            if ((output > 100 && output < 108) || (output > 0 && output < 8))
+            {
+                if (board.BoardContainsCount(output, 8)) output = 254;
             }
-            else if(output == 110 || output == 10 ) {
-                if(board.Contains(output)) output = 254;
-            }
-            else {
+            else if (output == 110 || output == 10)
+            {
                 if (board.BoardContainsCount(output, 1)) output = 254;
+            }
+            else
+            {
+                if (board.BoardContainsCount(output, 2)) output = 254;
             }
 
             return output;
@@ -268,29 +294,55 @@ namespace ChessCORE
 
         public static void postProcessor()
         {
+            if (timeout_remain == 0)
+            {
+                Database.Display.queued.Clear();
+                timeout_remain = timeout;
+            }
             HashSet<int> specials = [0, 100, 200, 255, 254];
-            HashSet<int> hash = [ 11, 13, 15, 111, 113, 115 ];
+            HashSet<int> hash = [11, 13, 15, 111, 113, 115];
             byte[,] local = Database.Display.recent;
-            byte[,] simplified = local;
+            byte[,] simplified =
+                        {
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+                { 0, 0, 0, 0, 0, 0, 0, 0 },
+            };
+
+
             for (int k = 0; k < 8; k++)
             {
                 for (int i = 0; i < 8; i++)
                 {
                     byte output = local[k, i];
-                    byte tmp = --output;
+                    byte tmp = (byte)(output - 1);
                     if (specials.Contains(output)) continue;
                     if (output > 101 && output < 109) output = 101;
                     else if (output > 1 && output < 9) output = 1;
                     else if (hash.Contains(tmp)) output--;
                     simplified[k, i] = output;
 
-                    if (output == Database.Display.field[k, i]) Database.Display.field[k, i] = local[k, i];
+                    if (output == Database.Display.field[k, i])
+                    {
+                        Console.WriteLine("Copying before number");
+                        Database.Display.field[k, i] = local[k, i];
+                    }
 
                 }
             }
 
-            List<int[]> diffs = Database.Display.field.CompareDiff(simplified);
-
+            List<int[]> diffs = Database.Display.field.CompareDiff(local);
+            Console.WriteLine("Diffs:");
+            foreach (int[] diff in diffs)
+            {
+                foreach (int i in diff) Console.Write(i + " ");
+                Console.WriteLine();
+            }
 
             byte[,] buff = Database.Display.field;
             //Code vorher - Code nachher
@@ -314,65 +366,132 @@ namespace ChessCORE
 
             for (int i = 0; i < index_to.Count; ++i)
             {
-                int[] diff_from = diffs[index_from[i]];
-                int[] diff_to = diffs[index_to[i]];
-                Database.Display.field[diff_to[0], diff_to[1]] = local[diff_from[0], diff_from[0]];
+                if (index_from[i] != -1)
+                {
+                    Console.WriteLine("Error Iterator " + index_from[i]);
+                    int[] diff_from = diffs[index_from[i]];
+                    int[] diff_to = diffs[index_to[i]];
+                    Database.Display.field[diff_to[0], diff_to[1]] = local[diff_from[0], diff_from[0]];
+                }
+                else { /*Nur ein Feld wurde verändert*/ }
             }
 
-            //Wenn hier nicht 0 rauskommt ist die Zahl der Veränderungen ungerade => Figur muss rausgeflogen sein
+
+            // x/10 == 1 -> Weiß else Schwarz
+
+            /*List<int> color_from = [];
+            scode_from.ForEach((x) => color_from.Add(x/100));
+
+            List<int> color_to = [];
+            scode_to.ForEach((x) => color_to.Add(x/100));
+
+            Console.WriteLine("Color From Count: " + color_from.Count);
+            Console.WriteLine("Color To Count: " + color_to.Count);
+            for(int c = 0; c < color_from.Count; ++c)
+            {
+                Console.WriteLine("Working Index " + c);
+                if(color_from[c] == color_to[c]) {
+                    scode_from[c] = 0;
+                }
+            }*/
+
+            //Wenn hier nicht 0 rauskommt ist die Zahl der Veränderungen ungerade => Figur muss rausgeflogen sein oder aufgestellt worden sein
             if (diffs.Count % 2 != 0)
             {
-                List<int[]> endedZero = diffs.FindAll(x => x[1] == 0);
-                List<int[]> startedZero = diffs.FindAll(x => x[0] == 0);
-
-                foreach(int[] item in endedZero)
+                Console.WriteLine("Non-Move erkannt");
+                Console.Write("Current Qeue ");
+                Database.Display.queued.ForEach((x) => Console.Write(x));
+                Console.WriteLine();
+                for (int i = 0; i < scode_from.Count; ++i)
                 {
-                    Database.Display.queued.Add(Database.Display.recent[item[0],item[1]]);
+                    Console.WriteLine(scode_from[i] + " " + scode_to[i]);
+                }
+                List<int> startedZeroIndizes = scode_from.IndizesOf<byte>(0);
+                List<int> endedZeroIndizes = scode_to.IndizesOf<byte>(0);
+
+                List<int[]> startedZero = [];
+                foreach (int index in startedZeroIndizes) startedZero.Add(diffs[index]);
+
+                List<int[]> endedZero = [];
+                foreach (int index in endedZeroIndizes) endedZero.Add(diffs[index]);
+
+                Console.WriteLine("Started ZeroIndizes " + startedZeroIndizes.Count);
+                Console.WriteLine("Started Zero " + startedZero.Count);
+
+                foreach (int[] item in endedZero)
+                {
+                    if (!specials.Contains(Database.Display.recent[item[0], item[1]]))
+                        Database.Display.queued.Add(Database.Display.recent[item[0], item[1]]);
                 }
 
                 foreach (int[] item in startedZero)
                 {
-
+                    Console.WriteLine("Neue Figur erkannt");
                     byte output = Database.Display.field[item[0], item[1]];
-                    int i = Database.Display.queued.IndexOf(output);
-                    if(i != -1)
+
+                    List<byte> qeue_simple = [];
+                    foreach (byte q in Database.Display.queued)
                     {
-                        Database.Display.field[item[0], item[1]] = Database.Display.queued[i];
+                        if (q > 101 && q < 109) qeue_simple.Add(101);
+                        else if (q > 1 && q < 9) qeue_simple.Add(1);
+                        else if (hash.Contains(q - 1)) qeue_simple.Add((byte)(q - 1));
+                        else qeue_simple.Add(q);
+                    }
+
+                    //3.4 16:00 FEIG 
+
+                    int i = qeue_simple.IndexOf(output);
+
+                    if (i != -1)
+                    {
+                        Console.WriteLine("Figur in der Qeue gefunden!");
+                        output = Database.Display.queued[i];
                         Database.Display.queued.RemoveAt(i);
                     }
-                    else {
+                    else
+                    {
                         //FIGUR ERSCHIENEN?!
                         //Neue Nummer, denn vielleicht wird das Brett noch aufgebaut
-
-                        if (specials.Contains(output)) {
-
-                        }
-                        else {
-                        //Weißen Bauern neuen Code zuweisen
-                        while((output > 100 && output < 108) && Database.Display.field.Contains<byte>(output))
+                        if (specials.Contains(output))
                         {
-                            if(++output == 108) output = 254; 
-                        }
-                        
-                        //Schwarzen Bauern neuen Code zuweisen
-                        while((output > 0 && output < 8) && Database.Display.field.Contains<byte>(output))
-                        {
-                            if(++output == 8) output = 254; 
-                        }
-
-                        //Anderen Figuren neue Nummer zuweisen
-                        while (hash.Contains(output) && Database.Display.field.Contains<byte>(output))
-                        {
-                            byte mod = (byte) (output % 2);
-                            output += mod;
-                            if(mod == 0) output = 254;
-                        }
 
                         }
-                        
+                        else
+                        {
+                            //Weißen Bauern neuen Code zuweisen
+                            Console.WriteLine("Code zuweisen");
+                            if (output == 101 && Database.Display.field.BoardContainsCount(101, 1))
+                            {
+                                while (output > 100 && output < 108 && Database.Display.field.Contains(output))
+                                {
+                                    Console.WriteLine("Schwarzer Bauer zuweisen");
+                                    if (output++ == 108) output = 254;
+                                }
+                            }
+
+
+                            if (output == 1 && Database.Display.field.BoardContainsCount(1, 1))
+                            {
+                                while (output > 0 && output < 8 && Database.Display.field.Contains(output))
+                                {
+                                    Console.WriteLine("Schwarzer Bauer zuweisen");
+                                    if (output++ == 8) output = 254;
+                                }
+                            }
+
+                            //Anderen Figuren neue Nummer zuweisen
+                            while (hash.Contains(output) && Database.Display.field.BoardContainsCount(output, 1))
+                            {
+                                byte mod = (byte)(output % 2);
+                                output += mod;
+                                if (mod == 0) output = 254;
+                            }
+
+                        }
+
                     }
-
-                    Database.Display.queued.Add(Database.Display.recent[item[0], item[1]]);
+                    Database.Display.field[item[0], item[1]] = output;
+                    //Database.Display.queued.Add(Database.Display.recent[item[0], item[1]]);
                 }
 
                 foreach (byte code in scode_from)
@@ -384,7 +503,7 @@ namespace ChessCORE
                     }
                 }
             }
-
+            timeout_remain--;
         }
     }
 }

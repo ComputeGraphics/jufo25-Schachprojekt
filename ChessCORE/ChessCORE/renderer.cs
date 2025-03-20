@@ -321,6 +321,95 @@ namespace ChessCORE
         }
 
 
+        public static void low_draw(bool loop_refresh, bool show_codes)
+        {
+            Storage.log("Initialzing Low Renderer...");
+            bool temp_refresh = true;
+
+            string[,] disp_board =
+            {
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+                { " ", " ", " ", " ", " ", " ", " ", " " },
+            };
+
+            int iterator = 0;
+            Storage.log("Renderer Initalized. Starting Rendering...");
+
+            while (temp_refresh && (!Console.KeyAvailable || Console.ReadKey(true).Key != ConsoleKey.Escape))
+            {
+                iterator++;
+                //////////////////// REQUEST DATA FROM BOARD ////////////////////
+                board_visual.requestAll_rangeMode();
+                Console.WriteLine("PROCESSING FINISHED " + iterator);
+                //////////////////////// TRANSLATE ICONS ////////////////////////
+                int y = 0;
+                if (show_codes)
+                {
+                    for (int x = 0; y < 8; x++)
+                    {
+                        disp_board[y,x] = Database.Display.field[y,x].ToString();
+                        if (x == 7)
+                        {
+                            y++;
+                            x = -1;
+                        }
+                    }
+                }
+                else
+                {
+                    for (int x = 0; y < 8; x++)
+                    {
+                        disp_board[y,x] = Database.Display.translator[Database.Display.field[y,x]];
+                        if (x == 7)
+                        {
+                            y++;
+                            x = -1;
+                        }
+                    }
+                }
+
+
+
+                Console.Title = "ChessCORE LowVisual(EX)";
+                Console.WriteLine("Reconfiguring Interface");
+                Console.OutputEncoding = Encoding.UTF8;
+
+                //Console.WriteLine("Black: ♔ ♕ ♖ ♗ ♘ ♙   White:♚ ♛ ♜ ♝ ♞ ♟");
+
+                Console.ResetColor();
+                Console.ForegroundColor = ConsoleColor.Blue;
+                Console.WriteLine();
+                Console.WriteLine($"{disp_board[0,0]} │ {disp_board[0,1]} │ {disp_board[0,2]} │ {disp_board[0,3]} │ {disp_board[0,4]} │ {disp_board[0,5]} │ {disp_board[0,6]} │ {disp_board[0,7]}");
+                Console.WriteLine($"{disp_board[1,0]} │ {disp_board[1,1]} │ {disp_board[1,2]} │ {disp_board[1,3]} │ {disp_board[1,4]} │ {disp_board[1,5]} │ {disp_board[1,6]} │ {disp_board[1,7]}");
+                Console.WriteLine($"{disp_board[2,0]} │ {disp_board[2,1]} │ {disp_board[2,2]} │ {disp_board[2,3]} │ {disp_board[2,4]} │ {disp_board[2,5]} │ {disp_board[2,6]} │ {disp_board[2,7]}");
+                Console.WriteLine($"{disp_board[3,0]} │ {disp_board[3,1]} │ {disp_board[3,2]} │ {disp_board[3,3]} │ {disp_board[3,4]} │ {disp_board[3,5]} │ {disp_board[3,6]} │ {disp_board[3,7]}");
+                Console.WriteLine($"{disp_board[4,0]} │ {disp_board[4,1]} │ {disp_board[4,2]} │ {disp_board[4,3]} │ {disp_board[4,4]} │ {disp_board[4,5]} │ {disp_board[4,6]} │ {disp_board[4,7]}");
+                Console.WriteLine($"{disp_board[5,0]} │ {disp_board[5,1]} │ {disp_board[5,2]} │ {disp_board[5,3]} │ {disp_board[5,4]} │ {disp_board[5,5]} │ {disp_board[5,6]} │ {disp_board[5,7]}");
+                Console.WriteLine($"{disp_board[6,0]} │ {disp_board[6,1]} │ {disp_board[6,2]} │ {disp_board[6,3]} │ {disp_board[6,4]} │ {disp_board[6,5]} │ {disp_board[6,6]} │ {disp_board[6,7]}");
+                Console.WriteLine($"{disp_board[7,0]} │ {disp_board[7,1]} │ {disp_board[7,2]} │ {disp_board[7,3]} │ {disp_board[7,4]} │ {disp_board[7,5]} │ {disp_board[7,6]} │ {disp_board[7,7]}");
+                Console.WriteLine();
+
+
+                Console.ResetColor();
+
+                ////////////////////// RECALIB IF INTERRUPT //////////////////////
+                temp_refresh = loop_refresh;
+                if (!loop_refresh) while (Console.ReadKey().Key != ConsoleKey.Escape) { }
+                Thread.Sleep(1000);
+            }
+
+            OpenGame.current_snap = 0;
+            Storage.log("Dispose Environment and Quit to Main Menu");
+            scom2.Dispose();
+            Init.MainMenu();
+        }
+
         public static void draw_number(bool loop_refresh,bool empty,byte direction)
         {
             Storage.log("Debug Number Mode");

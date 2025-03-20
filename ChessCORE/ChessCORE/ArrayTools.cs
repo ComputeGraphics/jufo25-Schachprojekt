@@ -36,7 +36,7 @@ namespace ToolsCORE
                 {
                     for (Int32 y = 0; y < h1; ++y)
                     {
-                        Console.WriteLine(matrix1[x, y] + "=" + matrix2[x, y]);
+                        //Console.WriteLine(matrix1[x, y] + "=" + matrix2[x, y]);
                         if (!matrix1[x, y].Equals(matrix2[x, y]))
                             diffs.Add([x,y]);
                     }
