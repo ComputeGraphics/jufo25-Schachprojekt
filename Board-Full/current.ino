@@ -85,7 +85,7 @@ void setup() {
 
     //Test Felder
     // ERROR POSITION
-    for (short i = 0; i < 77; i++) {
+    for (short i = 0; i < 78; i++) {
       short last_i = getLastDigit(i);
       if (last_i > 7) {
         short factor = 10 - last_i;
