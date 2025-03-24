@@ -13,8 +13,8 @@ namespace ChessCORE
         public static void Main()
         {
             Storage.start();
-            MainMenu();
             if(scom2.esp32) scom2.set_esp32(scom2.esp32);
+            MainMenu();
         }
         public static void MainMenu()
         {
@@ -400,10 +400,10 @@ namespace ChessCORE
             Console.ResetColor();
             options =
             [
-                new($"(SERIAL)   AUTO IDENT                            {GetState(scom.auto_ident)}",() => updateVar(0,scom.auto_ident,out scom.auto_ident),() => updateVar(0,scom.auto_ident,out scom.auto_ident),() => updateVar(0,scom.auto_ident,out scom.auto_ident)),
-                new($"(SERIAL)   DEFAULT BAUD                          {scom.default_baud}",() => WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"),() => changer(1,true,standard_bauds.IndexOf(scom.default_baud),standard_bauds,out scom.default_baud),() => changer(1,false,standard_bauds.IndexOf(scom.default_baud),standard_bauds,out scom.default_baud)),
-                new($"(SERIAL)   ALLOW WIN32_SERIAL                    {GetState(scom.allow_win32)}",() => updateVar(2,scom.allow_win32,out scom.allow_win32),() => updateVar(2,scom.allow_win32,out scom.allow_win32),() => updateVar(2,scom.allow_win32,out scom.allow_win32)),
-                new($"(SERIAL)   ADVANCED SERIAL                       {GetState(scom.advanced)}",() => updateVar(3,scom.advanced,out scom.advanced),() => updateVar(3,scom.advanced,out scom.advanced),() => updateVar(3,scom.advanced,out scom.advanced)),
+                new($"(SERIAL)   AUTO IDENT                            {GetState(scom2.auto_ident)}",() => updateVar(0,scom2.auto_ident,out scom2.auto_ident),() => updateVar(0,scom2.auto_ident,out scom2.auto_ident),() => updateVar(0,scom2.auto_ident,out scom2.auto_ident)),
+                new($"(SERIAL)   DEFAULT BAUD                          {scom2.default_baud}",() => WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"),() => changer(1,true,standard_bauds.IndexOf(scom2.default_baud),standard_bauds,out scom2.default_baud),() => changer(1,false,standard_bauds.IndexOf(scom2.default_baud),standard_bauds,out scom2.default_baud)),
+                new($"(SERIAL)   ALLOW WIN32_SERIAL                    {GetState(scom2.allow_win32)}",() => updateVar(2,scom2.allow_win32,out scom2.allow_win32),() => updateVar(2,scom2.allow_win32,out scom2.allow_win32),() => updateVar(2,scom2.allow_win32,out scom2.allow_win32)),
+                new($"(SERIAL)   ADVANCED SERIAL                       {GetState(scom2.advanced)}",() => updateVar(3,scom2.advanced,out scom2.advanced),() => updateVar(3,scom2.advanced,out scom2.advanced),() => updateVar(3,scom2.advanced,out scom2.advanced)),
                 new($"(SERIAL)   DEFAULT PACKAGE LENGTH                {scom2.default_count}",() => WriteTemporaryMessage("Please use Arrowkeys to Adjust Value"),() => changer(4,true,standard_counts.IndexOf(scom2.default_count),standard_counts,out scom2.default_count),() => changer(4,false,standard_counts.IndexOf(scom2.default_count),standard_counts,out scom2.default_count)),
                 new($"(SERIAL)   AWAIT READY-SIGNAL                    {GetState(scom2.wait_ready)}",() => updateVar(5,scom2.wait_ready,out scom2.wait_ready),() => updateVar(5,scom2.wait_ready,out scom2.wait_ready),() => updateVar(5,scom2.wait_ready,out scom2.wait_ready)),
                 new($"(RENDERER) STANDARD EMPTY                        {GetState(Renderer.standard_empty)}",() => updateVar(6,Renderer.standard_empty,out Renderer.standard_empty),() => updateVar(6,Renderer.standard_empty,out Renderer.standard_empty),() => updateVar(6,Renderer.standard_empty,out Renderer.standard_empty)),

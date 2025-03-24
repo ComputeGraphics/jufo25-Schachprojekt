@@ -80,7 +80,7 @@ namespace ChessCORE
 
             //Database.Physical.calib_pieces(4);
 
-            if (scom.advanced)
+            if (scom2.advanced)
             {
                 Console.WriteLine("Average:");
                 int i = 1;
@@ -140,12 +140,10 @@ namespace ChessCORE
             redraw_loader(99);
             //
             //Renderer.draw(true,true,Renderer.standard_direction, false, true);
-            if (low_render) Renderer.low_draw(true, !show_icons);
-            else
-            {
-                if (show_magnetic) Renderer.draw_number(true, true, 0);
-                else Renderer.draw(true, true, Renderer.standard_direction, false, !show_icons);
-            }
+
+            if(low_render) Renderer.low_draw(true, !show_icons);
+            else if (show_magnetic) Renderer.draw_number(true, true, 0);
+            else Renderer.draw(true, true, Renderer.standard_direction, false, !show_icons);
         }
 
         public static void showSnap(string name)

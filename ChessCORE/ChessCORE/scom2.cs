@@ -15,10 +15,11 @@ namespace ChessCORE
         public static bool advanced = false;
         public static bool ui_mode = false;
 
+        public static bool allow_win32 = true;
         public static bool wait_ready = true;
         public static int default_baud = 0;
 
-        public static bool esp32 = false;
+        public static bool esp32 = true;
         public static bool await_read = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
@@ -39,7 +40,7 @@ namespace ChessCORE
         {
             if (set)
             {
-                //scom2.default_baud = 0;
+                default_baud = 19200;
 
                 Database.Physical.piece_min.CopyTo(piece_min, 0);
                 Database.Physical.piece_max.CopyTo(piece_max, 0);
@@ -49,12 +50,15 @@ namespace ChessCORE
                 Database.Physical.piece_max = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
                 //              piece_order = [111, 115, 113, 109, 110, 101, 11, 15, 13, 09, 10, 01];
             }
-            else {
-                //scom2.default_baud = 0;
+            else
+            {
+                scom2.default_baud = 0;
                 piece_min.CopyTo(Database.Physical.piece_min, 0);
                 piece_max.CopyTo(Database.Physical.piece_max, 0);
             }
-            if(index != -1) Init.SettingsMenu(index);
+
+            esp32 = set;
+            if (index != -1) Init.SettingsMenu(index);
         }
 
 
@@ -66,8 +70,16 @@ namespace ChessCORE
             {
                 IsBackground = true
             };
+
+            ActiveSerial.com.ReadTimeout = 1000;       // Adjust as needed
+            ActiveSerial.com.WriteTimeout = 1000;      // Adjust as needed
+            ActiveSerial.com.NewLine = "\n";           // Match Arduino's line ending
+            ActiveSerial.com.Encoding = Encoding.ASCII; // Use ASCII encoding
+
+
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
+            ActiveSerial.com.DtrEnable = true;
 
             if (default_baud != 0)
             {
@@ -114,7 +126,7 @@ namespace ChessCORE
             string message;
             ui_mode = true;
             init();
-            Console.Clear();
+            //Console.Clear();
             Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
             Console.WriteLine(ActiveSerial.com.BaudRate);
             Console.WriteLine(ActiveSerial.com.IsOpen);
@@ -124,7 +136,7 @@ namespace ChessCORE
                 message = Console.ReadLine() ?? "";
 
                 if (message == "CLS") Console.Clear();
-                else ActiveSerial.com?.WriteLine(String.Format(message) + "\r\n");
+                else ActiveSerial.com?.WriteLine(String.Format(message));
             }
 
             Dispose();
@@ -149,8 +161,10 @@ namespace ChessCORE
                 await_read = true;
                 ActiveSerial.com.WriteLine(command);
                 //System.Diagnostics.Debug.WriteLine("Await Data...");
+                //Console.WriteLine("Await Data...");
                 while (await_read) { }
                 if (ListResponse.Count < count) return [];
+                //Console.WriteLine("Data Recieved!");
                 //System.Diagnostics.Debug.WriteLine("Data Recieved!");
                 return ListResponse;
             }
@@ -166,8 +180,11 @@ namespace ChessCORE
                 await_read = true;
 
                 ActiveSerial.com.WriteLine(command);
-                Console.WriteLine("AWAITING READ " + await_read.ToString());
+                //Console.WriteLine("Await Data...");
+                //System.Diagnostics.Debug.WriteLine("Await Data...");
                 while (await_read) { }
+                //System.Diagnostics.Debug.WriteLine("Data Recieved!");
+                //Console.WriteLine("Data Recieved!");
                 return StringResponse;
             }
             else return "";
@@ -176,10 +193,12 @@ namespace ChessCORE
 
         public static void ReadEventHandler(object sender, SerialDataReceivedEventArgs e)
         {
+            Console.WriteLine("Read Line");
             try
             {
-                Console.WriteLine("Read Line");
                 string message = ActiveSerial.com.ReadLine();
+
+                if (ui_mode) Console.WriteLine(message);
                 if (!message.StartsWith("RB:"))
                 {
                     if (await_read)
@@ -209,22 +228,66 @@ namespace ChessCORE
                 {
                     if (!advanced) return;
                 }
-                if (ui_mode) Console.WriteLine(message);
 
             }
             catch (TimeoutException) { Console.WriteLine("Timeout"); }
         }
 
+        public static void ESP32Handler(object sender, SerialDataReceivedEventArgs e)
+        {
+            //Console.WriteLine("Read Line");
+            try
+            {
+                List<string> message = ActiveSerial.com.ReadExisting().TrimStart('\n').Split("\n").ToList();
+                foreach (string line in message)
+                {
+                    if (ui_mode) Console.WriteLine(line);
+
+                    if (!line.StartsWith("RB:"))
+                    {
+                        if (await_read)
+                        {
+                            if (format)
+                            {
+                                ListResponse.Add(line);
+                                if (ListResponse.Count >= ListCount)
+                                {
+                                    ActiveSerial.com.WriteLine("X");
+                                    await_read = false;
+                                }
+                            }
+                            else
+                            {
+                                //Console.WriteLine("RESPONSE NO FORMAT");
+                                Console.WriteLine(message);
+                                ActiveSerial.com.WriteLine("X");
+
+                                StringResponse = line;
+                                await_read = false;
+                            }
+                            //return;
+                        }
+                    }
+
+                }
+
+
+
+            }
+            catch (TimeoutException) { Console.WriteLine("Timeout"); }
+        }
+
+
         public static void Read()
         {
-            ActiveSerial.com.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(ReadEventHandler);
+            ActiveSerial.com.DataReceived += esp32 ? new System.IO.Ports.SerialDataReceivedEventHandler(ESP32Handler) : new System.IO.Ports.SerialDataReceivedEventHandler(ReadEventHandler);
         }
 
 
         //INTERFACE CONFIG
         public static string SetPortName(string defaultPortName)
         {
-            if (OperatingSystem.IsWindows())
+            if (OperatingSystem.IsWindows() && allow_win32)
             {
                 //Console.WriteLine("(Only Windows) Retrieving Data...");
                 using var searcher = new ManagementObjectSearcher
