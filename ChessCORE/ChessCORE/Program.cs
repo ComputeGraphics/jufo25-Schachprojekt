@@ -14,6 +14,7 @@ namespace ChessCORE
         {
             Storage.start();
             MainMenu();
+            if(scom2.esp32) scom2.set_esp32(scom2.esp32);
         }
         public static void MainMenu()
         {
@@ -417,6 +418,7 @@ namespace ChessCORE
                 new($"(PHYSICAL) DEFAULT CALIB AV                      {Database.Physical.default_av}",() => enterVar(15,out Database.Physical.default_av),() => changer(15,true,caav.IndexOf(av),caav,out Database.Physical.default_av),() => changer(15,false,caav.IndexOf(av),caav,out Database.Physical.default_av)),
                 new($"(PYHSICAL) DO AUTO RECALIB                       {GetState(Database.Physical.recalib)}",() => updateVar(16,Database.Physical.recalib,out Database.Physical.recalib),() => updateVar(16,Database.Physical.recalib,out Database.Physical.recalib),() => updateVar(16,Database.Physical.recalib,out Database.Physical.recalib)),
                 new($"(MCU)      LAUNCH RE-SELFTEST                    {GetState(Database.Physical.repeat_selftest)}",() => updateVar(17,Database.Physical.repeat_selftest,out Database.Physical.repeat_selftest),() => updateVar(17,Database.Physical.repeat_selftest,out Database.Physical.repeat_selftest),() => updateVar(17,Database.Physical.repeat_selftest,out Database.Physical.repeat_selftest)),
+                new($"(MCU)      NANO ESP32 MODE                       {GetState(scom2.esp32)}",() => scom2.set_esp32(!scom2.esp32,18),() => scom2.set_esp32(!scom2.esp32,18),() => scom2.set_esp32(!scom2.esp32,18)),
 
                 new("Back to Main Menu",MainMenu),
             ];

@@ -27,7 +27,7 @@ namespace ChessCORE
             Directory.CreateDirectory("settings");
             Console.WriteLine(Directory.GetCurrentDirectory());
             Console.WriteLine(Environment.UserName);
-            current_log = "logs/" + DateTime.Now.ToString("HH-mm dd-MM-yy") + ".log";
+            current_log = "logs/" + DateTime.Now.ToString("dd-MM-yy HH-mm") + ".log";
             log("ChessCORE Logger Startup");
             return;
         }

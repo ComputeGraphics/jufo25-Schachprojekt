@@ -327,14 +327,14 @@ namespace ChessCORE
 
             public static double[,] factors =
             {
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
-                { 1, 1, 1, 1, 0.85, 1, 1, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 1, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 1, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 1, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 0.83, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 0.83, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 0.83, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 0.83, 1 },
+                { 1, 1, 1, 1, 0.85, 0.83, 1, 1 },
             };
 
             public static void calibrate(byte res, byte data_count)
@@ -345,11 +345,11 @@ namespace ChessCORE
                 {
                     scom2.sendCommand("test");
                 }
-                //Console.WriteLine("Send Test Request");
+                Console.WriteLine("Send Test Request");
                 string[] error_list = scom2.sendCommand("result").Split(',');
-                /*string errors = scom2.sendCommand("result");
-                Storage.log(errors);
-                string[] error_list = errors.Split(',');*/
+                //string errors = scom2.sendCommand("result");
+                //Storage.log(errors);
+                //string[] error_list = errors.Split(',');
 
                 Console.WriteLine("Result Command Returned");
                 foreach (string error in error_list)

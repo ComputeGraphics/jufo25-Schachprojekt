@@ -11,19 +11,22 @@ namespace ChessCORE
     internal class scom2
     {
         public static byte default_count = 8;
-
-        public static bool auto_ident = scom.auto_ident;
-        public static bool advanced = scom.advanced;
+        public static bool auto_ident = true;
+        public static bool advanced = false;
         public static bool ui_mode = false;
 
         public static bool wait_ready = true;
-        public static int default_baud = scom.default_baud;
+        public static int default_baud = 0;
 
+        public static bool esp32 = false;
         public static bool await_read = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
         public static List<string> ListResponse = [];
         public static byte ListCount = 0;
+
+        public static int[] piece_min = new int[12];
+        public static int[] piece_max = new int[12];
 
         public static class ActiveSerial
         {
@@ -32,9 +35,33 @@ namespace ChessCORE
         }
 
 
+        public static void set_esp32(bool set, int index = -1)
+        {
+            if (set)
+            {
+                //scom2.default_baud = 0;
+
+                Database.Physical.piece_min.CopyTo(piece_min, 0);
+                Database.Physical.piece_max.CopyTo(piece_max, 0);
+
+                Database.Physical.piece_min = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+                Database.Physical.piece_max = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+                //              piece_order = [111, 115, 113, 109, 110, 101, 11, 15, 13, 09, 10, 01];
+            }
+            else {
+                //scom2.default_baud = 0;
+                piece_min.CopyTo(Database.Physical.piece_min, 0);
+                piece_max.CopyTo(Database.Physical.piece_max, 0);
+            }
+            if(index != -1) Init.SettingsMenu(index);
+        }
+
+
         public static void init()
         {
             Storage.log("Creating Thread");
+
             Thread readThread = new(Read)
             {
                 IsBackground = true
@@ -63,7 +90,7 @@ namespace ChessCORE
                 ActiveSerial.com.Open();
                 readThread.Start();
                 Storage.log("Serial Communication Established");
-                if (OperatingSystem.IsLinux()) sendCommand("X");
+                //if (OperatingSystem.IsLinux()) sendCommand("X");
 
                 //readThread.Join();
                 //com.Close();
@@ -89,6 +116,8 @@ namespace ChessCORE
             init();
             Console.Clear();
             Console.WriteLine("[ESC] - Finish / [RETURN]|[RIGHT] - Activate Write Mode");
+            Console.WriteLine(ActiveSerial.com.BaudRate);
+            Console.WriteLine(ActiveSerial.com.IsOpen);
 
             while (ConsoleKey.Escape != Console.ReadKey().Key)
             {
@@ -110,7 +139,7 @@ namespace ChessCORE
             ActiveSerial.com?.Close();
         }
 
-        public static List<string> multiCommand(string command,byte count)
+        public static List<string> multiCommand(string command, byte count)
         {
             if (ActiveSerial.com != null)
             {
@@ -137,7 +166,7 @@ namespace ChessCORE
                 await_read = true;
 
                 ActiveSerial.com.WriteLine(command);
-                //Console.WriteLine("AWAITING READ " + await_read.ToString());
+                Console.WriteLine("AWAITING READ " + await_read.ToString());
                 while (await_read) { }
                 return StringResponse;
             }
@@ -145,11 +174,11 @@ namespace ChessCORE
         }
 
 
-        public static void ReadEventHandler(object sender,SerialDataReceivedEventArgs e)
+        public static void ReadEventHandler(object sender, SerialDataReceivedEventArgs e)
         {
             try
             {
-                //Console.WriteLine("Read Line");
+                Console.WriteLine("Read Line");
                 string message = ActiveSerial.com.ReadLine();
                 if (!message.StartsWith("RB:"))
                 {
@@ -233,7 +262,7 @@ namespace ChessCORE
                 {
                     foreach (string s in ports)
                     {
-                        Console.WriteLine("   {0}",s);
+                        Console.WriteLine("   {0}", s);
                     }
                 }
                 else
@@ -249,7 +278,7 @@ namespace ChessCORE
             }
 
             string portName;
-            Console.Write("Enter COM port value (Default: {0}): ",defaultPortName);
+            Console.Write("Enter COM port value (Default: {0}): ", defaultPortName);
             portName = Console.ReadLine() ?? "";
             bool container = portName.Contains("tty");
             if (portName == "" || !portName.ToLower().StartsWith("com") || !container)
@@ -267,7 +296,7 @@ namespace ChessCORE
         {
             string baudRate;
 
-            Console.Write("Baud Rate(default:{0}): ",defaultPortBaudRate);
+            Console.Write("Baud Rate(default:{0}): ", defaultPortBaudRate);
             baudRate = Console.ReadLine() ?? "";
 
             if (baudRate == "")
@@ -292,10 +321,10 @@ namespace ChessCORE
             Console.WriteLine("Available Parity options:");
             foreach (string s in Enum.GetNames(typeof(Parity)))
             {
-                Console.WriteLine("   {0}",s);
+                Console.WriteLine("   {0}", s);
             }
 
-            Console.Write("Enter Parity value (Default: {0}):",defaultPortParity.ToString(),true);
+            Console.Write("Enter Parity value (Default: {0}):", defaultPortParity.ToString(), true);
             parity = Console.ReadLine() ?? "";
 
             if (parity == "")
@@ -303,14 +332,14 @@ namespace ChessCORE
                 parity = defaultPortParity.ToString();
             }
 
-            return (Parity)Enum.Parse(typeof(Parity),parity,true);
+            return (Parity)Enum.Parse(typeof(Parity), parity, true);
         }
         // Display DataBits values and prompt user to enter a value.
         public static int SetPortDataBits(int defaultPortDataBits)
         {
             string dataBits;
 
-            Console.Write("Enter DataBits value (Default: {0}): ",defaultPortDataBits);
+            Console.Write("Enter DataBits value (Default: {0}): ", defaultPortDataBits);
             dataBits = Console.ReadLine() ?? "";
 
             if (dataBits == "")
@@ -329,11 +358,11 @@ namespace ChessCORE
             Console.WriteLine("Available StopBits options:");
             foreach (string s in Enum.GetNames(typeof(StopBits)))
             {
-                Console.WriteLine("   {0}",s);
+                Console.WriteLine("   {0}", s);
             }
 
             Console.Write("Enter StopBits value (None is not supported and \n" +
-             "raises an ArgumentOutOfRangeException. \n (Default: {0}):",defaultPortStopBits.ToString());
+             "raises an ArgumentOutOfRangeException. \n (Default: {0}):", defaultPortStopBits.ToString());
             stopBits = Console.ReadLine() ?? "";
 
             if (stopBits == "")
@@ -341,7 +370,7 @@ namespace ChessCORE
                 stopBits = defaultPortStopBits.ToString();
             }
 
-            return (StopBits)Enum.Parse(typeof(StopBits),stopBits,true);
+            return (StopBits)Enum.Parse(typeof(StopBits), stopBits, true);
         }
         public static Handshake SetPortHandshake(Handshake defaultPortHandshake)
         {
@@ -350,10 +379,10 @@ namespace ChessCORE
             Console.WriteLine("Available Handshake options:");
             foreach (string s in Enum.GetNames(typeof(Handshake)))
             {
-                Console.WriteLine("   {0}",s);
+                Console.WriteLine("   {0}", s);
             }
 
-            Console.Write("Enter Handshake value (Default: {0}):",defaultPortHandshake.ToString());
+            Console.Write("Enter Handshake value (Default: {0}):", defaultPortHandshake.ToString());
             handshake = Console.ReadLine() ?? "";
 
             if (handshake == "")
@@ -361,7 +390,7 @@ namespace ChessCORE
                 handshake = defaultPortHandshake.ToString();
             }
 
-            return (Handshake)Enum.Parse(typeof(Handshake),handshake,true);
+            return (Handshake)Enum.Parse(typeof(Handshake), handshake, true);
         }
     }
 }
