@@ -19,7 +19,7 @@ namespace ChessCORE
         public static bool wait_ready = true;
         public static int default_baud = 0;
 
-        public static bool esp32 = true;
+        public static bool esp32 = false;
         public static bool await_read = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
