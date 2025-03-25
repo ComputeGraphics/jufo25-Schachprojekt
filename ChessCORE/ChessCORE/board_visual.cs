@@ -20,6 +20,7 @@ namespace ChessCORE
     {
         public static bool show_icons = true;
 
+        public static bool do_post = true;
         public static int timeout = 8;
         public static int timeout_remain = 0;
         public static bool show_magnetic = false;
@@ -245,7 +246,8 @@ namespace ChessCORE
                 }
             }
 
-            postProcessor();
+            if(do_post) postProcessor();
+            
             return disp_board;
         }
 

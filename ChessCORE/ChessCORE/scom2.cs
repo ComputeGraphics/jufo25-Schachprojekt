@@ -16,11 +16,14 @@ namespace ChessCORE
         public static bool ui_mode = false;
 
         public static bool allow_win32 = true;
-        public static bool wait_ready = true;
+        public static bool wait_ready = false;
         public static int default_baud = 0;
 
         public static bool esp32 = false;
         public static bool await_read = false;
+
+        public static bool mcu_interpolator = false;
+        public static bool mcu_rb = false;
         public static bool format = false; //False: string True: List<>
         public static string? StringResponse = null;
         public static List<string> ListResponse = [];
@@ -71,15 +74,15 @@ namespace ChessCORE
                 IsBackground = true
             };
 
-            ActiveSerial.com.ReadTimeout = 1000;       // Adjust as needed
-            ActiveSerial.com.WriteTimeout = 1000;      // Adjust as needed
-            ActiveSerial.com.NewLine = "\n";           // Match Arduino's line ending
-            ActiveSerial.com.Encoding = Encoding.ASCII; // Use ASCII encoding
-
-
+            if(esp32) {
+            ActiveSerial.com.ReadTimeout = 1000;
+            ActiveSerial.com.WriteTimeout = 1000;
+            ActiveSerial.com.NewLine = "\n"; // NO CR on Arduino
+            ActiveSerial.com.Encoding = Encoding.ASCII; 
+            ActiveSerial.com.DtrEnable = true;
+            }
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
-            ActiveSerial.com.DtrEnable = true;
 
             if (default_baud != 0)
             {
@@ -102,7 +105,7 @@ namespace ChessCORE
                 ActiveSerial.com.Open();
                 readThread.Start();
                 Storage.log("Serial Communication Established");
-                //if (OperatingSystem.IsLinux()) sendCommand("X");
+                if (wait_ready) sendCommand("X");
 
                 //readThread.Join();
                 //com.Close();

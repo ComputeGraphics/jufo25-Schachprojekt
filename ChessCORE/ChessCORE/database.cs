@@ -936,11 +936,12 @@ namespace ChessCORE
                 }
                 Storage.log("Calibration finished");
 
-
+                if(recalib) {
                 for (byte i = 0; i <= recalib_iterations; i++)
                 {
                     Storage.log("DynRecalib Iteration " + i);
-                    //DynRecalib();
+                    DynRecalib();
+                }
                 }
                 board_visual.redraw_loader(90);
             }

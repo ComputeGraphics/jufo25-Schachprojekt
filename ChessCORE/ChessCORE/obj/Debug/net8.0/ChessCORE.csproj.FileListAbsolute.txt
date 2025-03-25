@@ -216,4 +216,4 @@ C:/Users/Arthur/Documents/GitHub/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/De
 /home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/Debug/net8.0/ChessCORE.pdb
 /home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/Debug/net8.0/ChessCORE.genruntimeconfig.cache
 /home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/Debug/net8.0/ref/ChessCORE.dll
-/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/Debug/net8.0/ChessCORE.csproj.Up2Date
+/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/Debug/net8.0/ChessCORE.csproj.CopyComplete
