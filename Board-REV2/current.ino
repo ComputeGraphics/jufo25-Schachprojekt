@@ -11,7 +11,7 @@
 int baud = 9600;
 bool self_test = true;
 bool interpolate = false;
-bool rb = true;
+bool rb = false;
 String errors = "";
 
 
@@ -98,9 +98,6 @@ int qget(String request, bool loop, bool corrector) {
     String strg_p = String(p, BIN);
     while (strg_n.length() < 3) strg_n = "0" + strg_n;
     while (strg_p.length() < 3) strg_p = "0" + strg_p;
-
-    Serial.println(strg_n);
-    Serial.println(strg_p);
 
     digitalWrite(26, convertBool(strg_n.charAt(2)));
     digitalWrite(27, convertBool(strg_n.charAt(1)));
