@@ -74,13 +74,21 @@ namespace ChessCORE
                 IsBackground = true
             };
 
-            if(esp32) {
-            ActiveSerial.com.ReadTimeout = 1000;
-            ActiveSerial.com.WriteTimeout = 1000;
-            ActiveSerial.com.NewLine = "\n"; // NO CR on Arduino
-            ActiveSerial.com.Encoding = Encoding.ASCII; 
-            ActiveSerial.com.DtrEnable = true;
+            if (esp32)
+            {
+                default_baud = 19200;
+                ActiveSerial.com.ReadTimeout = 1000;
+                ActiveSerial.com.WriteTimeout = 1000;
+                ActiveSerial.com.NewLine = "\n"; // ESP32 uses LF
+                ActiveSerial.com.Encoding = Encoding.ASCII;
+                
             }
+            else
+            {
+                ActiveSerial.com.NewLine = "\r\n";
+                ActiveSerial.com.Encoding = Encoding.ASCII;
+            }
+            ActiveSerial.com.DtrEnable = true;
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
 
@@ -283,7 +291,7 @@ namespace ChessCORE
 
         public static void Read()
         {
-            ActiveSerial.com.DataReceived += esp32 ? new System.IO.Ports.SerialDataReceivedEventHandler(ESP32Handler) : new System.IO.Ports.SerialDataReceivedEventHandler(ReadEventHandler);
+            ActiveSerial.com.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(ReadEventHandler);
         }
 
 

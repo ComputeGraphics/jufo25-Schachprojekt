@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj": {}
+    "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj": {}
   },
   "projects": {
-    "/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj": {
+    "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj",
+        "projectUniqueName": "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj",
         "projectName": "ChessCORE",
-        "projectPath": "/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj",
-        "packagesPath": "/home/arthur/.nuget/packages/",
-        "outputPath": "/home/arthur/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/",
+        "projectPath": "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj",
+        "packagesPath": "/home/foxxd/.nuget/packages/",
+        "outputPath": "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/arthur/.nuget/NuGet/NuGet.Config"
+          "/home/foxxd/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -58,12 +58,18 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.15, 8.0.15]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib/dotnet/sdk/8.0.112/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.115/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

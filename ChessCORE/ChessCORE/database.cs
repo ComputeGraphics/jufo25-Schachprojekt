@@ -345,7 +345,7 @@ namespace ChessCORE
                 {
                     scom2.sendCommand("test");
                 }
-                Console.WriteLine("Send Test Request");
+                //Console.WriteLine("Send Test Request");
                 string[] error_list = scom2.sendCommand("result").Split(',');
                 //string errors = scom2.sendCommand("result");
                 //Storage.log(errors);
@@ -354,7 +354,6 @@ namespace ChessCORE
                 Console.WriteLine("Result Command Returned");
                 foreach (string error in error_list)
                 {
-
                     if (error.StartsWith("EM:"))
                     {
                         error_rows.Add(Byte.Parse(error[3..].Trim()));
@@ -747,12 +746,12 @@ namespace ChessCORE
                         for (; testfor > 9; testfor -= 10) ;
                         if (testfor == 8) i++;
                         if (testfor == 8) i++;
-                        //Console.WriteLine("Mode63 Read " + i);
+                        //Console.WriteLine("Mode63 Read " + i);yy
                         List<string> temp = new(scom2.multiCommand($"QSTREAM {i}", data_count));
-                        //foreach (string s in temp) Console.WriteLine(s);
+                        foreach (string s in temp) Console.WriteLine(s);
                         list = list.Add(temp);
                         progressor++;
-                        board_visual.redraw_loader(progressor);
+                        //board_visual.redraw_loader(progressor);
                     }
 
                     List<List<int>> toint = [];
