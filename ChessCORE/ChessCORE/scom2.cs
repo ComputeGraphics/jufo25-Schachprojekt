@@ -74,21 +74,26 @@ namespace ChessCORE
                 IsBackground = true
             };
 
-            if (esp32)
+            /*if (esp32)
             {
                 default_baud = 19200;
                 ActiveSerial.com.ReadTimeout = 1000;
                 ActiveSerial.com.WriteTimeout = 1000;
                 ActiveSerial.com.NewLine = "\n"; // ESP32 uses LF
                 ActiveSerial.com.Encoding = Encoding.ASCII;
-                
             }
             else
             {
                 ActiveSerial.com.NewLine = "\r\n";
                 ActiveSerial.com.Encoding = Encoding.ASCII;
-            }
+            }*/
+            ActiveSerial.com.NewLine = "\r\n";
+            ActiveSerial.com.ReadBufferSize = 4096;
+            ActiveSerial.com.WriteBufferSize = 4096;
             ActiveSerial.com.DtrEnable = true;
+            ActiveSerial.com.RtsEnable = true;
+            ActiveSerial.com.Encoding = Encoding.ASCII;
+
             ActiveSerial.com.PortName = SetPortName(ActiveSerial.com.PortName);
             //ActiveSerial.com.PortName = "/dev/ttyACM0";
 
@@ -204,7 +209,7 @@ namespace ChessCORE
 
         public static void ReadEventHandler(object sender, SerialDataReceivedEventArgs e)
         {
-            Console.WriteLine("Read Line");
+            //Console.WriteLine("Read Line");
             try
             {
                 string message = ActiveSerial.com.ReadLine();

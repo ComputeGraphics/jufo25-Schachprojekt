@@ -72,6 +72,7 @@ namespace ChessCORE
             Storage.log("Initializing scom2");
             scom2.init();
             redraw_loader(2);
+            Database.Display.Clear();
 
             if (Database.Physical.repeat_selftest) scom2.sendCommand("test");
             redraw_loader(5);
