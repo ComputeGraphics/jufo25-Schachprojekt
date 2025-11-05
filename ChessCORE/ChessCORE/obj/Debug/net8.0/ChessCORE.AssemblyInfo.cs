@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78af3a31424ccba9a12ca9b78b6ae046fbb0a22e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+78cd475d85789a36741c016f7f4231e3c1c2262e")]
 [assembly: System.Reflection.AssemblyProductAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ChessCORE")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

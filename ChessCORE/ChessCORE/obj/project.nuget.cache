@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "j5bWJv6/kD4S9LvOXyPIUbUmIA+UbAYoPUi0NTlxXpZ/L9GX9WNv1wjOPnjBaPR8eSCp78Ul1GVPgJ9PBa9CRw==",
+  "dgSpecHash": "+qsFLGJTI7k=",
   "success": true,
   "projectFilePath": "/home/foxxd/jufo25-Schachprojekt/ChessCORE/ChessCORE/ChessCORE.csproj",
   "expectedPackageFiles": [
@@ -13,7 +13,9 @@
     "/home/foxxd/.nuget/packages/system.codedom/8.0.0/system.codedom.8.0.0.nupkg.sha512",
     "/home/foxxd/.nuget/packages/system.io.ports/8.0.0/system.io.ports.8.0.0.nupkg.sha512",
     "/home/foxxd/.nuget/packages/system.management/8.0.0/system.management.8.0.0.nupkg.sha512",
-    "/home/foxxd/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.15/microsoft.aspnetcore.app.ref.8.0.15.nupkg.sha512"
+    "/home/foxxd/.nuget/packages/microsoft.netcore.app.ref/8.0.16/microsoft.netcore.app.ref.8.0.16.nupkg.sha512",
+    "/home/foxxd/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.16/microsoft.aspnetcore.app.ref.8.0.16.nupkg.sha512",
+    "/home/foxxd/.nuget/packages/microsoft.netcore.app.host.linux-x64/8.0.16/microsoft.netcore.app.host.linux-x64.8.0.16.nupkg.sha512"
   ],
   "logs": []
 }
