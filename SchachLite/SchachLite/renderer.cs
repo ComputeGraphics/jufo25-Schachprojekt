@@ -82,6 +82,7 @@ namespace SchachLite
                 //////////////////// REQUEST DATA FROM BOARD ////////////////////
                 //Thread.Sleep(500);
                 disp_board = processor.requestAll_rangeMode();
+                Storage.saveGameSnap(disp_board);
                 Console.WriteLine("PROCESSING FINISHED " + iterator);
 
                 ////////////////////// DRAW THE CHESSBOARD //////////////////////
@@ -130,11 +131,9 @@ namespace SchachLite
                         Storage.cacheVisualBoard(disp_board,DateTime.Now.ToString("dd-MM-yy HH-mm") + " Cache");
                     }
                 }
-
-                Storage.saveGameSnap(disp_board);
                 if (!loop_refresh) temp_refresh = false;
             }
-            Storage.finishGame(DateTime.Now.ToString("HH-mm" + "finish"));
+            Storage.finishGame(DateTime.Now.ToString("dd-MM-yy HH-mm"));
             scom.Dispose();
             Init.MainMenu();
         }

@@ -50,7 +50,7 @@ namespace SchachLite
             if (File.Exists("cache/S" + name + ".core")) File.Delete("cache/S" + name + ".core");
             StreamWriter cache_file = new("cache/S" + name + ".core",true);
             int i = 1;
-            foreach (byte element in board)
+            foreach (int element in board)
             {
                 if (i == 8)
                 {
@@ -64,45 +64,6 @@ namespace SchachLite
                 i++;
             }
             cache_file.Close();
-        }
-
-        public static byte[,] GetCachedBoard(string name)
-        {
-            byte[,] temp =
-            {
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0 },
-            };
-            const Int32 BufferSize = 128;
-            using (var fileStream = File.OpenRead(name))
-            using (var streamReader = new StreamReader(fileStream,Encoding.UTF8,true,BufferSize))
-            {
-                String? line;
-                byte current = 0;
-                while ((line = streamReader.ReadLine()) != null)
-                {
-                    if (current < 8)
-                    {
-                        // Process line
-                        string[] positions = line.Split(':');
-                        for (int i = 0; i < 8; i++)
-                        {
-                            temp[current,i] = Byte.Parse(positions[i]);
-                        }
-                        current++;
-                    }
-                }
-                streamReader.Close();
-            }
-
-
-            return temp;
         }
 
         public static string createGame()
@@ -124,7 +85,7 @@ namespace SchachLite
             StreamWriter cache_file = OpenGame.openFile;
             int i = 1;
             cache_file.WriteLine("pause");
-            foreach (byte element in board)
+            foreach (int element in board)
             {
                 if (i == 8)
                 {
@@ -144,8 +105,11 @@ namespace SchachLite
             OpenGame.openFile.Close();
             OpenGame.open = false;
             Random rn = new();
-            if (File.Exists("saves/games/" + name + ".core")) File.Move(OpenGame.filename,"saves/games/" + name + rn.Next() + ".core");
-            else File.Move(OpenGame.filename,"saves/games/" + name + ".core");
+            if (File.Exists("saves/games/" + name + ".core"))
+            {
+                File.Move(OpenGame.filename, "saves/games/" + name + rn.Next() + ".core");
+            }
+            else File.Move(OpenGame.filename, "saves/games/" + name + ".core");
         }
 
         public static int[] snapCount(string name)
@@ -173,12 +137,12 @@ namespace SchachLite
             return [.. lines];
         }
 
-        public static void partSnap(byte[,] board,string name)
+        public static void partSnap(int[,] board,string name)
         {
             if (File.Exists("saves/snaps/" + name + ".core")) File.Delete("saves/snaps/" + name + ".core");
             StreamWriter cache_file = new("saves/snaps/" + name + ".core",true);
             int i = 1;
-            foreach (byte element in board)
+            foreach (int element in board)
             {
                 if (i == 8)
                 {

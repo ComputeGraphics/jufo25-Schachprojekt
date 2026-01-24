@@ -16,7 +16,7 @@ namespace SchachLite
         public static bool ui_mode = false;
 
         public static bool allow_win32 = true;
-        public static bool wait_ready = false;
+        public static bool wait_ready = true;
         public static int default_baud = 0;
 
         public static bool await_read = false;
@@ -128,8 +128,9 @@ namespace SchachLite
                 ActiveSerial.com.WriteLine(command);
                 //System.Diagnostics.Debug.WriteLine("Await Data...");
                 //Console.WriteLine("Await Data...");
-                while (await_read) { }
-                if (ListResponse.Count < count) return [];
+                DateTime sec = DateTime.Now.AddSeconds(processor.timeout);
+                while (await_read && DateTime.Now != sec) {}
+                if (ListResponse.Count < count) return new List<string>( new string[count] );
                 //Console.WriteLine("Data Recieved!");
                 //System.Diagnostics.Debug.WriteLine("Data Recieved!");
                 return ListResponse;
@@ -159,7 +160,7 @@ namespace SchachLite
 
         public static void ReadEventHandler(object sender,SerialDataReceivedEventArgs e)
         {
-            Console.WriteLine("Read Line");
+            //Console.WriteLine("Read Line");
             try
             {
                 string message = ActiveSerial.com.ReadLine();

@@ -6,6 +6,7 @@ namespace SchachLite
     {
         public static void Main()
         {
+            Storage.start();
             MainMenu();
         }
 

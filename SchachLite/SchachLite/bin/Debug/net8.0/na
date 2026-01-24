@@ -3,3 +3,8 @@
 [09-42-37] Initializing scom2
 [09-44-40] Initializing scom2
 [09-48-49] Initializing scom2
+[11-02-09] Initializing scom2
+[11-02-09] Creating Thread
+[11-02-09] Device Found on /dev/ttyACM0
+[11-02-09] Attempting Serial Startup on /dev/ttyACM0
+[11-02-09] Serial Communication Established
