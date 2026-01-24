@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("SchachLite")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3a6821c980412c24bb18b7957b197d2703cea378")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+42ae1ac40f528731b026b1c8a555e7cf66d3a038")]
 [assembly: System.Reflection.AssemblyProductAttribute("SchachLite")]
 [assembly: System.Reflection.AssemblyTitleAttribute("SchachLite")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

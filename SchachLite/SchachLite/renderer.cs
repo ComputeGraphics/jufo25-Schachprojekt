@@ -100,23 +100,23 @@ namespace SchachLite
                 Console.ForegroundColor = ConsoleColor.Blue;
                 Console.WriteLine("\n");
                 Console.WriteLine($"      {dirx[0]}    {dirx[1]}    {dirx[2]}    {dirx[3]}    {dirx[4]}    {dirx[5]}    {dirx[6]}    {dirx[7]}");
-                Console.WriteLine("    ┏━━━━┯━━━━┯━━━━┯━━━━┯━━━━┯━━━━┯━━━━┯━━━━┓");
+                Console.WriteLine("    ┏━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┓");
                 Console.WriteLine($"  {diry[0]} ┃ {disp_board[0,0]} │ {disp_board[0,1]} │ {disp_board[0,2]} │ {disp_board[0,3]} │ {disp_board[0,4]} │ {disp_board[0,5]} │ {disp_board[0,6]} │ {disp_board[0,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[1]} ┃ {disp_board[1,0]} │ {disp_board[1,1]} │ {disp_board[1,2]} │ {disp_board[1,3]} │ {disp_board[1,4]} │ {disp_board[1,5]} │ {disp_board[1,6]} │ {disp_board[1,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[2]} ┃ {disp_board[2,0]} │ {disp_board[2,1]} │ {disp_board[2,2]} │ {disp_board[2,3]} │ {disp_board[2,4]} │ {disp_board[2,5]} │ {disp_board[2,6]} │ {disp_board[2,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[3]} ┃ {disp_board[3,0]} │ {disp_board[3,1]} │ {disp_board[3,2]} │ {disp_board[3,3]} │ {disp_board[3,4]} │ {disp_board[3,5]} │ {disp_board[3,6]} │ {disp_board[3,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[4]} ┃ {disp_board[4,0]} │ {disp_board[4,1]} │ {disp_board[4,2]} │ {disp_board[4,3]} │ {disp_board[4,4]} │ {disp_board[4,5]} │ {disp_board[4,6]} │ {disp_board[4,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[5]} ┃ {disp_board[5,0]} │ {disp_board[5,1]} │ {disp_board[5,2]} │ {disp_board[5,3]} │ {disp_board[5,4]} │ {disp_board[5,5]} │ {disp_board[5,6]} │ {disp_board[5,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[6]} ┃ {disp_board[6,0]} │ {disp_board[6,1]} │ {disp_board[6,2]} │ {disp_board[6,3]} │ {disp_board[6,4]} │ {disp_board[6,5]} │ {disp_board[6,6]} │ {disp_board[6,7]} ┃");
-                Console.WriteLine("    ┠────┼────┼────┼────┼────┼────┼────┼────┨");
+                Console.WriteLine("    ┠─────┼─────┼─────┼─────┼─────┼─────┼─────┼─────┨");
                 Console.WriteLine($"  {diry[7]} ┃ {disp_board[7,0]} │ {disp_board[7,1]} │ {disp_board[7,2]} │ {disp_board[7,3]} │ {disp_board[7,4]} │ {disp_board[7,5]} │ {disp_board[7,6]} │ {disp_board[7,7]} ┃");
-                Console.WriteLine("    ┗━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┷━━━━┛");
+                Console.WriteLine("    ┗━━━━━┷━━━━━┷━━━━━┷━━━━━┷━━━━━┷━━━━━┷━━━━━┷━━━━━┛");
 
                 ////////////////////// RECALIB IF INTERRUPT //////////////////////
                 if (Console.KeyAvailable)
