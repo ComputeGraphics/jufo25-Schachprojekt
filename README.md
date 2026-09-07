@@ -2,8 +2,8 @@
 Aus dem Wettbewerb Hessen und Hessen-Mitte in der Kategorie _Technik_
 
 ## Allgemeines
-Zur einfachen Bearbeitung sind in diesem Repo vollständige Projektmappen hochgeladen.
-__Das Projekt wurde im Mai 2025 abgeschlossen__
+Zur einfachen Bearbeitung sind in diesem Repo vollständige Projektmappen hochgeladen.\
+__Das Projekt wurde im Mai 2025 abgeschlossen__\
 Das heißt, dass an diesem Projekt keine Arbeit mehr folgen wird. Fehler im ChessCORE gerne per Discord an mich und vielleicht werde ich mich nochmal darum kümmern <3  
 Weitere Dokumentationen sind ggf. in den entprechenden Branches.
 
