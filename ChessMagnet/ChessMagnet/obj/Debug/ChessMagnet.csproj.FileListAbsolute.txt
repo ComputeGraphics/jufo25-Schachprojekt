@@ -1,0 +1,16 @@
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\bin\Debug\ChessMagnet.exe.config
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\bin\Debug\ChessMagnet.exe
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\bin\Debug\ChessMagnet.pdb
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.csproj.AssemblyReference.cache
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.Form1.resources
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.Properties.Resources.resources
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.csproj.GenerateResource.cache
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.csproj.CoreCompileInputs.cache
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.exe
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.pdb
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.Form2.resources
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\bin\Debug\WinFormAnimation.dll
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\bin\Debug\Transitions.pdb
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.Form3.resources
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMagnet.exe.config
+C:\Users\Arthur\source\repos\ChessMagnet\ChessMagnet\obj\Debug\ChessMag.1E67316F.Up2Date
